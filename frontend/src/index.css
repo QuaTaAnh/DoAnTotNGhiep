@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: ProText;
+    overflow-y: overlay;
+}
+
+@font-face {
+    font-family: ProText;
+    src: url('/src/assets/fonts/sf-pro-text_light.woff2');
+    font-weight: 400;
+}
+@font-face {
+    font-family: ProText;
+    src: url('/src/assets/fonts/sf-pro-text_regular.woff2');
+    font-weight: 600;
+}
+@font-face {
+    font-family: ProText;
+    src: url('/src/assets/fonts/sf-pro-text_semibold.woff2');
+    font-weight: 700;
+}
