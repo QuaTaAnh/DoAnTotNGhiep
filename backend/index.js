@@ -2,7 +2,10 @@ import express from "express"
 import dotenv from "dotenv"
 import morgan from "morgan"
 import cors from 'cors'
+import connectDB from "./config/db.js"
+import initRoute from './routes/index.js'
 import bodyParser from 'body-parser'
+
 
 dotenv.config()
 
@@ -18,10 +21,11 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-//rest api
-app.get('/', (req, res) =>{
-    res.send("<h1>Backend 2</h1>")
-})
+//dataconfig
+connectDB()
+
+//initRoute
+initRoute(app)
 
 //PORT
 const PORT = process.env.PORT || 8080
