@@ -5,6 +5,7 @@ import Button from "../../components/Button/Button";
 import useDark from "../../hooks/useDark";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { AiOutlineMenu } from "react-icons/ai";
 
 const Header = () => {
   const [isDarkMode, toggleDarkMode] = useDark();
@@ -12,12 +13,13 @@ const Header = () => {
 
   const LinkActive = (type: string) => {
     let classes: string =
-      "text-base rounded-lg px-3 py-5 font-bold cursor-pointer";
+      "text-base rounded-lg px-3 py-5 font-bold cursor-pointer hover:text-primary hidden lg:flex";
     if (type === pathname) {
       classes += " text-primary font-bold";
     }
     return classes;
   };
+
   return (
     <>
       <header className="fixed h-defaultHeader w-full px-5 top-0 right-0 z-20 flex justify-between items-center dark:bg-bgDark shadow-lg dark:shadow-dark">
@@ -26,18 +28,16 @@ const Header = () => {
             <div className="w-24 h-defaultHeader pr-5">
               <img className="w-full h-full" src={Logo} alt="House" />
             </div>
-            <div>
-              <Button to={routes.home} className={LinkActive(routes.home)}>
-                Trang chủ
-              </Button>
-              <Button to={routes.about} className={LinkActive(routes.about)}>
-                Cho thuê phòng trọ
-              </Button>
-            </div>
+            <Button to={routes.home} className={LinkActive(routes.home)}>
+              Trang chủ
+            </Button>
+            <Button to={routes.about} className={LinkActive(routes.about)}>
+              Cho thuê phòng trọ
+            </Button>
           </div>
         </Link>
-        <div className="flex items-center">
-          <div className="cursor-pointer text-2xl px-2 py-2.5 mr-2">
+        <div className="hidden lg:flex items-center">
+          <div className="cursor-pointer text-3xl px-2 py-2.5 mr-2">
             {isDarkMode ? (
               <MdOutlineLightMode
                 className="cursor-pointer"
@@ -99,7 +99,7 @@ const Header = () => {
               </div>
             </div>
           ) : ( */}
-          <Button className="py-2 px-4 rounded-sm mr-2 border border-primary">
+          <Button className="py-1 px-3 rounded-sm mr-2 border border-primary">
             Đăng nhập
           </Button>
           {/* )} */}
@@ -109,6 +109,9 @@ const Header = () => {
           >
             Đăng tin miễn phí
           </Button>
+        </div>
+        <div className="text-2xl lg:hidden cursor-pointer px-2 py-2.5">
+          <AiOutlineMenu color="#00b14f" />
         </div>
       </header>
     </>
