@@ -6,10 +6,10 @@ import useDark from "../../hooks/useDark";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { AiOutlineMenu } from "react-icons/ai";
-import CustomModal from "../../components/CustomModal/CustomModal";
 import { useState } from "react";
+import Login from "../../components/Login/Login";
 
-const Header = () => {
+const Header: React.FC = () => {
   const [isDarkMode, toggleDarkMode] = useDark();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { pathname } = useLocation();
@@ -128,12 +128,7 @@ const Header = () => {
           <AiOutlineMenu color="#00b14f" />
         </div>
       </header>
-      <CustomModal isOpen={isOpen} onRequestClose={closeModal}>
-        <h1 className="text-xl font-bold">Custom Modal Content</h1>
-        <p className="mt-2">
-          This is a custom modal using React Modal and Tailwind CSS.
-        </p>
-      </CustomModal>
+      <Login isOpen={isOpen} onRequestClose={closeModal} />
     </>
   );
 };

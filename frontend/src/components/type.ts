@@ -15,3 +15,8 @@ export interface IModal {
   isOpen: boolean;
   onRequestClose: () => void;
 }
+
+export interface ILogin {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
