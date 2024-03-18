@@ -10,51 +10,8 @@ export interface ButtonProps {
   exact?: boolean;
 }
 
-export interface LoginProps {
-  isOpenLogin: boolean;
-  setIsOpenLogin: (open: boolean) => void;
-  isOpenRegister: boolean;
-  setIsOpenRegister: (open: boolean) => void;
-}
-
-export interface RegisterProps {
-  setIsOpenRegister: (open: boolean) => void;
-}
-
-export interface ModalProps {
+export interface IModal {
+  children: React.ReactNode;
   isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-}
-
-export interface LoginDataProp {
-  email: string;
-  password: string;
-}
-
-export interface RegisterDataProp {
-  name: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
-  address: string;
-}
-
-export interface BreadcrumbProps {
-  label?: string;
-  path?: string;
-}
-
-export interface CardProps {
-  children: React.ReactNode;
-  create?: boolean;
-}
-
-export interface TableColumn {
-  value: string;
-  label: string;
-}
-
-export interface TableRow {
-  [key: string]: string | number;
+  onRequestClose: () => void;
 }

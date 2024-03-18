@@ -16,6 +16,7 @@ export default {
       colors: {
         primary: '#00b14f',
         bgDark: "#0f172a",
+        bgModal: "#ccc"
       }
     },
   },
