@@ -10,26 +10,23 @@ dotenv.config()
 
 const app = express()
 
-//middlewares
-app.use(cors())
-// app.use(express.json())
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    methods: ["POST", 'GET', 'PUT', "DELETE"]
+}))
+
 app.use(morgan('dev'))
 app.use(bodyParser.json({limit: '100mb'}));
 app.use(bodyParser.urlencoded({     
     limit: '100mb',
     extended: true
 }));
-
-//dataconfig
 connectDB()
 
-//initRoute
 initRoute(app)
 
-//PORT
 const PORT = process.env.PORT || 8080
 
-//run
 app.listen(PORT, () =>{
     console.log(`Server localhost:${PORT}`)
 })
