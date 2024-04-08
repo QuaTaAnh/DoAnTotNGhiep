@@ -6,7 +6,6 @@ import connectDB from "./config/db.js"
 import initRoute from './routes/index.js'
 import bodyParser from 'body-parser'
 
-
 dotenv.config()
 
 const app = express()

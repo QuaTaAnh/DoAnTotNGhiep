@@ -3,6 +3,7 @@ import Sequelize from 'sequelize';
 const sequelize = new Sequelize('connectHousingDB', 'root', '17102002', {
   host: 'localhost',
   dialect: 'mysql',
+  logging: false,
 });
 
 const connectDB = async () =>{
