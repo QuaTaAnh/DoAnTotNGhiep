@@ -1,15 +1,15 @@
-import { Fragment } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { publicRoutes } from "./routes";
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
+import { publicRoutes } from "./routes";
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <div className="">
-      <BrowserRouter>
+    <>
+      <Router>
         <Routes>
           {publicRoutes.map((route, index) => {
-            let Layout = MainLayout;
+            let Layout: any = MainLayout;
             if (route.layout) {
               Layout = route.layout;
             } else if (route.layout === null) {
@@ -30,8 +30,8 @@ const App = () => {
             );
           })}
         </Routes>
-      </BrowserRouter>
-    </div>
+      </Router>
+    </>
   );
 };
 

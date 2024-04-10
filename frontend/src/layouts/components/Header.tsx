@@ -1,135 +1,163 @@
-import { Link, useLocation } from "react-router-dom";
+import {
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import NoImage from "../../assets/images/noImage.jpg";
+import SettingsIcon from "@mui/icons-material/Settings";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import PersonIcon from "@mui/icons-material/Person";
+import LogoutIcon from "@mui/icons-material/Logout";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { logout as logoutFunction } from "../../utils/auth";
+import { showSnackbar } from "../../redux/snackbarRedux";
 import { routes } from "../../config/routes";
-import Logo from "../../assets/images/logo.png";
-import Button from "../../components/Button/Button";
-import useDark from "../../hooks/useDark";
-import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
-import { IoIosAddCircleOutline } from "react-icons/io";
-import { AiOutlineMenu } from "react-icons/ai";
-import { useState } from "react";
-import Login from "../../components/Login/Login";
+import SearchInput from "../../components/SearchInput";
+import { Link, useNavigate } from "react-router-dom";
+
+const SETTINGS = [
+  {
+    id: 1,
+    icon: <PersonIcon fontSize="small" />,
+    title: "Thông tin cá nhân",
+  },
+  {
+    id: 2,
+    icon: <LogoutIcon fontSize="small" />,
+    title: "Đăng xuất",
+  },
+];
 
 const Header: React.FC = () => {
-  const [isDarkMode, toggleDarkMode] = useDark();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [openMenu, setOpenMenu] = useState<null | HTMLElement>(null);
 
-  const LinkActive = (type: string) => {
-    let classes: string =
-      "text-base rounded-lg px-3 py-5 font-bold cursor-pointer hover:text-primary hidden lg:flex";
-    if (type === pathname) {
-      classes += " text-primary font-bold";
+  const { user } = useSelector((state: RootState) => state.user);
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setOpenMenu(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setOpenMenu(null);
+  };
+
+  const handleLogout = () => {
+    try {
+      logoutFunction(dispatch);
+      localStorage.removeItem("access_token");
+      dispatch(
+        showSnackbar({ message: "Đăng xuất thành công", type: "success" })
+      );
+      window.location.href = routes.login;
+    } catch (error) {
+      console.log(error);
+      dispatch(showSnackbar({ message: "Đã xảy ra lỗi", type: "error" }));
     }
-    return classes;
   };
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
+  const handleOpenProfile = () => {
+    navigate(`/profile`);
   };
 
   return (
-    <>
-      <header className="fixed h-defaultHeader w-full px-5 top-0 right-0 z-20 flex justify-between items-center dark:bg-bgDark shadow-lg dark:shadow-dark">
-        <Link to={routes.home}>
-          <div className="flex justify-between items-center">
-            <div className="w-24 h-defaultHeader pr-5">
-              <img className="w-full h-full" src={Logo} alt="House" />
-            </div>
-            <Button to={routes.home} className={LinkActive(routes.home)}>
-              Trang chủ
-            </Button>
-            <Button to={routes.about} className={LinkActive(routes.about)}>
-              Cho thuê phòng trọ
-            </Button>
-          </div>
-        </Link>
-        <div className="hidden lg:flex items-center">
-          <div className="cursor-pointer text-3xl px-2 py-2.5 mr-2">
-            {isDarkMode ? (
-              <MdOutlineLightMode
-                className="cursor-pointer"
-                color="#00b14f"
-                onClick={() => toggleDarkMode(!isDarkMode)}
-              />
-            ) : (
-              <MdOutlineDarkMode
-                className="cursor-pointer"
-                color="#00b14f"
-                onClick={() => toggleDarkMode(!isDarkMode)}
-              />
-            )}
-          </div>
-          {/* {user?._id ? (
-            <div className="relative group">
-              <div className="flex justify-center items-center cursor-pointer py-1">
-                <div className="w-8 h-8 rounded-full mr-2">
-                  <img
-                    src={user?.avatar ?? NoImage}
-                    alt="Image"
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                </div>
-                <p className="text-sm">{user?.name}</p>
-              </div>
-              <div className="absolute z-50 hidden bg-white dark:bg-bgModalDark py-2 px-1 w-48 right-0 rounded-lg shadow-lg group-hover:block">
-                {user?.role === 1 ? (
-                  <Button
-                    to={routes.dashboardAdmin}
-                    leftIcon={<RxDashboard />}
-                    className="flex items-center p-2 w-full hover:bg-primary rounded-lg text-sm dark:hover:bg-indigo-800"
+    <div>
+      <AppBar position="fixed" sx={{ height: "88px", backgroundColor: "#FFF" }}>
+        <Container maxWidth="xl" sx={{ height: "100%" }}>
+          <Toolbar disableGutters sx={{ height: "100%" }}>
+            <Link to={routes.home} style={{ textDecoration: "none" }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  mr: 4,
+                  display: { md: "flex" },
+                  alignContent: "center",
+                  fontWeight: 600,
+                  letterSpacing: ".05rem",
+                  color: "#3C64B1",
+                  cursor: "pointer",
+                }}
+              >
+                Z-LEARN
+              </Typography>
+            </Link>
+            <Box>
+              <SearchInput />
+            </Box>
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { md: "flex", xs: "none" } }}>
+              <IconButton size="large">
+                <Badge badgeContent={6} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton size="large">
+                <Badge badgeContent={9} color="error">
+                  <SettingsIcon />
+                </Badge>
+              </IconButton>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Avatar" src={user?.avatar ?? NoImage} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                anchorEl={openMenu}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(openMenu)}
+                onClose={handleCloseUserMenu}
+              >
+                {SETTINGS.map((setting, index) => (
+                  <MenuItem
+                    key={index}
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      setting.id === 2 && handleLogout();
+                      setting.id === 1 && handleOpenProfile();
+                    }}
                   >
-                    Bảng điều khiển
-                  </Button>
-                ) : (
-                  <Button
-                    to={routes.orderUser}
-                    leftIcon={<RxDashboard />}
-                    className="flex items-center p-2 w-full hover:bg-primary rounded-lg text-sm dark:hover:bg-indigo-800"
-                  >
-                    Đơn hàng của tôi
-                  </Button>
-                )}
-                <Button
-                  to={"/account"}
-                  leftIcon={<AiOutlineUser />}
-                  className="flex items-center p-2 w-full hover:bg-primary rounded-lg text-sm dark:hover:bg-indigo-800"
-                >
-                  Chi tiết tài khoản
-                </Button>
-                <Button
-                  leftIcon={<AiOutlineLogout />}
-                  className="flex items-center p-2 w-full hover:bg-primary rounded-lg text-sm dark:hover:bg-indigo-800"
-                  onClick={handleLogout}
-                >
-                  Đăng xuất
-                </Button>
-              </div>
-            </div>
-          ) : ( */}
-          <Button
-            className="py-1 px-3 rounded-sm mr-2 border border-primary"
-            onClick={openModal}
-          >
-            Đăng nhập
-          </Button>
-          {/* )} */}
-          <Button
-            className="text-white bg-primary py-2 px-3 rounded-sm flex items-center"
-            leftIcon={<IoIosAddCircleOutline />}
-          >
-            Đăng tin miễn phí
-          </Button>
-        </div>
-        <div className="text-2xl lg:hidden cursor-pointer px-2 py-2.5">
-          <AiOutlineMenu color="#00b14f" />
-        </div>
-      </header>
-      <Login isOpen={isOpen} onRequestClose={closeModal} />
-    </>
+                    {setting.icon}
+                    <Typography textAlign="center" fontSize={14}>
+                      {setting.title}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                // onClick={handleMobileMenuOpen}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </div>
   );
 };
 

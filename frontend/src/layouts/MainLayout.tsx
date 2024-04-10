@@ -1,18 +1,44 @@
-import Footer from "./components/Footer";
+import React from "react";
 import Header from "./components/Header";
-import { LayoutProp } from "./type";
+import Footer from "./components/Footer";
+import { ILayout } from "./type";
+import { Container, Grid } from "@mui/material";
+import styled from "@emotion/styled";
 
-const MainLayout: React.FC<LayoutProp> = (props: LayoutProp) => {
+// eslint-disable-next-line no-empty-pattern
+const MainStyle = styled("div")(({}) => ({
+  display: "flex",
+  flexDirection: "column",
+  minHeight: "100vh",
+}));
+
+// eslint-disable-next-line no-empty-pattern
+const ContentStyle = styled("div")(({}) => ({
+  flexGrow: 1,
+  padding: "20px",
+}));
+
+// eslint-disable-next-line no-empty-pattern
+const FooterStyle = styled("div")(({}) => ({
+  textAlign: "center",
+}));
+
+const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
   return (
-    <>
-      <div className="relative dark:bg-bgDark dark:text-white text-black h-screen overflow-auto transition duration-300 ease-in-out">
-        <div className="max-w-screen-2xl text-base">
-          <Header />
-          <div className="mt-marginTopHeader">{props.children}</div>
-          <Footer />
-        </div>
-      </div>
-    </>
+    <MainStyle>
+      <Header />
+      <ContentStyle>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sx={{ marginTop: "88px" }}>
+            <Container maxWidth="lg">{children}</Container>
+          </Grid>
+        </Grid>
+      </ContentStyle>
+      <FooterStyle>
+        <Footer />
+      </FooterStyle>
+      {/* {loading ? <Loading /> : null} */}
+    </MainStyle>
   );
 };
 

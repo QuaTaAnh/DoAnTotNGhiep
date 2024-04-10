@@ -1,16 +1,16 @@
+import React from "react";
 import Header from "./components/Header";
-import { LayoutProp } from "./type";
+import { ILayout } from "./type";
+import { Container } from "@mui/material";
 
-const OnlyHeader: React.FC<LayoutProp> = (props: LayoutProp) => {
+const OnlyHeader: React.FC<ILayout> = ({ children }: ILayout) => {
   return (
-    <>
-      <div className="relative dark:bg-bgDark dark:text-white text-black h-screen overflow-auto transition duration-300 ease-in-out">
-        <div className="max-w-screen-2xl text-base">
-          <Header />
-          <div className="mt-11 pt-6">{props.children}</div>
-        </div>
-      </div>
-    </>
+    <main>
+      <Header />
+      <Container maxWidth="md" sx={{ marginTop: "88px" }}>
+        {children}
+      </Container>
+    </main>
   );
 };
 
