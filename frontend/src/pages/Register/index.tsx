@@ -1,17 +1,31 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import React from "react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register as registerFunction } from "../../utils/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { IUser } from "../../type";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import { routes } from "../../config/routes";
 import Loading from "../../components/Loading";
+import Logo from "../../assets/images/logo.png";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const Register: React.FC = () => {
-  const loading = useSelector((state: boolean | any) => state.loading);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [showPass, setShowPass] = useState<boolean>(false);
+  const loading = useSelector((state: boolean | any) => state.loading);
   const {
     register,
     handleSubmit,
@@ -21,15 +35,16 @@ const Register: React.FC = () => {
   const onSubmit = (data: IUser) => {
     try {
       registerFunction(dispatch, data).then((res: any) => {
-        if (res && res?.status === 201) {
+        console.log(res);
+        if (res && res?.data?.status === true) {
           dispatch(
-            showSnackbar({ message: "Đăng kí thành công", type: "success" })
+            showSnackbar({ message: res.data.message, type: "success" })
           );
-          window.location.href = routes.login;
+          navigate("/login");
         } else {
           dispatch(
             showSnackbar({
-              message: `${res.response.data.message}`,
+              message: `${res.data.message}`,
               type: "error",
             })
           );
@@ -40,50 +55,84 @@ const Register: React.FC = () => {
       dispatch(showSnackbar({ message: "Đã có lỗi xảy ra!", type: "error" }));
     }
   };
+
+  const handleTogglePassword = () => {
+    setShowPass((prevShowPassword) => !prevShowPassword);
+  };
+
   return (
     <>
-      <Container maxWidth="xs" sx={{ marginTop: "70px" }}>
-        <Typography variant="h5" align="center" marginBottom={4}>
-          Sign up
+      <Container
+        maxWidth="xs"
+        sx={{
+          marginTop: "70px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "100px",
+            height: "64px",
+          }}
+        >
+          <Avatar
+            alt="Logo"
+            src={Logo}
+            sx={{ width: "100%", height: "100%" }}
+          />
+        </div>
+        <Typography variant="h5" align="center" marginBottom={1}>
+          Đăng kí
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            size="small"
+            size="medium"
             label="Họ tên"
             fullWidth
             margin="normal"
             {...register("name", {
-              required: "This field is required!",
+              required: "Vui lòng nhập họ tên.",
             })}
             error={!!errors.name}
             helperText={errors.name?.message as any}
           />
           <TextField
-            size="small"
+            size="medium"
             label="Số điện thoại"
             fullWidth
             margin="normal"
             {...register("phone", {
-              required: "This field is required!",
+              required: "Vui lòng nhập số điện thoại.",
             })}
             error={!!errors.phone}
             helperText={errors.phone?.message as any}
           />
           <TextField
-            size="small"
+            size="medium"
             label="Mật khẩu"
-            type="password"
+            type={showPass ? "text" : "password"}
             fullWidth
             margin="normal"
             {...register("password", {
-              required: "This field is required!",
+              required: "Vui lòng nhập mật khẩu.",
               minLength: {
                 value: 6,
-                message: "Password must be at least 6 characters long!",
+                message: "Mật khẩu phải có độ dài ít nhất 6 ký tự!",
               },
             })}
             error={!!errors.password}
             helperText={errors.password?.message as any}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleTogglePassword} edge="end">
+                    {showPass ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Box
             sx={{
@@ -96,18 +145,18 @@ const Register: React.FC = () => {
               variant="contained"
               size="medium"
               sx={{
-                backgroundColor: "#667080",
+                backgroundColor: "#fa6819",
                 color: "#fff",
-                borderRadius: "24px",
-                padding: "9px 24px",
+                borderRadius: "5px",
+                padding: "8px 20px",
                 marginTop: "20px",
                 textTransform: "none",
                 "&:hover": {
-                  backgroundColor: "#667080",
+                  backgroundColor: "#ed570e",
                 },
               }}
             >
-              Sign up
+              Đăng kí
             </Button>
           </Box>
         </form>
@@ -120,8 +169,8 @@ const Register: React.FC = () => {
               marginTop: "20px",
             }}
           >
-            Already has account?
-            <Link to={routes.login}>Sign in</Link>
+            Đăng kí tài khoản?
+            <Link to={routes.login}>Đăng nhập ngay</Link>
           </Typography>
         </Box>
       </Container>

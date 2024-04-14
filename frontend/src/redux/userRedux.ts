@@ -16,8 +16,8 @@ const userSlice = createSlice({
   initialState: initialAuthState,
   reducers: {
     loginSuccess: (state, action: PayloadAction<string | any>) => {
-      state.access_token = action.payload.access_token;
-      localStorage.setItem("access_token", action.payload.access_token);
+      state.access_token = action.payload.token;
+      localStorage.setItem("access_token", action.payload.token);
     },
     profileSuccess: (state, action: PayloadAction<any>) => {
       state.user = action.payload;

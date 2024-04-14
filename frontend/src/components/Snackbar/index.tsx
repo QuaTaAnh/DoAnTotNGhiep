@@ -1,4 +1,3 @@
-// file SnackbarComponent.js
 import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
