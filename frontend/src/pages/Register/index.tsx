@@ -90,6 +90,7 @@ const Register: React.FC = () => {
           <TextField
             size="medium"
             label="Họ tên"
+            color="success"
             fullWidth
             margin="normal"
             {...register("name", {
@@ -101,6 +102,7 @@ const Register: React.FC = () => {
           <TextField
             size="medium"
             label="Số điện thoại"
+            color="success"
             fullWidth
             margin="normal"
             {...register("phone", {
@@ -112,6 +114,7 @@ const Register: React.FC = () => {
           <TextField
             size="medium"
             label="Mật khẩu"
+            color="success"
             type={showPass ? "text" : "password"}
             fullWidth
             margin="normal"

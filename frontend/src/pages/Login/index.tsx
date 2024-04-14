@@ -40,7 +40,7 @@ const Login: React.FC = () => {
         } else {
           dispatch(
             showSnackbar({
-              message: res.response.data.message,
+              message: res.data.message,
               type: "error",
             })
           );
@@ -86,6 +86,7 @@ const Login: React.FC = () => {
           <TextField
             size="medium"
             label="Số điện thoại"
+            color="success"
             fullWidth
             margin="normal"
             {...register("phone", {
@@ -98,13 +99,14 @@ const Login: React.FC = () => {
             size="medium"
             type={showPass ? "text" : "password"}
             label="Mật khẩu"
+            color="success"
             fullWidth
             margin="normal"
             {...register("password", {
               required: "Vui lòng nhập mật khẩu.",
               minLength: {
                 value: 6,
-                message: "Password must be at least 6 characters long!",
+                message: "Mật khẩu phải có độ dài ít nhất 6 ký tự!",
               },
             })}
             error={!!errors.password}
