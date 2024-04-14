@@ -29,7 +29,7 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
       <Header />
       <ContentStyle>
         <Grid container spacing={2}>
-          <Grid item xs={12} sx={{ marginTop: "88px" }}>
+          <Grid item xs={12} sx={{ marginTop: "64px" }}>
             <Container maxWidth="lg">{children}</Container>
           </Grid>
         </Grid>

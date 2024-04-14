@@ -32,25 +32,21 @@ const Login: React.FC = () => {
           Sign in
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="">Email</label>
           <TextField
             size="small"
+            label="Số điện thoại"
             fullWidth
             margin="normal"
-            {...register("email", {
+            {...register("phone", {
               required: "This field is required!",
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: "Invalid email!",
-              },
             })}
-            error={!!errors.email}
-            helperText={errors.email?.message as any}
+            error={!!errors.phone}
+            helperText={errors.phone?.message as any}
           />
-          <label htmlFor="">Password</label>
           <TextField
             size="small"
             type="password"
+            label="Mật khẩu"
             fullWidth
             margin="normal"
             {...register("password", {

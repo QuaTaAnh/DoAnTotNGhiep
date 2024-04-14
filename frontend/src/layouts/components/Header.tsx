@@ -3,6 +3,7 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
   Container,
   IconButton,
   Menu,
@@ -13,8 +14,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import NoImage from "../../assets/images/noImage.jpg";
-import SettingsIcon from "@mui/icons-material/Settings";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import Logo from "../../assets/images/logo.png";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -74,42 +77,44 @@ const Header: React.FC = () => {
 
   return (
     <div>
-      <AppBar position="fixed" sx={{ height: "88px", backgroundColor: "#FFF" }}>
+      <AppBar position="fixed" sx={{ height: "64px", backgroundColor: "#FFF" }}>
         <Container maxWidth="xl" sx={{ height: "100%" }}>
           <Toolbar disableGutters sx={{ height: "100%" }}>
-            <Link to={routes.home} style={{ textDecoration: "none" }}>
-              <Typography
-                variant="h5"
-                sx={{
-                  mr: 4,
-                  display: { md: "flex" },
-                  alignContent: "center",
-                  fontWeight: 600,
-                  letterSpacing: ".05rem",
-                  color: "#3C64B1",
-                  cursor: "pointer",
-                }}
-              >
-                Z-LEARN
-              </Typography>
+            <Link to={routes.home} style={{ marginRight: "100px" }}>
+              <div style={{ width: "100px", height: "64px" }}>
+                <Avatar
+                  alt="Logo"
+                  src={Logo}
+                  sx={{ width: "100%", height: "100%" }}
+                />
+              </div>
             </Link>
             <Box>
               <SearchInput />
             </Box>
             <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { md: "flex", xs: "none" } }}>
-              <IconButton size="large">
+            <Box
+              sx={{
+                display: {
+                  md: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  xs: "none",
+                },
+              }}
+            >
+              <IconButton size="large" sx={{ m: 0.5 }}>
                 <Badge badgeContent={6} color="error">
-                  <NotificationsIcon />
+                  <NotificationsNoneIcon />
                 </Badge>
               </IconButton>
-              <IconButton size="large">
+              <IconButton size="large" sx={{ m: 0.5 }}>
                 <Badge badgeContent={9} color="error">
-                  <SettingsIcon />
+                  <ChatBubbleOutlineIcon />
                 </Badge>
               </IconButton>
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <IconButton onClick={handleOpenUserMenu} sx={{ m: 0.5 }}>
                   <Avatar alt="Avatar" src={user?.avatar ?? NoImage} />
                 </IconButton>
               </Tooltip>
@@ -144,6 +149,25 @@ const Header: React.FC = () => {
                   </MenuItem>
                 ))}
               </Menu>
+              <Tooltip title="Đăng tin">
+                <Button
+                  variant="contained"
+                  size="medium"
+                  sx={{
+                    width: "144px",
+                    height: "36px",
+                    fontSize: "14px",
+                    marginLeft: "20px",
+                    backgroundColor: "#fa6819",
+                    "&:hover": {
+                      backgroundColor: "#ed570e",
+                    },
+                  }}
+                >
+                  <DriveFileRenameOutlineIcon />
+                  ĐĂNG TIN
+                </Button>
+              </Tooltip>
             </Box>
 
             <Box sx={{ display: { xs: "flex", md: "none" } }}>

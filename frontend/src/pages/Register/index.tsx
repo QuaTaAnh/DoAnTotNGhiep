@@ -47,46 +47,31 @@ const Register: React.FC = () => {
           Sign up
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="">First name</label>
           <TextField
             size="small"
+            label="Họ tên"
             fullWidth
             margin="normal"
-            {...register("first_name", {
+            {...register("name", {
               required: "This field is required!",
             })}
-            error={!!errors.first_name}
-            helperText={errors.first_name?.message as any}
+            error={!!errors.name}
+            helperText={errors.name?.message as any}
           />
-          <label htmlFor="">Last name</label>
           <TextField
             size="small"
+            label="Số điện thoại"
             fullWidth
             margin="normal"
-            {...register("last_name", {
+            {...register("phone", {
               required: "This field is required!",
             })}
-            error={!!errors.last_name}
-            helperText={errors.last_name?.message as any}
+            error={!!errors.phone}
+            helperText={errors.phone?.message as any}
           />
-          <label htmlFor="">Email</label>
           <TextField
             size="small"
-            fullWidth
-            margin="normal"
-            {...register("email", {
-              required: "This field is required!",
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: "Invalid email!",
-              },
-            })}
-            error={!!errors.email}
-            helperText={errors.email?.message as any}
-          />
-          <label htmlFor="">Password</label>
-          <TextField
-            size="small"
+            label="Mật khẩu"
             type="password"
             fullWidth
             margin="normal"

@@ -2,6 +2,7 @@ import { routes } from "../config/routes";
 import OnlyHeader from "../layouts/OnlyHeader";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import Register from "../pages/Register";
 import Test from "../pages/Test";
 
 export const publicRoutes = [
@@ -9,4 +10,5 @@ export const publicRoutes = [
   { path: routes.test, component: Test, layout: OnlyHeader },
   { path: routes.home, component: Home },
   { path: routes.login, component: Login },
+  { path: routes.register, component: Register },
 ];
