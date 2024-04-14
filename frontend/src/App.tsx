@@ -20,11 +20,11 @@ const App: React.FC = () => {
   const { access_token } = useSelector((state: RootState) => state.user);
   console.log(access_token);
 
-  // useEffect(() => {
-  //   if (access_token) {
-  //     dispatch(getProfile());
-  //   }
-  // }, [access_token, dispatch]);
+  useEffect(() => {
+    if (access_token) {
+      dispatch(getProfile());
+    }
+  }, [access_token, dispatch]);
 
   return (
     <>

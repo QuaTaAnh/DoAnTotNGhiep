@@ -8,7 +8,7 @@ export const getProfile = createAsyncThunk(
   async (_, { dispatch }) => {
     try {
       dispatch(startLoading());
-      const res = await request.get(`/auth/profile`);
+      const res = await request.get(`api/v1/auth/profile`);
       dispatch(profileSuccess(res.data));
       return res.data;
     } catch (error) {

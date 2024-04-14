@@ -1,4 +1,4 @@
-import { loginService, registerService } from '../services/authService.js'
+import { getProfileService, loginService, registerService } from '../services/authService.js'
 
 export const registerController = async (req, res) =>{
     try {
@@ -43,6 +43,21 @@ export const loginController = async (req, res) =>{
         res.status(500).send({
             status: false, 
             message: 'Đăng nhập thất bại!', 
+            error
+        })
+    }
+}
+
+export const getProfileController = async (req, res) => {
+    try {
+        const { id }  = req.user
+        const user = await getProfileService(id)
+        return res.status(200).json(user)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
             error
         })
     }
