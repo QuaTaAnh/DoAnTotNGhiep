@@ -77,9 +77,12 @@ const Header: React.FC = () => {
 
   return (
     <div>
-      <AppBar position="fixed" sx={{ height: "64px", backgroundColor: "#FFF" }}>
+      <AppBar
+        position="fixed"
+        sx={{ height: "64px", backgroundColor: "#FFF", boxShadow: "none" }}
+      >
         <Container maxWidth="xl" sx={{ height: "100%" }}>
-          <Toolbar disableGutters sx={{ height: "100%" }}>
+          <Toolbar sx={{ height: "100%" }}>
             <Link to={routes.home} style={{ marginRight: "100px" }}>
               <div style={{ width: "100px", height: "64px" }}>
                 <Avatar

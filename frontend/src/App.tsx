@@ -18,7 +18,6 @@ import SnackbarCustom from "./components/Snackbar";
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { access_token } = useSelector((state: RootState) => state.user);
-  console.log(access_token);
 
   useEffect(() => {
     if (access_token) {
@@ -60,7 +59,7 @@ const App: React.FC = () => {
                       <Page />
                     </Layout>
                   ) : (
-                    <Navigate to={route.navigate} />
+                    <Navigate to={route.navigate || ""} />
                   )
                 }
               />

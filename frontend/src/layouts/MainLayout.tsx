@@ -4,6 +4,8 @@ import Footer from "./components/Footer";
 import { ILayout } from "./type";
 import { Container, Grid } from "@mui/material";
 import styled from "@emotion/styled";
+import Loading from "../components/Loading";
+import { useSelector } from "react-redux";
 
 // eslint-disable-next-line no-empty-pattern
 const MainStyle = styled("div")(({}) => ({
@@ -24,6 +26,8 @@ const FooterStyle = styled("div")(({}) => ({
 }));
 
 const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
+  const loading = useSelector((state: boolean | any) => state.loading);
+
   return (
     <MainStyle>
       <Header />
@@ -37,7 +41,7 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
       <FooterStyle>
         <Footer />
       </FooterStyle>
-      {/* {loading ? <Loading /> : null} */}
+      {loading ? <Loading /> : null}
     </MainStyle>
   );
 };

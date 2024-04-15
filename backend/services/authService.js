@@ -42,7 +42,7 @@ export const loginService = ({ phone, password }) => new Promise(async (resolve,
           status: false,
           message: 'Sai mật khẩu!'})
       }
-      const token =  await jwt.sign({id: user.id, phone: user.phone}, process.env.SECRET_KEY, {expiresIn: '2d'}) 
+      const token =  await jwt.sign({id: user.id, phone: user.phone}, process.env.SECRET_KEY, {expiresIn: '1h'}) 
       resolve({
         status: true,
         message: 'Đăng nhập thành công!', 

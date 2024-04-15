@@ -60,7 +60,7 @@ const SearchInput: React.FC = () => {
   return (
     <BoxSearch>
       <StyledInputBase
-        placeholder="What do you want to learn?"
+        placeholder="Phòng trọ cho thuê?"
         inputProps={{ "aria-label": "search" }}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}

@@ -1,18 +1,26 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
+import Filter from "../../components/Filter";
+import { TEXT_TITLE } from "../../constants";
 
 const Home: React.FC = () => {
   return (
     <Grid container spacing={2}>
-      <Box sx={{ width: "100%" }}>
-        <Grid item xs={12} sm={6} md={4}>
-          <Box
+      <Box sx={{ width: "100%", height: "52px" }}>
+        <Grid item md={12}>
+          <Filter />
+        </Grid>
+        <Grid item md={12}>
+          <Typography
+            width={"100%"}
             sx={{
-              borderBottom: 1,
-              borderColor: "divider",
+              textAlign: "center",
+              marginTop: "40px",
+              fontSize: "20px",
+              fontWeight: 700,
             }}
           >
-            Test
-          </Box>
+            {TEXT_TITLE}
+          </Typography>
         </Grid>
       </Box>
     </Grid>
