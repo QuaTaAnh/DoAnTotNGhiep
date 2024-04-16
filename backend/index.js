@@ -5,6 +5,7 @@ import cors from 'cors'
 import connectDB from "./config/db.js"
 import initRoute from './routes/index.js'
 import bodyParser from 'body-parser'
+import generateCode from "./utils/generateCode.js"
 
 dotenv.config()
 

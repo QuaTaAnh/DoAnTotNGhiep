@@ -1,6 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import Filter from "../../components/Filter";
-import { TEXT_TITLE } from "../../constants";
+import { LOCATION, TEXT_TITLE } from "../../constants";
+import LocationButton from "../../components/LocationButton";
 
 const Home: React.FC = () => {
   return (
@@ -14,13 +15,21 @@ const Home: React.FC = () => {
             width={"100%"}
             sx={{
               textAlign: "center",
-              marginTop: "40px",
+              margin: "40px 0",
               fontSize: "20px",
               fontWeight: 700,
             }}
           >
             {TEXT_TITLE}
           </Typography>
+        </Grid>
+
+        <Grid container spacing={12}>
+          {LOCATION.map((item: any) => (
+            <Grid key={item?.id} item xs={12} sm={6} md={4}>
+              <LocationButton name={item?.name} image={item?.image} />
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </Grid>
