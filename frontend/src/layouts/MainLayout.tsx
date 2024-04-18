@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 const MainStyle = styled("div")(({}) => ({
   display: "flex",
   flexDirection: "column",
-  minHeight: "100vh",
+  height: "100vh",
 }));
 
 // eslint-disable-next-line no-empty-pattern

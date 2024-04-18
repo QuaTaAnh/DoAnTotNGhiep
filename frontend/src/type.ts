@@ -17,3 +17,25 @@ export interface TabPanelProps {
   index: number;
   value: number;
 }
+
+export interface IImage {
+  image: string;
+}
+
+export interface IAttribute {
+  acreage?: string;
+  hashtag?: string;
+  price?: string;
+  published?: string;
+}
+
+export interface IPost {
+  id?: string;
+  user?: IUser;
+  title?: string;
+  attributes: IAttribute;
+  description?: string;
+  address?: string;
+  star?: string;
+  images?: any;
+}

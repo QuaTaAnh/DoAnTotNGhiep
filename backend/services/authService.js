@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { v4 } from 'uuid'
 import { comparePassword, hashPassword } from '../helpers/authHelper.js'
 
-export const registerService = ({ phone, password, name }) => new Promise(async (resolve, reject) => {
+export const registerService = async ({ phone, password, name }) => {
     try {
         const hashedPass = await hashPassword(password)
         const response = await db.User.findOrCreate({
@@ -16,44 +16,46 @@ export const registerService = ({ phone, password, name }) => new Promise(async 
             }
         })
         const user = response[1] && jwt.sign({ id: response[0].id, phone: response[0].phone }, process.env.SECRET_KEY, { expiresIn: '2d' })
-        resolve({
+        return {
             status: user ? true : false,
             message: user ? 'Đăng kí thành công!' : 'Số điện thoại đã có người sử dụng!',
-        })
+        }
     } catch (error) {
-        reject(error)
+        console.log(error);
     }
-})
+}
 
-export const loginService = ({ phone, password }) => new Promise(async (resolve, reject) => {
+export const loginService = async ({ phone, password }) => {
   try {
       const user = await db.User.findOne({
           where: { phone },
           raw: true
       })
       if(!user){
-        resolve({
-          status: false,
-          message: 'Số điện thoại chưa đăng kí!'})
+        return {
+            status: false,
+            message: 'Số điện thoại chưa đăng kí!'
+        }
       }
       const checkPass = await comparePassword(password, user.password)
       if(!checkPass){
-        resolve({
-          status: false,
-          message: 'Sai mật khẩu!'})
+        return {
+            status: false,
+            message: 'Sai mật khẩu!'
+        }
       }
       const token =  await jwt.sign({id: user.id, phone: user.phone}, process.env.SECRET_KEY, {expiresIn: '1h'}) 
-      resolve({
+      return {
         status: true,
         message: 'Đăng nhập thành công!', 
         token: token
-      })
+      }
   } catch (error) {
-      reject(error)
+    console.log(error);
   }
-})
+}
 
-export const getProfileService = (id ) => new Promise(async (resolve, reject) => {
+export const getProfileService = async (id ) => {
     try {
         const user = await db.User.findOne({
             where: { id },
@@ -62,12 +64,12 @@ export const getProfileService = (id ) => new Promise(async (resolve, reject) =>
                 exclude: ['password']
             }
         })
-        resolve({
+        return {
             status: true,
             message: 'Lấy thông tin người dùng thành công!', 
             user: user
-        })
+        }
     } catch (error) {
-        reject(error)
+        console.log(error);
     }
-  })
+  }

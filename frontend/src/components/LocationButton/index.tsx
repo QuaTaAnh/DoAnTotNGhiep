@@ -9,7 +9,12 @@ export interface ILocation {
 
 const LocationButton: React.FC<ILocation> = ({ name, image }: ILocation) => {
   return (
-    <Link to={"123"} style={{ textDecoration: "none" }}>
+    <Link
+      to={"123"}
+      style={{
+        textDecoration: "none",
+      }}
+    >
       <Card
         sx={{
           height: "180px",
@@ -23,6 +28,9 @@ const LocationButton: React.FC<ILocation> = ({ name, image }: ILocation) => {
               fontWeight: "600",
               color: "#000",
               textAlign: "center",
+              "&:hover": {
+                color: "#ed570e",
+              },
             }}
           >
             {name}
