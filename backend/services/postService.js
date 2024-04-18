@@ -1,9 +1,21 @@
 import db from '../models/index.js'
+import { Op } from 'sequelize';
 
-export const getPostService = async (page, pageSize) => {
+export const getPostService = async (page, pageSize, priceCode, areaCode) => {
     try {
         const offset = (page - 1) * pageSize;
+        const valueFilter = [];
+        if (priceCode) {
+            valueFilter.push({ priceCode });
+        }
+
+        if (areaCode) {
+            valueFilter.push({ areaCode });
+        }
         const posts = await db.Post.findAll({
+            where: {
+                [Op.and]: valueFilter
+            },
             include: [
                 { model: db.Image, as: 'images', attributes: ['image'] },
                 { model: db.Attribute, as: 'attributes', attributes: ['price', 'acreage', 'published', 'hashtag'] },
@@ -14,8 +26,15 @@ export const getPostService = async (page, pageSize) => {
             offset: offset
         });
 
+        const currentPageTotal = await db.Post.findAll({
+            where: {
+                [Op.and]: valueFilter
+            },
+            offset: offset
+        })
+
         const totalCount = await db.Post.count();
-        const totalPages = Math.ceil(totalCount / pageSize);
+        const totalPages = Math.ceil(currentPageTotal.length / pageSize);
 
         return {
             status: true,

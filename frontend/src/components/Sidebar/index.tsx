@@ -11,8 +11,6 @@ const Sidebar: React.FC = () => {
     (state: any) => state.api
   );
 
-  console.log(categories);
-
   useEffect(() => {
     dispatch(getCategory());
     dispatch(getPrice());
@@ -32,9 +30,17 @@ const Sidebar: React.FC = () => {
         }}
         md={12}
       >
-        <CardCustom title="Danh mục cho thuê" content={categories} />
-        <CardCustom title="Lọc theo khoảng giá" content={prices} />
-        <CardCustom title="Lọc theo diện tích" content={acreages} />
+        <CardCustom title="Danh mục cho thuê" category={categories} />
+        <CardCustom
+          title="Lọc theo khoảng giá"
+          content={prices}
+          type="priceCode"
+        />
+        <CardCustom
+          title="Lọc theo diện tích"
+          content={acreages}
+          type="areaCode"
+        />
       </Grid>
     </Grid>
   );

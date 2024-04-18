@@ -1,13 +1,35 @@
 import { Box, Card, Typography } from "@mui/material";
 import React from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { getPostByPage } from "../../redux/callApi";
 
 interface ICardCustom {
   title: string;
-  content: any[];
+  content?: any[];
+  category?: any[];
+  type?: any;
 }
 
-const CardCustom: React.FC<ICardCustom> = ({ title, content }: ICardCustom) => {
+const CardCustom: React.FC<ICardCustom> = ({
+  title,
+  content,
+  category,
+  type,
+}: ICardCustom) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { page } = useSelector((state: any) => state.api);
+
+  const handleFilter = (code: string) => {
+    dispatch(
+      getPostByPage({
+        page: page,
+        [type]: code,
+      })
+    );
+  };
   return (
     <Card
       sx={{
@@ -19,8 +41,8 @@ const CardCustom: React.FC<ICardCustom> = ({ title, content }: ICardCustom) => {
       <Typography sx={{ fontSize: "18px", fontWeight: 600 }}>
         {title}
       </Typography>
-      {content?.length > 0 &&
-        content.map((item) => (
+      {content &&
+        content?.map((item) => (
           <Box
             key={item?.id}
             sx={{
@@ -32,6 +54,7 @@ const CardCustom: React.FC<ICardCustom> = ({ title, content }: ICardCustom) => {
                 color: "#fa6819",
               },
             }}
+            onClick={() => handleFilter(item?.code)}
           >
             <NavigateNextIcon />
             <Typography
@@ -42,6 +65,32 @@ const CardCustom: React.FC<ICardCustom> = ({ title, content }: ICardCustom) => {
               {item.value}
             </Typography>
           </Box>
+        ))}
+      {category &&
+        category?.map((item) => (
+          <Link to={""} style={{ textDecoration: "none", color: "#000" }}>
+            <Box
+              key={item?.id}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                padding: "4px",
+                cursor: "pointer",
+                "&:hover": {
+                  color: "#fa6819",
+                },
+              }}
+            >
+              <NavigateNextIcon />
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                }}
+              >
+                {item.value}
+              </Typography>
+            </Box>
+          </Link>
         ))}
     </Card>
   );

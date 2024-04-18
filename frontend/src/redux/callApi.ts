@@ -2,7 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import request from "../utils/request";
 import { startLoading, stopLoading } from "./loadingRedux";
 import { profileSuccess } from "./userRedux";
-import { acreageSuccess, categorySuccess, priceSuccess } from "./apiRedux";
+import {
+  acreageSuccess,
+  categorySuccess,
+  postSuccess,
+  priceSuccess,
+} from "./apiRedux";
+import { IParamPost } from "./type";
 
 export const getProfile = createAsyncThunk(
   "profile/fetchProfile",
@@ -66,6 +72,32 @@ export const getAcreage = createAsyncThunk(
     } catch (error) {
       console.error("Error");
       throw error;
+    } finally {
+      dispatch(stopLoading());
+    }
+  }
+);
+
+export const getPostByPage = createAsyncThunk(
+  "post/fetchPost",
+  async (dataParams: IParamPost, { dispatch }) => {
+    dispatch(startLoading());
+    try {
+      const { page, priceCode, areaCode } = dataParams;
+      console.log(priceCode);
+
+      const { data } = await request.get("api/v1/post/get-all", {
+        params: {
+          page: page,
+          priceCode: priceCode,
+          areaCode: areaCode,
+        },
+      });
+      if (data?.status) {
+        dispatch(postSuccess(data));
+      }
+    } catch (error) {
+      console.log(error);
     } finally {
       dispatch(stopLoading());
     }

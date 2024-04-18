@@ -2,6 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICategory } from "../type";
 
 const initialState = {
+  posts: null,
+  totalPages: 0,
+  page: 1,
   categories: null,
   prices: null,
   acreages: null,
@@ -11,6 +14,13 @@ const apiSlice = createSlice({
   name: "apiRedux",
   initialState: initialState,
   reducers: {
+    postSuccess: (state, action: PayloadAction<ICategory[] | any>) => {
+      state.posts = action.payload.posts;
+      state.totalPages = action.payload.totalPages;
+    },
+    pageSuccess: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
     categorySuccess: (state, action: PayloadAction<ICategory[] | any>) => {
       state.categories = action.payload.categories;
     },
@@ -23,6 +33,11 @@ const apiSlice = createSlice({
   },
 });
 
-export const { categorySuccess, priceSuccess, acreageSuccess } =
-  apiSlice.actions;
+export const {
+  postSuccess,
+  categorySuccess,
+  priceSuccess,
+  acreageSuccess,
+  pageSuccess,
+} = apiSlice.actions;
 export default apiSlice.reducer;
