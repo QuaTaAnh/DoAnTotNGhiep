@@ -43,8 +43,15 @@ const ListItem: React.FC = () => {
   };
 
   return (
-    <Box sx={{ border: "1px solid #ccc", width: "100%", borderRadius: "8px" }}>
-      <Grid container sx={{ padding: "12px" }}>
+    <Box
+      sx={{
+        width: "100%",
+        borderRadius: "8px",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.3)",
+        padding: "12px",
+      }}
+    >
+      <Grid container>
         <Grid item md={12}>
           <Typography sx={{ fontSize: "18px", fontWeight: 700 }}>
             Danh sách tin đăng

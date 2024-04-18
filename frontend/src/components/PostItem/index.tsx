@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import DN from "../../assets/images/dn.jpg";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { IPost } from "../../type";
@@ -92,7 +91,7 @@ const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
               <Box sx={{ width: "26px", height: "26px", marginRight: "6px" }}>
                 <Avatar
                   alt="Logo"
-                  src={DN}
+                  src={user?.avatar}
                   sx={{ width: "100%", height: "100%" }}
                 />
               </Box>

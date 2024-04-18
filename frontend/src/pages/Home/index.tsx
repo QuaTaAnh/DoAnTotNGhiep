@@ -3,6 +3,7 @@ import Filter from "../../components/Filter";
 import { LOCATION, TEXT_TITLE } from "../../constants";
 import LocationButton from "../../components/LocationButton";
 import ListItem from "../../components/List";
+import Sidebar from "../../components/Sidebar";
 
 const Home: React.FC = () => {
   return (
@@ -38,7 +39,7 @@ const Home: React.FC = () => {
             <ListItem />
           </Grid>
           <Grid item xs={0} md={4}>
-            Nav
+            <Sidebar />
           </Grid>
         </Grid>
       </Box>

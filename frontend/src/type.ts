@@ -29,6 +29,16 @@ export interface IAttribute {
   published?: string;
 }
 
+export interface ICategory {
+  id?: string | number;
+  code?: string;
+  value?: string;
+  header: string;
+  subheader?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface IPost {
   id?: string;
   user?: IUser;

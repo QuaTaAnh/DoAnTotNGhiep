@@ -2,11 +2,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import loadingRedux from "./loadingRedux";
 import snackbarRedux from "./snackbarRedux";
 import userRedux from "./userRedux";
+import apiRedux from "./apiRedux";
 
 const rootReducer = combineReducers({
   snackbar: snackbarRedux,
   loading: loadingRedux,
   user: userRedux,
+  api: apiRedux,
 });
 
 export const store = configureStore({
