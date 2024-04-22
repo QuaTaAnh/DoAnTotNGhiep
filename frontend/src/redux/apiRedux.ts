@@ -18,6 +18,10 @@ const apiSlice = createSlice({
       state.posts = action.payload.posts;
       state.totalPages = action.payload.totalPages;
     },
+    newPostSuccess: (state, action: PayloadAction<ICategory[] | any>) => {
+      state.posts = action.payload.posts;
+      state.totalPages = action.payload.totalPages;
+    },
     pageSuccess: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
@@ -35,6 +39,7 @@ const apiSlice = createSlice({
 
 export const {
   postSuccess,
+  newPostSuccess,
   categorySuccess,
   priceSuccess,
   acreageSuccess,

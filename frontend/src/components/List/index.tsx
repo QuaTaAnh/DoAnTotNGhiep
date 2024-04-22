@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import PostItem from "../PostItem";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { getPostByPage } from "../../redux/callApi";
+import { getNewPostByPage, getPostByPage } from "../../redux/callApi";
 import { IPost } from "../../type";
 import { pageSuccess } from "../../redux/apiRedux";
 
@@ -22,11 +22,15 @@ const ListItem: React.FC = () => {
     dispatch(pageSuccess(pageNumber));
   };
 
+  const handleNewPost = () => {
+    dispatch(getNewPostByPage({ page: page }));
+  };
+
   return (
     <Box
       sx={{
         width: "100%",
-        borderRadius: "8px",
+        borderRadius: "4px",
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.3)",
         padding: "12px",
       }}
@@ -79,6 +83,7 @@ const ListItem: React.FC = () => {
                 backgroundColor: "#ed570e",
               },
             }}
+            onClick={handleNewPost}
           >
             Mới nhất
           </Button>
