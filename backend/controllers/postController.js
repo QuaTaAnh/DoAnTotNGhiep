@@ -20,11 +20,7 @@ export const getPostController = async (req, res) =>{
 
 export const getNewPostController = async (req, res) =>{
     try {
-        const page = req.query.page ? parseInt(req.query.page) : 1;
-        const pageSize = 10
-        const priceCode = req.query.priceCode
-        const areaCode = req.query.areaCode
-       const post = await getNewPostService(page, pageSize, priceCode, areaCode)
+       const post = await getNewPostService()
        return res.status(200).json(post)
     } catch (error) {
         console.log(error)

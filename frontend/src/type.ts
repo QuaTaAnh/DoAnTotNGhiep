@@ -43,9 +43,10 @@ export interface IPost {
   id?: string;
   user?: IUser;
   title?: string;
-  attributes: IAttribute;
+  attributes?: IAttribute;
   description?: string;
   address?: string;
   star?: string;
   images?: any;
+  createdAt?: string;
 }

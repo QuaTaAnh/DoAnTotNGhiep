@@ -4,6 +4,7 @@ import { LOCATION, TEXT_INFO, TEXT_TITLE } from "../../constants";
 import LocationButton from "../../components/LocationButton";
 import ListItem from "../../components/List";
 import Sidebar from "../../components/Sidebar";
+import RelatedPost from "../../components/RelatedPost";
 
 const Home: React.FC = () => {
   return (
@@ -40,6 +41,7 @@ const Home: React.FC = () => {
           </Grid>
           <Grid item xs={0} md={4}>
             <Sidebar />
+            <RelatedPost />
           </Grid>
         </Grid>
 
