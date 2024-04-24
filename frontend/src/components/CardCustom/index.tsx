@@ -3,8 +3,9 @@ import React from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch, RootState } from "../../redux/store";
 import { getPostByPage } from "../../redux/callApi";
+import { formatToString } from "../../common";
 
 interface ICardCustom {
   title: string;
@@ -20,7 +21,7 @@ const CardCustom: React.FC<ICardCustom> = ({
   type,
 }: ICardCustom) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { page } = useSelector((state: any) => state.api);
+  const { page } = useSelector((state: RootState) => state.api);
 
   const handleFilter = (code: string) => {
     dispatch(
@@ -68,9 +69,12 @@ const CardCustom: React.FC<ICardCustom> = ({
         ))}
       {category &&
         category?.map((item) => (
-          <Link to={""} style={{ textDecoration: "none", color: "#000" }}>
+          <Link
+            key={item?.id}
+            to={`${formatToString(item.value)}`}
+            style={{ textDecoration: "none", color: "#000" }}
+          >
             <Box
-              key={item?.id}
               sx={{
                 display: "flex",
                 alignItems: "center",

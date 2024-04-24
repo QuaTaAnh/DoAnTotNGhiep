@@ -76,12 +76,7 @@ const Filter: React.FC = () => {
 
   return (
     <>
-      <Grid
-        container
-        spacing={2}
-        alignItems="center"
-        justifyContent="flex-start"
-      >
+      <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item sx={{ display: "flex", justifyContent: "flex-start" }}>
           <Button
             fullWidth
