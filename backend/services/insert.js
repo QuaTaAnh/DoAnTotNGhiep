@@ -9,19 +9,48 @@ import generateCode from '../utils/generateCode.js'
 import { dataPrice, dataArea } from '../utils/data'
 import { getNumberFromString } from '../utils/common'
 
-const dataBody = chothuecanho.body
+const dataBody = [
+    {
+        body: chothuephongtro.body,
+        code: 'CTPT'
+    },
+    {
+        body: chothuematbang.body,
+        code: 'CTMB'
+    },
+    {
+        body: chothuecanho.body,
+        code: 'CTCH'
+    },
+    {
+        body: nhachothue.body,
+        code: 'NCT'
+    },
+]
 
 export const insertService = () => new Promise(async (resolve, reject) => {
     try {
-        dataBody.forEach(async (item) =>{
+        const provinceCodes = []
+        const labelCodes = []
+        dataBody.forEach(category => {
+            category.body.forEach(async (item) =>{
             let postId = v4()
-            let labelCode = generateCode(item?.header?.class?.classType)
+            let labelCode = generateCode(item?.header?.class?.classType).trim()
+                labelCodes?.every(item => item?.code !== labelCode) && labelCodes.push({
+                    code: labelCode,
+                    value: item?.header?.class?.classType?.trim()
+                })
             let attributesId = v4()
             let userId = v4()
             let overviewId = v4()
             let imagesId = v4()
             let currentArea = getNumberFromString(item?.header?.attributes?.acreage)
             let currentPrice = getNumberFromString(item?.header?.attributes?.price)
+            let provinceCode = generateCode(item?.header?.address?.split(',').slice(-1)[0]).trim()
+            provinceCodes?.every(item => item?.code !== provinceCode) && provinceCodes.push({
+                code: provinceCode,
+                value: item?.header?.address?.split(',').slice(-1)[0].trim()
+            })
             await db.Post.create({
                 id: postId,
                 title: item?.header?.title,
@@ -29,13 +58,14 @@ export const insertService = () => new Promise(async (resolve, reject) => {
                 labelCode,
                 address: item?.header?.address,
                 attributesId,
-                categoryCode: 'CTCH',
+                categoryCode: category.code,
                 description: JSON.stringify(item?.mainContent?.content),
                 userId,
                 overviewId,
                 imagesId, 
                 areaCode: dataArea.find(area => area.max > currentArea && area.min <= currentArea)?.code,
                 priceCode: dataPrice.find(area => area.max > currentPrice && area.min <= currentPrice)?.code,
+                provinceCode
             })
 
             await db.Attribute.create({
@@ -49,14 +79,6 @@ export const insertService = () => new Promise(async (resolve, reject) => {
             await db.Image.create({
                 id: imagesId,
                 image: JSON.stringify(item?.images)
-            })
-
-            await db.Label.findOrCreate({
-                where: {code: labelCode},
-                defaults: {
-                    code: labelCode,
-                    value: item?.header?.class?.classType
-                }
             })
 
             await db.Overview.create({
@@ -80,6 +102,14 @@ export const insertService = () => new Promise(async (resolve, reject) => {
                 zalo: item?.contact?.content.find(i => i.name ===  "Zalo")?.content,
                 avatar: null
             })
+        })
+        })
+
+        provinceCodes?.forEach(async (item) => {
+            await db.Province.create(item)
+        })
+        labelCodes?.forEach(async (item) => {
+            await db.Label.create(item)
         })
         resolve('Thành công')
     } catch (error) {
