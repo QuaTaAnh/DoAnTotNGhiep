@@ -9,7 +9,7 @@ import generateCode from '../utils/generateCode.js'
 import { dataPrice, dataArea } from '../utils/data'
 import { getNumberFromString } from '../utils/common'
 
-const dataBody = nhachothue.body
+const dataBody = chothuecanho.body
 
 export const insertService = () => new Promise(async (resolve, reject) => {
     try {
@@ -29,7 +29,7 @@ export const insertService = () => new Promise(async (resolve, reject) => {
                 labelCode,
                 address: item?.header?.address,
                 attributesId,
-                categoryCode: 'NCT',
+                categoryCode: 'CTCH',
                 description: JSON.stringify(item?.mainContent?.content),
                 userId,
                 overviewId,

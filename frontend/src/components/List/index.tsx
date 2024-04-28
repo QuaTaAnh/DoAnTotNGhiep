@@ -2,28 +2,34 @@ import { Box, Button, Grid, Pagination, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import PostItem from "../PostItem";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { getNewPostByPage, getPostByPage } from "../../redux/callApi";
+import { AppDispatch, RootState } from "../../redux/store";
+import { getPostByPage } from "../../redux/callApi";
 import { IPost } from "../../type";
 import { pageSuccess } from "../../redux/apiRedux";
 
-const ListItem: React.FC = () => {
+interface ListItemProp {
+  category?: string;
+}
+
+const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { posts, totalPages, page } = useSelector((state: any) => state.api);
+  const { posts, totalPages, page } = useSelector(
+    (state: RootState) => state.api
+  );
 
   useEffect(() => {
-    dispatch(getPostByPage({ page: page }));
-  }, [dispatch, page]);
+    if (category) {
+      dispatch(getPostByPage({ categoryCode: category, page: page }));
+    } else {
+      dispatch(getPostByPage({ page: page }));
+    }
+  }, [category, dispatch, page]);
 
   const onChangePage = (
     event: React.ChangeEvent<unknown>,
     pageNumber: number
   ) => {
     dispatch(pageSuccess(pageNumber));
-  };
-
-  const handleNewPost = () => {
-    dispatch(getNewPostByPage({ page: page }));
   };
 
   return (
@@ -83,17 +89,14 @@ const ListItem: React.FC = () => {
                 backgroundColor: "#ed570e",
               },
             }}
-            onClick={handleNewPost}
           >
             Mới nhất
           </Button>
         </Grid>
 
         <Grid item md={12} sx={{ marginTop: "12px" }}>
-          {posts?.length > 0 &&
-            posts?.map((post: IPost) => (
-              <PostItem key={post?.id} data={post} />
-            ))}
+          {posts.length > 0 &&
+            posts.map((post: IPost) => <PostItem key={post?.id} data={post} />)}
         </Grid>
       </Grid>
       <Grid container justifyContent="center" sx={{ margin: "20px 0" }}>

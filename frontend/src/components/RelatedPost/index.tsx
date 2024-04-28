@@ -11,8 +11,6 @@ const RelatedPost: React.FC = () => {
   const dispatch = useDispatch();
   const [newPosts, setNewPosts] = useState<IPost[]>([]);
 
-  console.log(newPosts[0]?.attributes?.price);
-
   const getNewPost = async () => {
     try {
       dispatch(startLoading());

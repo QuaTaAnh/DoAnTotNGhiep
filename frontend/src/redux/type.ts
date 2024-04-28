@@ -9,4 +9,5 @@ export interface IParamPost {
   page?: number;
   priceCode?: string;
   areaCode?: string;
+  categoryCode?: string;
 }

@@ -1,7 +1,7 @@
 import db from '../models/index.js'
 import { Op } from 'sequelize';
 
-export const getPostService = async (page, pageSize, priceCode, areaCode) => {
+export const getPostService = async (page, pageSize, priceCode, areaCode, categoryCode) => {
     try {
         const offset = (page - 1) * pageSize;
         const valueFilter = [];
@@ -11,6 +11,10 @@ export const getPostService = async (page, pageSize, priceCode, areaCode) => {
 
         if (areaCode) {
             valueFilter.push({ areaCode });
+        }
+        
+        if (categoryCode) {
+            valueFilter.push({ categoryCode });
         }
         const posts = await db.Post.findAll({
             where: {

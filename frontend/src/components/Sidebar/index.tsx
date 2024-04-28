@@ -2,17 +2,14 @@ import { Grid } from "@mui/material";
 import React, { useEffect } from "react";
 import CardCustom from "../CardCustom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAcreage, getCategory, getPrice } from "../../redux/callApi";
+import { getAcreage, getPrice } from "../../redux/callApi";
 import { AppDispatch } from "../../redux/store";
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { categories, prices, acreages } = useSelector(
-    (state: any) => state.api
-  );
+  const { prices, acreages } = useSelector((state: any) => state.api);
 
   useEffect(() => {
-    dispatch(getCategory());
     dispatch(getPrice());
     dispatch(getAcreage());
   }, [dispatch]);
@@ -30,7 +27,6 @@ const Sidebar: React.FC = () => {
         }}
         md={12}
       >
-        <CardCustom title="Danh mục cho thuê" category={categories} />
         <CardCustom
           title="Lọc theo khoảng giá"
           content={prices}

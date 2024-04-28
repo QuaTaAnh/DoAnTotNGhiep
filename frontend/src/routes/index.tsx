@@ -2,8 +2,8 @@ import { routes } from "../config/routes";
 import HomeRentLayout from "../layouts/HomeRentLayout";
 import OnlyHeader from "../layouts/OnlyHeader";
 import Home from "../pages/Home";
-import SharedRent from "../pages/SharedRent";
 import Test from "../pages/Test";
+import Rent from "../pages/Rent";
 
 export const publicRoutes = [
   { path: routes.test, component: Test, layout: null },
@@ -16,25 +16,25 @@ export const publicRoutes = [
   },
   {
     path: routes.apartmentRent,
-    component: Home,
+    component: Rent,
     navigate: routes.login,
     layout: HomeRentLayout,
   },
   {
     path: routes.groundRent,
-    component: SharedRent,
+    component: Rent,
     navigate: routes.login,
     layout: HomeRentLayout,
   },
   {
     path: routes.motelRoomRent,
-    component: SharedRent,
+    component: Rent,
     navigate: routes.login,
     layout: HomeRentLayout,
   },
   {
     path: routes.houseRent,
-    component: SharedRent,
+    component: Rent,
     navigate: routes.login,
     layout: HomeRentLayout,
   },

@@ -83,36 +83,13 @@ export const getPostByPage = createAsyncThunk(
   async (dataParams: IParamPost, { dispatch }) => {
     dispatch(startLoading());
     try {
-      const { page, priceCode, areaCode } = dataParams;
+      const { page, priceCode, areaCode, categoryCode } = dataParams;
       const { data } = await request.get("api/v1/post/get-all", {
         params: {
           page: page,
           priceCode: priceCode,
           areaCode: areaCode,
-        },
-      });
-      if (data?.status) {
-        dispatch(postSuccess(data));
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(stopLoading());
-    }
-  }
-);
-
-export const getNewPostByPage = createAsyncThunk(
-  "newPost/fetchNewPost",
-  async (dataParams: IParamPost, { dispatch }) => {
-    dispatch(startLoading());
-    try {
-      const { page, priceCode, areaCode } = dataParams;
-      const { data } = await request.get("api/v1/post/get-new-all", {
-        params: {
-          page: page,
-          priceCode: priceCode,
-          areaCode: areaCode,
+          categoryCode: categoryCode,
         },
       });
       if (data?.status) {
