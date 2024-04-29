@@ -4,6 +4,7 @@ import OnlyHeader from "../layouts/OnlyHeader";
 import Home from "../pages/Home";
 import Test from "../pages/Test";
 import Rent from "../pages/Rent";
+import SearchPage from "../pages/SearchPage";
 
 export const publicRoutes = [
   { path: routes.test, component: Test, layout: null },
@@ -37,5 +38,10 @@ export const publicRoutes = [
     component: Rent,
     navigate: routes.login,
     layout: HomeRentLayout,
+  },
+  {
+    path: routes.search,
+    component: SearchPage,
+    navigate: routes.login,
   },
 ];

@@ -7,4 +7,5 @@ export const routes = {
   groundRent: "/cho-thue-mat-bang",
   motelRoomRent: "/cho-thue-phong-tro",
   houseRent: "/nha-cho-thue",
+  search: "/search/:params",
 };
