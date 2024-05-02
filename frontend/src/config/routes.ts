@@ -8,4 +8,6 @@ export const routes = {
   motelRoomRent: "/cho-thue-phong-tro",
   houseRent: "/nha-cho-thue",
   search: "/search/:params",
+  profile: "/profile",
+  editProfile: "/edit-profile",
 };

@@ -1,5 +1,5 @@
 import { Box, Grid } from "@mui/material";
-import ListItem from "../../components/List";
+import ListItem from "../../components/ListItem";
 import Sidebar from "../../components/Sidebar";
 import RelatedPost from "../../components/RelatedPost";
 

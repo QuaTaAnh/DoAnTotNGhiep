@@ -5,6 +5,8 @@ import Home from "../pages/Home";
 import Test from "../pages/Test";
 import Rent from "../pages/Rent";
 import SearchPage from "../pages/SearchPage";
+import Profile from "../pages/Profile";
+import EditProfile from "../pages/EditProfile";
 
 export const publicRoutes = [
   { path: routes.test, component: Test, layout: null },
@@ -43,5 +45,17 @@ export const publicRoutes = [
     path: routes.search,
     component: SearchPage,
     navigate: routes.login,
+  },
+  {
+    path: routes.profile,
+    component: Profile,
+    navigate: routes.login,
+    layout: OnlyHeader,
+  },
+  {
+    path: routes.editProfile,
+    component: EditProfile,
+    navigate: routes.login,
+    layout: OnlyHeader,
   },
 ];

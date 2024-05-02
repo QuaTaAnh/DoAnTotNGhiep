@@ -38,7 +38,6 @@ export const getPostSearchController = async (req, res) =>{
         const page = req.query.page ? parseInt(req.query.page) : 1;
         const pageSize =  req.query.pageSize ? parseInt(req.query.pageSize) : 10
         const { keyword } = req.params;
-        console.log(keyword, page, pageSize);
        const post = await getPostSearchService(page, pageSize, keyword)
        return res.status(200).json(post)
     } catch (error) {

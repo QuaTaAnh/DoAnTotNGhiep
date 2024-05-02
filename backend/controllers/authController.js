@@ -54,7 +54,7 @@ export const getProfileController = async (req, res) => {
         const user = await getProfileService(id)
         return res.status(200).json(user)
     } catch (error) {
-        console.log(error)
+        console.log(error) 
         res.status(500).send({
             status: false, 
             message: 'Có lỗi xảy ra!', 

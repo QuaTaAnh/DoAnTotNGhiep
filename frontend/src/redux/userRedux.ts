@@ -20,7 +20,7 @@ const userSlice = createSlice({
       localStorage.setItem("access_token", action.payload.token);
     },
     profileSuccess: (state, action: PayloadAction<any>) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
     },
     loginEnd: (state) => {
       state.access_token = "";

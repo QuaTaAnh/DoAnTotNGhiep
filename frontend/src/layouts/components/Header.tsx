@@ -18,6 +18,9 @@ import Logo from "../../assets/images/logo.png";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import AddIcon from "@mui/icons-material/Add";
+import WidgetsIcon from "@mui/icons-material/Widgets";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -27,16 +30,35 @@ import { logout as logoutFunction } from "../../utils/auth";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import { routes } from "../../config/routes";
 import SearchInput from "../../components/SearchInput";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SETTINGS = [
   {
     id: 1,
-    icon: <PersonIcon fontSize="small" />,
-    title: "Thông tin cá nhân",
+    icon: <AddIcon fontSize="small" />,
+    title: "Đăng tin cho thuê",
+    navigate: "/story",
   },
   {
     id: 2,
+    icon: <WidgetsIcon fontSize="small" />,
+    title: "Quản lý tin đăng",
+    navigate: "/story2",
+  },
+  {
+    id: 3,
+    icon: <FavoriteIcon fontSize="small" />,
+    title: "Tin đã lưu",
+    navigate: "/stor3",
+  },
+  {
+    id: 4,
+    icon: <PersonIcon fontSize="small" />,
+    title: "Thông tin cá nhân",
+    navigate: "/profile",
+  },
+  {
+    id: 5,
     icon: <LogoutIcon fontSize="small" />,
     title: "Đăng xuất",
   },
@@ -44,7 +66,6 @@ const SETTINGS = [
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState<null | HTMLElement>(null);
 
   const { user } = useSelector((state: RootState) => state.user);
@@ -69,10 +90,6 @@ const Header: React.FC = () => {
       console.log(error);
       dispatch(showSnackbar({ message: "Đã xảy ra lỗi", type: "error" }));
     }
-  };
-
-  const handleOpenProfile = () => {
-    navigate(`/profile`);
   };
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -191,21 +208,42 @@ const Header: React.FC = () => {
                 open={Boolean(openMenu)}
                 onClose={handleCloseUserMenu}
               >
-                {SETTINGS.map((setting, index) => (
-                  <MenuItem
-                    key={index}
-                    onClick={() => {
-                      handleCloseUserMenu();
-                      setting.id === 2 && handleLogout();
-                      setting.id === 1 && handleOpenProfile();
-                    }}
-                  >
-                    {setting.icon}
-                    <Typography textAlign="center" fontSize={14}>
-                      {setting.title}
-                    </Typography>
-                  </MenuItem>
-                ))}
+                {SETTINGS.map((setting) =>
+                  setting.navigate ? (
+                    <Link
+                      to={setting.navigate}
+                      style={{ textDecoration: "none", color: "#000" }}
+                    >
+                      <MenuItem key={setting.id}>
+                        {setting.icon}
+                        <Typography
+                          textAlign="center"
+                          fontSize={14}
+                          marginLeft={"10px"}
+                        >
+                          {setting.title}
+                        </Typography>
+                      </MenuItem>
+                    </Link>
+                  ) : (
+                    <MenuItem
+                      key={setting.id}
+                      onClick={() => {
+                        handleCloseUserMenu();
+                        setting.id === 5 && handleLogout();
+                      }}
+                    >
+                      {setting.icon}
+                      <Typography
+                        textAlign="center"
+                        fontSize={14}
+                        marginLeft={"10px"}
+                      >
+                        {setting.title}
+                      </Typography>
+                    </MenuItem>
+                  )
+                )}
               </Menu>
               <Tooltip title="Đăng tin">
                 <Button
