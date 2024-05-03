@@ -6,6 +6,7 @@ import { Container, Grid } from "@mui/material";
 import styled from "@emotion/styled";
 import Loading from "../components/Loading";
 import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 // eslint-disable-next-line no-empty-pattern
 const MainStyle = styled("div")(({}) => ({
@@ -26,7 +27,7 @@ const FooterStyle = styled("div")(({}) => ({
 }));
 
 const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
-  const loading = useSelector((state: boolean | any) => state.loading);
+  const loading = useSelector((state: RootState) => state.loading);
 
   return (
     <MainStyle>

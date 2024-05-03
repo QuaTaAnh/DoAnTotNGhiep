@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import Filter from "../components/Filter";
 import { LOCATION, TEXT_INFO, TEXT_TITLE } from "../constants";
 import LocationButton from "../components/LocationButton";
+import { RootState } from "../redux/store";
 
 // eslint-disable-next-line no-empty-pattern
 const MainStyle = styled("div")(({}) => ({
@@ -29,7 +30,7 @@ const FooterStyle = styled("div")(({}) => ({
 }));
 
 const HomeRentLayout: React.FC<ILayout> = ({ children }: ILayout) => {
-  const loading = useSelector((state: boolean | any) => state.loading);
+  const loading = useSelector((state: RootState) => state.loading);
 
   return (
     <MainStyle>

@@ -7,6 +7,11 @@ export interface IUser {
   avatar?: string;
 }
 
+export interface UpdateProfileForm extends IUser {
+  newPassword: string;
+  oldPassword: string;
+}
+
 export interface IUserProps {
   user: IUser;
   token: string;

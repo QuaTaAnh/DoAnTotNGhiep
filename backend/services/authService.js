@@ -2,6 +2,7 @@ import db from '../models/index.js'
 import jwt from 'jsonwebtoken'
 import { v4 } from 'uuid'
 import { comparePassword, hashPassword } from '../helpers/authHelper.js'
+import cloudinary from "../config/cloudinary.js";
 
 export const registerService = async ({ phone, password, name }) => {
     try {
@@ -44,7 +45,7 @@ export const loginService = async ({ phone, password }) => {
             message: 'Sai mật khẩu!'
         }
       }
-      const token =  await jwt.sign({id: user.id, phone: user.phone}, process.env.SECRET_KEY, {expiresIn: '1h'}) 
+      const token =  await jwt.sign({id: user.id, phone: user.phone}, process.env.SECRET_KEY, {expiresIn: '1d'}) 
       return {
         status: true,
         message: 'Đăng nhập thành công!', 
@@ -57,13 +58,17 @@ export const loginService = async ({ phone, password }) => {
 
 export const getProfileService = async (id ) => {
     try {
-        const user = await db.User.findOne({
+        let user = await db.User.findOne({
             where: { id },
             raw: true,
             attributes: {
                 exclude: ['password']
             }
         })
+        if(user.avatar){
+            const result = await cloudinary.api.resource(user.avatar);
+            user.avatar = result?.url;
+        }
         return {
             status: true,
             message: 'Lấy thông tin người dùng thành công!', 
@@ -72,4 +77,4 @@ export const getProfileService = async (id ) => {
     } catch (error) {
         console.log(error);
     }
-  }
+}

@@ -9,23 +9,22 @@ import {
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import NoImage from "../../assets/images/noImage.jpg";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { AppDispatch, RootState } from "../../redux/store";
-import request from "../../utils/request";
 import { showSnackbar } from "../../redux/snackbarRedux";
-import { startLoading, stopLoading } from "../../redux/loadingRedux";
-import { useNavigate, useParams } from "react-router";
-import { IUser } from "../../type";
+import { useNavigate } from "react-router";
+import { UpdateProfileForm } from "../../type";
+import { editProfile as editProfileFunction } from "../../utils/auth";
+import { getProfile } from "../../redux/callApi";
 
 const EditProfile: React.FC = () => {
-  const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [imageUrl, setImageUrl] = useState<File | Blob | string | null>(null);
+  const [avatar, setAvatar] = useState<File | Blob | string | null | any>("");
   const [image, setImage] = useState<string>("");
   const { user } = useSelector((state: RootState) => state.user);
-
   const [formChanged, setFormChanged] = useState<boolean>(false);
+  const [avartarChanged, setAvartarChanged] = useState<boolean>(false);
 
   const handleInputChange = () => {
     setFormChanged(true);
@@ -46,14 +45,51 @@ const EditProfile: React.FC = () => {
   }, [setValue, user]);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAvartarChanged(true);
     setFormChanged(true);
     const selectedImage = event.target.files && event.target.files[0];
     setImage(URL.createObjectURL(selectedImage as Blob));
-    setImageUrl(selectedImage);
+    setFileToBase(selectedImage);
   };
 
-  const onSubmit = (data: IUser, id: number) => {
-    const form = new FormData();
+  const setFileToBase = (file: any) => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setAvatar(reader.result as any);
+      };
+    } else {
+      setAvatar("");
+    }
+  };
+
+  const onSubmit = (data: UpdateProfileForm) => {
+    let params = { ...data };
+    if (avartarChanged) {
+      params = { ...data, avatar };
+    }
+    try {
+      editProfileFunction(dispatch, params).then((res: any) => {
+        if (res.data.status === true) {
+          dispatch(
+            showSnackbar({ message: res.data.message, type: "success" })
+          );
+          dispatch(getProfile());
+          navigate("/profile");
+        } else {
+          dispatch(
+            showSnackbar({
+              message: res.data.message,
+              type: "error",
+            })
+          );
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch(showSnackbar({ message: "Đã có lỗi xảy ra!", type: "error" }));
+    }
   };
 
   return (
@@ -62,7 +98,7 @@ const EditProfile: React.FC = () => {
         <Typography variant="h5" align="center" marginBottom={4}>
           Cập nhật thông tin cá nhân
         </Typography>
-        <form onSubmit={handleSubmit((data) => onSubmit(data, id as any))}>
+        <form onSubmit={handleSubmit((data) => onSubmit(data as any))}>
           <Box
             sx={{
               marginBottom: "20px",
@@ -138,7 +174,7 @@ const EditProfile: React.FC = () => {
             size="small"
             fullWidth
             margin="normal"
-            {...register("phone", {
+            {...register("zalo", {
               required: "This field is required!",
             })}
             error={!!errors.zalo}
