@@ -37,7 +37,7 @@ const SETTINGS = [
     id: 1,
     icon: <AddIcon fontSize="small" />,
     title: "Đăng tin cho thuê",
-    navigate: "/story",
+    navigate: routes.createPost,
   },
   {
     id: 2,
@@ -55,7 +55,7 @@ const SETTINGS = [
     id: 4,
     icon: <PersonIcon fontSize="small" />,
     title: "Thông tin cá nhân",
-    navigate: "/profile",
+    navigate: routes.profile,
   },
   {
     id: 5,

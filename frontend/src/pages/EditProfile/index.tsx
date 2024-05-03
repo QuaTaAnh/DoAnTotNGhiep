@@ -95,7 +95,7 @@ const EditProfile: React.FC = () => {
   return (
     <>
       <Container maxWidth="xs">
-        <Typography variant="h5" align="center" marginBottom={4}>
+        <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
           Cập nhật thông tin cá nhân
         </Typography>
         <form onSubmit={handleSubmit((data) => onSubmit(data as any))}>

@@ -10,4 +10,5 @@ export const routes = {
   search: "/search/:params",
   profile: "/profile",
   editProfile: "/edit-profile",
+  createPost: "/create-post",
 };

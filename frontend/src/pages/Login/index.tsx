@@ -19,10 +19,11 @@ import { showSnackbar } from "../../redux/snackbarRedux";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { RootState } from "../../redux/store";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
-  const loading = useSelector((state: boolean | any) => state.loading);
+  const loading = useSelector((state: RootState) => state.loading);
   const [showPass, setShowPass] = useState<boolean>(false);
   const {
     register,

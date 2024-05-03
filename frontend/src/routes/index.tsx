@@ -7,6 +7,7 @@ import Rent from "../pages/Rent";
 import SearchPage from "../pages/SearchPage";
 import Profile from "../pages/Profile";
 import EditProfile from "../pages/EditProfile";
+import CreatePost from "../pages/CreatePost";
 
 export const publicRoutes = [
   { path: routes.test, component: Test, layout: null },
@@ -55,6 +56,12 @@ export const publicRoutes = [
   {
     path: routes.editProfile,
     component: EditProfile,
+    navigate: routes.login,
+    layout: OnlyHeader,
+  },
+  {
+    path: routes.createPost,
+    component: CreatePost,
     navigate: routes.login,
     layout: OnlyHeader,
   },
