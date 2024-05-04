@@ -6,3 +6,7 @@ export const formatToString = (keyword: string) => {
     .split(" ")
     .join("-");
 };
+
+export const formatPrice = (value: number): string => {
+  return value.toLocaleString("vi-VN");
+};

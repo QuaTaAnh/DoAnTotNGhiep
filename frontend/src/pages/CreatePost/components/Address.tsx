@@ -1,10 +1,10 @@
 import { Grid, MenuItem, Select, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { CreatePostForm } from "../../../type";
 
 interface AddressFieldsProps {
-  register: any;
-  errors: any;
+  setPayload: any;
 }
 
 interface Province {
@@ -28,8 +28,7 @@ interface Ward {
 }
 
 const Address: React.FC<AddressFieldsProps> = ({
-  register,
-  errors,
+  setPayload,
 }: AddressFieldsProps) => {
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [province, setProvince] = useState<string>("");
@@ -37,6 +36,21 @@ const Address: React.FC<AddressFieldsProps> = ({
   const [district, setDistrict] = useState<string>("");
   const [wards, setWards] = useState<Ward[]>([]);
   const [ward, setWard] = useState<string>("");
+
+  const address: string = `${
+    ward ? `${wards?.find((item) => item.ward_id === ward)?.ward_name},` : ""
+  } ${
+    district
+      ? `${
+          districts?.find((item) => item.district_id === district)
+            ?.district_name
+        },`
+      : ""
+  } ${
+    province
+      ? provinces?.find((item) => item.province_id === province)?.province_name
+      : ""
+  }`;
 
   useEffect(() => {
     const getProvince = async () => {
@@ -75,6 +89,17 @@ const Address: React.FC<AddressFieldsProps> = ({
     district && getWard();
     !district && setWards([]);
   }, [district]);
+
+  useEffect(() => {
+    setPayload((prev: CreatePostForm) => ({
+      ...prev,
+      address: address,
+      province: province
+        ? provinces?.find((item) => item.province_id === province)
+            ?.province_name
+        : "",
+    }));
+  }, [province, district, ward]);
 
   return (
     <>
@@ -130,34 +155,20 @@ const Address: React.FC<AddressFieldsProps> = ({
         size="small"
         fullWidth
         margin="normal"
-        {...register("phone", {
-          required: "This field is required!",
-        })}
-        error={!!errors.phone}
-        helperText={errors.phone?.message as any}
+        onChange={(e) => {
+          const newApartmentNumber = e.target.value;
+          setPayload((prev: CreatePostForm) => ({
+            ...prev,
+            address: `${newApartmentNumber}, ${address}`,
+          }));
+        }}
       />
       <label htmlFor="">Địa chỉ chính xác</label>
       <TextField
         size="small"
         fullWidth
         margin="normal"
-        value={`${
-          ward
-            ? `${wards?.find((item) => item.ward_id === ward)?.ward_name},`
-            : ""
-        } ${
-          district
-            ? `${
-                districts?.find((item) => item.district_id === district)
-                  ?.district_name
-              },`
-            : ""
-        } ${
-          province
-            ? provinces?.find((item) => item.province_id === province)
-                ?.province_name
-            : ""
-        }`}
+        value={address}
         InputProps={{
           readOnly: true,
           sx: {

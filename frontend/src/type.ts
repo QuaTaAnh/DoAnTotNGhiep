@@ -55,3 +55,22 @@ export interface IPost {
   images?: any;
   createdAt?: string;
 }
+
+export interface CreatePostForm {
+  categoryCode: string;
+  title: string;
+  priceNumber: number;
+  areaNumber: number;
+  images: string;
+  address: string;
+  priceCode: string;
+  areaCode: string;
+  description: string;
+  target: string;
+  province: string;
+}
+
+export interface TypeDefault {
+  code: string;
+  value: string;
+}

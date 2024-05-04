@@ -5,7 +5,7 @@ const initialState = {
   posts: [],
   totalPages: 0,
   page: 1,
-  categories: null,
+  categories: [],
   prices: null,
   acreages: null,
 };
