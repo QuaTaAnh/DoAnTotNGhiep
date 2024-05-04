@@ -67,3 +67,9 @@ export const TEXT_INFO = {
     },
   ],
 };
+
+export const TARGETS = [
+  { code: "Nam", value: "Nam" },
+  { code: "Nữ", value: "Nữ" },
+  { code: "Tất cả", value: "Tất cả" },
+];

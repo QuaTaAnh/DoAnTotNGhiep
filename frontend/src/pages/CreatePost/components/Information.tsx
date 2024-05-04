@@ -14,16 +14,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getCategory } from "../../../redux/callApi";
 import { CreatePostForm, ICategory, TypeDefault } from "../../../type";
+import { TARGETS } from "../../../constants";
+import { formatPrice } from "../../../common";
 
 interface AddressFieldsProps {
   payload: CreatePostForm;
   setPayload: any;
 }
-
-const targets = [
-  { code: "Nam", value: "Nam" },
-  { code: "Nữ", value: "Nữ" },
-];
 
 const Information: React.FC<AddressFieldsProps> = ({
   payload,
@@ -151,7 +148,7 @@ const Information: React.FC<AddressFieldsProps> = ({
           size="small"
           fullWidth
           margin="normal"
-          value={payload.priceNumber}
+          value={formatPrice(payload.priceNumber)}
           onChange={(e) => {
             const newValue = e.target.value.replace(/\D/g, "");
             const parsedValue = newValue === "" ? 0 : parseFloat(newValue);
@@ -166,7 +163,7 @@ const Information: React.FC<AddressFieldsProps> = ({
             ),
           }}
           inputProps={{
-            maxLength: 10,
+            maxLength: 15,
           }}
         />
       </Grid>
@@ -209,7 +206,7 @@ const Information: React.FC<AddressFieldsProps> = ({
             }));
           }}
         >
-          {targets.map((tar: TypeDefault) => (
+          {TARGETS.map((tar: TypeDefault) => (
             <MenuItem key={tar.code} value={tar.code}>
               {tar.value}
             </MenuItem>

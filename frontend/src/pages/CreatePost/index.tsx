@@ -6,22 +6,32 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import UploadIcon from "@mui/icons-material/Upload";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Address from "./components/Address";
 import Information from "./components/Information";
 import { CreatePostForm } from "../../type";
+import { getCodeFromArea, getCodeFromPrice } from "../../common/getCodes";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { getAcreage, getPrice } from "../../redux/callApi";
 
 const CreatePost: React.FC = () => {
-  const [images, setImages] = useState<string[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const { prices, acreages } = useSelector((state: RootState) => state.api);
+
+  useEffect(() => {
+    dispatch(getPrice());
+    dispatch(getAcreage());
+  }, [dispatch]);
 
   const [payload, setPayload] = useState<CreatePostForm>({
     categoryCode: "",
     title: "",
     priceNumber: 0,
     areaNumber: 0,
-    images: "",
+    images: [],
     address: "",
     priceCode: "",
     areaCode: "",
@@ -30,22 +40,47 @@ const CreatePost: React.FC = () => {
     province: "",
   });
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const priceCode = getCodeFromPrice(payload.priceNumber, prices);
+    const areaCode = getCodeFromArea(payload.areaNumber, acreages);
+    const resultPayload = {
+      ...payload,
+      priceNumber: payload.priceNumber / Math.pow(10, 6),
+      priceCode,
+      areaCode,
+    };
+    console.log(resultPayload);
+  };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedImages = event.target.files;
     if (selectedImages) {
-      const newUrls = Array.from(selectedImages).map((image) =>
-        URL.createObjectURL(image)
-      );
-      setImages((prevImages) => [...prevImages, ...newUrls]);
+      const filesArray = Array.from(selectedImages);
+      Promise.all(filesArray.map(fileToBase64)).then((base64Array) => {
+        setPayload((prevPayload) => ({
+          ...prevPayload,
+          images: [...prevPayload.images, ...base64Array],
+        }));
+      });
     }
   };
 
   const handleDeleteImage = (index: number) => {
-    const updatedImages = [...images];
+    const updatedImages = [...payload.images];
     updatedImages.splice(index, 1);
-    setImages(updatedImages);
+    setPayload((prev: CreatePostForm) => ({
+      ...prev,
+      images: [...updatedImages],
+    }));
+  };
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
   };
 
   return (
@@ -89,7 +124,7 @@ const CreatePost: React.FC = () => {
         </Box>
       </label>
       <Grid container md={12} spacing={2}>
-        {images.map((image, index) => (
+        {payload.images.map((image, index) => (
           <Grid item md={3}>
             <CardMedia
               key={index}

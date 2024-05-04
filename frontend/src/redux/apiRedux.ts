@@ -6,8 +6,8 @@ const initialState = {
   totalPages: 0,
   page: 1,
   categories: [],
-  prices: null,
-  acreages: null,
+  prices: [],
+  acreages: [],
 };
 
 const apiSlice = createSlice({

@@ -61,7 +61,7 @@ export interface CreatePostForm {
   title: string;
   priceNumber: number;
   areaNumber: number;
-  images: string;
+  images: string[];
   address: string;
   priceCode: string;
   areaCode: string;
@@ -73,4 +73,24 @@ export interface CreatePostForm {
 export interface TypeDefault {
   code: string;
   value: string;
+}
+
+export interface Province {
+  province_id: string;
+  province_name: string;
+  province_type: string;
+}
+
+export interface District {
+  district_id: string;
+  district_name: string;
+  district_type: string;
+  province_id: string;
+}
+
+export interface Ward {
+  district_id: string;
+  ward_id: string;
+  ward_name: string;
+  ward_type: string;
 }

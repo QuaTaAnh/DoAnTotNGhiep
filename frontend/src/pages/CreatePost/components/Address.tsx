@@ -1,30 +1,10 @@
 import { Grid, MenuItem, Select, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { CreatePostForm } from "../../../type";
+import { CreatePostForm, District, Province, Ward } from "../../../type";
 
 interface AddressFieldsProps {
   setPayload: any;
-}
-
-interface Province {
-  province_id: string;
-  province_name: string;
-  province_type: string;
-}
-
-interface District {
-  district_id: string;
-  district_name: string;
-  district_type: string;
-  province_id: string;
-}
-
-interface Ward {
-  district_id: string;
-  ward_id: string;
-  ward_name: string;
-  ward_type: string;
 }
 
 const Address: React.FC<AddressFieldsProps> = ({
