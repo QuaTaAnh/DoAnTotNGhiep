@@ -46,6 +46,26 @@ export const getPostService = async (page, pageSize, priceCode, areaCode, catego
     }
 }
 
+export const getNewPostService = async () => {
+    try {
+        const posts = await db.Post.findAll({
+            raw: true,
+            nest: true,
+            order:  [['createdAt', 'desc']],
+            offset: 0,
+            limit: 5,
+        });
+
+        return {
+            status: true,
+            message: 'Lấy dữ liệu thành công!',
+            posts,
+        };
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getPostSearchService = async (page, pageSize, keyword) => {
     try {
         const offset = (page - 1) * pageSize;
@@ -55,6 +75,12 @@ export const getPostSearchService = async (page, pageSize, keyword) => {
                 [Op.like]: `%${keyword}%`
               }
             },
+            include: [
+                { model: db.Image, as: 'images', attributes: ['image'] },
+                { model: db.Attribute, as: 'attributes', attributes: ['price', 'acreage', 'published', 'hashtag'] },
+                { model: db.User, as: 'user', attributes: ['name', 'zalo', 'phone', 'avatar'] },
+            ],
+            attributes: ['id', 'title', 'star', 'address', 'description'],
             limit: pageSize,
             offset: offset
           });

@@ -53,7 +53,7 @@ const RelatedPost: React.FC = () => {
           >
             Tin mới đăng
           </Typography>
-          {newPosts.map((post: IPost) => (
+          {newPosts?.map((post: IPost) => (
             <PostSidebar
               key={post?.id}
               title={post?.title}

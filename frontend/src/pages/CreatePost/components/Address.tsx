@@ -74,12 +74,8 @@ const Address: React.FC<AddressFieldsProps> = ({
     setPayload((prev: CreatePostForm) => ({
       ...prev,
       address: address,
-      province: province
-        ? provinces?.find((item) => item.province_id === province)
-            ?.province_name
-        : "",
     }));
-  }, [province, district, ward]);
+  }, [address, setPayload]);
 
   return (
     <>

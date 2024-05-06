@@ -35,7 +35,7 @@ export interface IAttribute {
 }
 
 export interface ICategory {
-  id?: string | number;
+  id?: number;
   code?: string;
   value?: string;
   header: string;
@@ -45,7 +45,7 @@ export interface ICategory {
 }
 
 export interface IPost {
-  id?: string;
+  id?: number;
   user?: IUser;
   title?: string;
   attributes?: IAttribute;
@@ -57,17 +57,18 @@ export interface IPost {
 }
 
 export interface CreatePostForm {
-  categoryCode: string;
   title: string;
+  address: string;
+  shortDescription: string;
+  detail: string;
+  categoryId: number;
+  priceId: number;
+  areaId: number;
   priceNumber: number;
   areaNumber: number;
   images: string[];
-  address: string;
-  priceCode: string;
-  areaCode: string;
-  description: string;
   target: string;
-  province: string;
+  status: string;
 }
 
 export interface TypeDefault {

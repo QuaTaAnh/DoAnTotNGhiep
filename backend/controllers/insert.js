@@ -3,7 +3,7 @@ import { createPricesAndAreas, insertService } from '../services/insert.js'
 
 export const insertController = async (req, res) =>{
     try {
-        const response = await insertService()
+        const response = await createPricesAndAreas()
         return res.status(200).json(response)
 
     } catch (error) {

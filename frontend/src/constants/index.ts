@@ -73,3 +73,8 @@ export const TARGETS = [
   { code: "Nữ", value: "Nữ" },
   { code: "Tất cả", value: "Tất cả" },
 ];
+
+export const STATUS = [
+  { code: "Hoạt động", value: "Hoạt động" },
+  { code: "Không hoạt động", value: "Không hoạt động" },
+];

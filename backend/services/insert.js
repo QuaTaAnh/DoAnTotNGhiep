@@ -123,14 +123,12 @@ export const createPricesAndAreas = () => new Promise((resolve, reject) => {
             await db.Price.create({
                 code: item.code,
                 value: item.value,
-                order: index + 1
             })
         })
         dataArea.forEach(async (item, index) => {
             await db.Area.create({
                 code: item.code,
                 value: item.value,
-                order: index + 1
             })
         })
         resolve('OK')

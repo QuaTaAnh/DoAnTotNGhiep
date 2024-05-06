@@ -12,7 +12,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Address from "./components/Address";
 import Information from "./components/Information";
 import { CreatePostForm } from "../../type";
-import { getCodeFromArea, getCodeFromPrice } from "../../common/getCodes";
+import { getIdFromArea, getIdFromPrice } from "../../common/getCodes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getAcreage, getPrice } from "../../redux/callApi";
@@ -27,27 +27,28 @@ const CreatePost: React.FC = () => {
   }, [dispatch]);
 
   const [payload, setPayload] = useState<CreatePostForm>({
-    categoryCode: "",
     title: "",
     priceNumber: 0,
     areaNumber: 0,
-    images: [],
     address: "",
-    priceCode: "",
-    areaCode: "",
-    description: "",
+    shortDescription: "",
+    detail: "",
+    categoryId: 0,
+    priceId: 0,
+    areaId: 0,
+    images: [],
     target: "",
-    province: "",
+    status: "",
   });
 
   const handleSubmit = () => {
-    const priceCode = getCodeFromPrice(payload.priceNumber, prices);
-    const areaCode = getCodeFromArea(payload.areaNumber, acreages);
+    const priceId = getIdFromPrice(payload.priceNumber, prices);
+    const areaId = getIdFromArea(payload.areaNumber, acreages);
     const resultPayload = {
       ...payload,
       priceNumber: payload.priceNumber / Math.pow(10, 6),
-      priceCode,
-      areaCode,
+      priceId,
+      areaId,
     };
     console.log(resultPayload);
   };

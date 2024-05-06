@@ -22,10 +22,12 @@ module.exports = {
         type: Sequelize.TEXT
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'Hoạt động'
       },
       target: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'Tất cả'
       },
       priceNumber: {
         type: Sequelize.FLOAT

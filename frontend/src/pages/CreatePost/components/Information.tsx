@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getCategory } from "../../../redux/callApi";
 import { CreatePostForm, ICategory, TypeDefault } from "../../../type";
-import { TARGETS } from "../../../constants";
+import { STATUS, TARGETS } from "../../../constants";
 import { formatPrice } from "../../../common";
 
 interface AddressFieldsProps {
@@ -40,7 +40,7 @@ const Information: React.FC<AddressFieldsProps> = ({
     setContent(value);
     setPayload((prev: CreatePostForm) => ({
       ...prev,
-      description: value,
+      detail: value,
     }));
   };
 
@@ -51,16 +51,16 @@ const Information: React.FC<AddressFieldsProps> = ({
         <Select
           fullWidth
           sx={{ height: "40px", marginTop: "10px" }}
-          value={payload.categoryCode}
+          value={payload.categoryId}
           onChange={(e) => {
             setPayload((prev: CreatePostForm) => ({
               ...prev,
-              categoryCode: e.target.value,
+              categoryId: e.target.value,
             }));
           }}
         >
           {categories.map((category: ICategory) => (
-            <MenuItem key={category.code} value={category.code}>
+            <MenuItem key={category.id} value={category.id}>
               {category.value}
             </MenuItem>
           ))}
@@ -98,6 +98,22 @@ const Information: React.FC<AddressFieldsProps> = ({
           </Box>
         </Grid>
       )}
+      <Grid item md={12}>
+        <label htmlFor="">Mô tả ngắn</label>
+        <TextField
+          name="shortDescription"
+          size="small"
+          fullWidth
+          margin="normal"
+          value={payload.shortDescription}
+          onChange={(e) => {
+            setPayload((prev: CreatePostForm) => ({
+              ...prev,
+              shortDescription: e.target.value,
+            }));
+          }}
+        />
+      </Grid>
       <Grid item md={12}>
         <label htmlFor="">Nội dung mô tả</label>
         <ReactQuill
@@ -174,11 +190,11 @@ const Information: React.FC<AddressFieldsProps> = ({
           size="small"
           fullWidth
           margin="normal"
-          value={payload.areaNumber}
+          value={payload.areaNumber || 0}
           onChange={(e) => {
             setPayload((prev: CreatePostForm) => ({
               ...prev,
-              areaNumber: e.target.value,
+              areaNumber: parseFloat(e.target.value),
             }));
           }}
           InputProps={{
@@ -193,7 +209,7 @@ const Information: React.FC<AddressFieldsProps> = ({
           }}
         />
       </Grid>
-      <Grid item md={12}>
+      <Grid item md={6}>
         <label htmlFor="">Đối tượng cho thuê</label>
         <Select
           fullWidth
@@ -207,6 +223,26 @@ const Information: React.FC<AddressFieldsProps> = ({
           }}
         >
           {TARGETS.map((tar: TypeDefault) => (
+            <MenuItem key={tar.code} value={tar.code}>
+              {tar.value}
+            </MenuItem>
+          ))}
+        </Select>
+      </Grid>
+      <Grid item md={6}>
+        <label htmlFor="">Trạng thái</label>
+        <Select
+          fullWidth
+          sx={{ height: "40px", marginTop: "10px" }}
+          value={payload.status}
+          onChange={(e) => {
+            setPayload((prev: CreatePostForm) => ({
+              ...prev,
+              status: e.target.value,
+            }));
+          }}
+        >
+          {STATUS.map((tar: TypeDefault) => (
             <MenuItem key={tar.code} value={tar.code}>
               {tar.value}
             </MenuItem>

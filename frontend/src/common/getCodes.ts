@@ -1,4 +1,4 @@
-export const getCodeFromPrice = (inputPrice: number, prices: any) => {
+export const getIdFromPrice = (inputPrice: number, prices: any) => {
   const cleanedPrice =
     Number(inputPrice.toString().replace(/\D/g, "")) / Math.pow(10, 6);
 
@@ -17,20 +17,20 @@ export const getCodeFromPrice = (inputPrice: number, prices: any) => {
     }
 
     if (cleanedPrice < min && max === undefined) {
-      return range.code;
+      return range.id;
     }
 
     if (cleanedPrice > max && min === undefined) {
-      return range.code;
+      return range.id;
     }
 
     if (cleanedPrice >= min && cleanedPrice <= max) {
-      return range.code;
+      return range.id;
     }
   }
 };
 
-export const getCodeFromArea = (inputPrice: number, acreages: any) => {
+export const getIdFromArea = (inputPrice: number, acreages: any) => {
   const cleanedArea = Number(inputPrice.toString().replace(/\D/g, ""));
 
   for (const area of acreages) {
@@ -48,15 +48,15 @@ export const getCodeFromArea = (inputPrice: number, acreages: any) => {
     }
 
     if (cleanedArea < min && max === undefined) {
-      return area.code;
+      return area.id;
     }
 
     if (cleanedArea > max && min === undefined) {
-      return area.code;
+      return area.id;
     }
 
     if (cleanedArea >= min && cleanedArea <= max) {
-      return area.code;
+      return area.id;
     }
   }
 };
