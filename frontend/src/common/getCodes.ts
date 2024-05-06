@@ -5,7 +5,7 @@ export const getIdFromPrice = (inputPrice: number, prices: any) => {
   for (const range of prices) {
     const [minStr, maxStr] = range.value.match(/\d+/g) || [];
     let min = minStr ? parseInt(minStr) : 0;
-    let max = maxStr ? parseInt(maxStr) : 100;
+    let max = maxStr ? parseInt(maxStr) : 1000;
 
     if (range.value.includes("Dưới")) {
       min = 0;
@@ -36,7 +36,7 @@ export const getIdFromArea = (inputPrice: number, acreages: any) => {
   for (const area of acreages) {
     const [minStr, maxStr] = area.value.match(/\d+/g) || [];
     let min = minStr ? parseInt(minStr) : 0;
-    let max = maxStr ? parseInt(maxStr) : 100;
+    let max = maxStr ? parseInt(maxStr) : 1000;
 
     if (area.value.includes("Dưới")) {
       min = 0;

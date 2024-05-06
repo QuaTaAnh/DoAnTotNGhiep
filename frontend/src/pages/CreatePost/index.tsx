@@ -16,6 +16,9 @@ import { getIdFromArea, getIdFromPrice } from "../../common/getCodes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getAcreage, getPrice } from "../../redux/callApi";
+import request from "../../utils/request";
+import { startLoading, stopLoading } from "../../redux/loadingRedux";
+import { showSnackbar } from "../../redux/snackbarRedux";
 
 const CreatePost: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,11 +40,11 @@ const CreatePost: React.FC = () => {
     priceId: 0,
     areaId: 0,
     images: [],
-    target: "",
-    status: "",
+    target: "Tất cả",
+    status: "Hoạt động",
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const priceId = getIdFromPrice(payload.priceNumber, prices);
     const areaId = getIdFromArea(payload.areaNumber, acreages);
     const resultPayload = {
@@ -50,7 +53,20 @@ const CreatePost: React.FC = () => {
       priceId,
       areaId,
     };
-    console.log(resultPayload);
+    try {
+      dispatch(startLoading());
+      const { data } = await request.post("/api/v1/post/create", resultPayload);
+      if (data.status) {
+        dispatch(showSnackbar({ message: data.message, type: "success" }));
+      } else {
+        dispatch(showSnackbar({ message: data.message, type: "error" }));
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(showSnackbar({ message: "Đã xảy ra lỗi", type: "error" }));
+    } finally {
+      dispatch(stopLoading());
+    }
   };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {

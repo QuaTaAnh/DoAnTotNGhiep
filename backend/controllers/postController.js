@@ -1,4 +1,4 @@
-import { getNewPostService, getPostSearchService, getPostService } from '../services/postService.js'
+import { createPostService, getNewPostService, getPostSearchService, getPostService } from '../services/postService.js'
 
 export const getPostController = async (req, res) =>{
     try {
@@ -53,9 +53,15 @@ export const getPostSearchController = async (req, res) =>{
 export const createPostController = async (req, res) =>{
     try {
         const { id }  = req.user
-        const {categoryCode, title, priceNumber, areaNumber, labelCode,...payload} = req.body
-        console.log(payload);
-        
+        const {areaId, categoryId, priceId, title, ...payload} = req.body
+        if(!areaId || !categoryId || !priceId || !title){
+            return res.status(200).send({
+                status: false,
+                message: "Bạn phải nhập đầy đủ thông tin"
+            })
+        }
+        const post = await createPostService(id, req.body)
+        return res.status(200).json(post)
     } catch (error) {
         console.log(error)
         res.status(500).send({
