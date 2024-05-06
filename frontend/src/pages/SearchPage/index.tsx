@@ -14,8 +14,6 @@ const SearchPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
 
-  console.log(dataSearch, "123");
-
   const getSearchPosts = useCallback(async () => {
     dispatch(startLoading());
     try {

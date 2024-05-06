@@ -2,6 +2,12 @@ import db from '../models/index.js'
 import { Op } from 'sequelize';
 import cloudinary from "../config/cloudinary.js";
 
+async function getCloudinaryUrl(imageUrl) {
+    if (!imageUrl) return null;
+    const result = await cloudinary.api.resource(imageUrl);
+    return result?.url;
+}
+
 export const getPostService = async (page, pageSize, priceId, areaId, categoryId) => {
     try {
         const offset = (page - 1) * pageSize;
@@ -33,18 +39,17 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
             offset: offset
         });
 
-        for (const post of posts) {
-            for (const image of post.images) {
-                if (image.imageUrl) {
-                    const result = await cloudinary.api.resource(image.imageUrl);
-                    image.imageUrl = result?.url;
-                }
-            }
-            if(post.user.avatar){
-                const result = await cloudinary.api.resource(post.user.avatar);
-                post.user.avatar = result?.url;
-            }
-        }
+        //Sử dụng eager loading để lấy thông tin hình ảnh từ Cloudinary
+        // const postPromises = posts.map(async (post) => {
+        //     post.user.avatar = await getCloudinaryUrl(post.user.avatar);
+        //     post.images = await Promise.all(post.images.map(async (image) => {
+        //         image.imageUrl = await getCloudinaryUrl(image.imageUrl);
+        //         return image;
+        //     }));
+        //     return post;
+        // });
+
+        // const updatedPosts = await Promise.all(postPromises);
 
         const currentPageTotal = await db.Post.findAll({
             where: {
@@ -82,14 +87,16 @@ export const getNewPostService = async () => {
             offset: 0,
             limit: 5,
         });
-        for (const post of posts) {
-            for (const image of post.images) {
-                if (image.imageUrl) {
-                    const result = await cloudinary.api.resource(image.imageUrl);
-                    image.imageUrl = result?.url;
-                }
-            }
-        }
+        
+        // const postPromises = posts.map(async (post) => {
+        //     post.images = await Promise.all(post.images.map(async (image) => {
+        //         image.imageUrl = await getCloudinaryUrl(image.imageUrl);
+        //         return image;
+        //     }));
+        //     return post;
+        // });
+
+        // const updatedPosts = await Promise.all(postPromises);
 
         return {
             status: true,
@@ -122,18 +129,16 @@ export const getPostSearchService = async (page, pageSize, keyword) => {
             offset: offset
           });
 
-          for (const post of posts) {
-            for (const image of post.images) {
-                if (image.imageUrl) {
-                    const result = await cloudinary.api.resource(image.imageUrl);
-                    image.imageUrl = result?.url;
-                }
-            }
-            if(post.user.avatar){
-                const result = await cloudinary.api.resource(post.user.avatar);
-                post.user.avatar = result?.url;
-            }
-        }
+        //   const postPromises = posts.map(async (post) => {
+        //     post.user.avatar = await getCloudinaryUrl(post.user.avatar);
+        //     post.images = await Promise.all(post.images.map(async (image) => {
+        //         image.imageUrl = await getCloudinaryUrl(image.imageUrl);
+        //         return image;
+        //     }));
+        //     return post;
+        //     });
+
+        // const updatedPosts = await Promise.all(postPromises);
 
           const currentPageTotal = await db.Post.findAll({
             where: {
