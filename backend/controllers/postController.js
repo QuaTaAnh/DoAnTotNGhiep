@@ -49,3 +49,19 @@ export const getPostSearchController = async (req, res) =>{
         })
     }
 }
+
+export const createPostController = async (req, res) =>{
+    try {
+        const { id }  = req.user
+        const {categoryCode, title, priceNumber, areaNumber, labelCode,...payload} = req.body
+        console.log(payload);
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
+            error
+        })
+    }
+}

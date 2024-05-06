@@ -2,7 +2,7 @@ import db from '../models/index.js'
 import cloudinary from "../config/cloudinary.js";
 import { comparePassword, hashPassword } from '../helpers/authHelper.js'
 
-export const updateProfileService = async (id, updateProfile) => {
+export const updateProfileService = async (id, userPayload) => {
     try {
         let user = await db.User.findOne({
             where: {id},
@@ -10,7 +10,7 @@ export const updateProfileService = async (id, updateProfile) => {
         });
         const checkPhone = await db.User.findOne({
             where: {
-              phone: updateProfile.phone,
+              phone: userPayload.phone,
             },
           });
       
@@ -20,8 +20,8 @@ export const updateProfileService = async (id, updateProfile) => {
                 message: 'Số điện thoại đã tồn tại!'
             }
           }
-          if (updateProfile.newPassword && updateProfile.oldPassword) {
-            const checkPass = await comparePassword(updateProfile.oldPassword, user.password);
+          if (userPayload.newPassword && userPayload.oldPassword) {
+            const checkPass = await comparePassword(userPayload.oldPassword, user.password);
     
             if (!checkPass) {
                 return {
@@ -30,17 +30,17 @@ export const updateProfileService = async (id, updateProfile) => {
                 }
             } else {
               const hashedNewPassword = await hashPassword(
-                updateProfile.newPassword,
+                userPayload.newPassword,
               );
-              updateProfile.password = hashedNewPassword;
+              userPayload.password = hashedNewPassword;
             }
           }
-          if(updateProfile.avatar){
-            const result = await cloudinary.uploader.upload(updateProfile.avatar)
-            updateProfile.avatar = result.public_id
+          if(userPayload.avatar){
+            const result = await cloudinary.uploader.upload(userPayload.avatar)
+            userPayload.avatar = result.public_id
         }
         
-        await db.User.update(updateProfile, {
+        await db.User.update(userPayload, {
           where: { id }
         });
 

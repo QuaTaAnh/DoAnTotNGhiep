@@ -3,10 +3,9 @@ import { updateProfileService } from "../services/userService.js"
 export const updateProfileController = async (req, res) => {
     try {
         const { id }  = req.user
-        const { name, phone, zalo, newPassword, oldPassword, avatar } = req.body
-        const updateProfile = {name, phone, zalo, newPassword, oldPassword, avatar}
-        const user = await updateProfileService(id, updateProfile)
-        return res.status(200).json(user)
+        const {...user} = req.body
+        const result = await updateProfileService(id, user)
+        return res.status(200).json(result)
     } catch (error) {
         console.log(error) 
         res.status(500).send({
