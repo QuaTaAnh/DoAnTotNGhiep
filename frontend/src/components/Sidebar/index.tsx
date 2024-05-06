@@ -1,18 +1,10 @@
 import { Grid } from "@mui/material";
-import React, { useEffect } from "react";
 import CardCustom from "../CardCustom";
-import { useDispatch, useSelector } from "react-redux";
-import { getAcreage, getPrice } from "../../redux/callApi";
-import { AppDispatch } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const Sidebar: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { prices, acreages } = useSelector((state: any) => state.api);
-
-  useEffect(() => {
-    dispatch(getPrice());
-    dispatch(getAcreage());
-  }, [dispatch]);
+  const { prices, acreages } = useSelector((state: RootState) => state.api);
 
   return (
     <Grid container>

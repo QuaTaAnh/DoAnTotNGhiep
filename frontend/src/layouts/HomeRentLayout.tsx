@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { ILayout } from "./type";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import Loading from "../components/Loading";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Filter from "../components/Filter";
 import { LOCATION, TEXT_INFO, TEXT_TITLE } from "../constants";
 import LocationButton from "../components/LocationButton";
-import { RootState } from "../redux/store";
+import { AppDispatch, RootState } from "../redux/store";
+import { getAcreage, getPrice } from "../redux/callApi";
 
 // eslint-disable-next-line no-empty-pattern
 const MainStyle = styled("div")(({}) => ({
@@ -30,7 +31,13 @@ const FooterStyle = styled("div")(({}) => ({
 }));
 
 const HomeRentLayout: React.FC<ILayout> = ({ children }: ILayout) => {
+  const dispatch = useDispatch<AppDispatch>();
   const loading = useSelector((state: RootState) => state.loading);
+
+  useEffect(() => {
+    dispatch(getPrice());
+    dispatch(getAcreage());
+  }, [dispatch]);
 
   return (
     <MainStyle>

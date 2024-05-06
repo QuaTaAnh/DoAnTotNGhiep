@@ -21,9 +21,30 @@ export const getPostService = async (page, pageSize, priceCode, areaCode, catego
             where: {
                 [Op.and]: valueFilter
             },
+            include: [
+                { model: db.User, as: 'user', attributes: ['name', 'zalo', 'phone', 'avatar'] },
+                { 
+                    model: db.Image, 
+                    as: 'images', 
+                    attributes: ['imageUrl'] 
+                }
+            ],
             limit: pageSize,
             offset: offset
         });
+
+        for (const post of posts) {
+            for (const image of post.images) {
+                if (image.imageUrl) {
+                    const result = await cloudinary.api.resource(image.imageUrl);
+                    image.imageUrl = result?.url;
+                }
+            }
+            if(post.user.avatar){
+                const result = await cloudinary.api.resource(post.user.avatar);
+                post.user.avatar = result?.url;
+            }
+        }
 
         const currentPageTotal = await db.Post.findAll({
             where: {
@@ -50,12 +71,25 @@ export const getPostService = async (page, pageSize, priceCode, areaCode, catego
 export const getNewPostService = async () => {
     try {
         const posts = await db.Post.findAll({
-            raw: true,
-            nest: true,
             order:  [['createdAt', 'desc']],
+            include: [
+                {
+                    model: db.Image,
+                    as: 'images',
+                    attributes: ['imageUrl']
+                }
+            ],
             offset: 0,
             limit: 5,
         });
+        for (const post of posts) {
+            for (const image of post.images) {
+                if (image.imageUrl) {
+                    const result = await cloudinary.api.resource(image.imageUrl);
+                    image.imageUrl = result?.url;
+                }
+            }
+        }
 
         return {
             status: true,
@@ -77,11 +111,8 @@ export const getPostSearchService = async (page, pageSize, keyword) => {
               }
             },
             include: [
-                { model: db.Image, as: 'images', attributes: ['image'] },
-                { model: db.Attribute, as: 'attributes', attributes: ['price', 'acreage', 'published', 'hashtag'] },
                 { model: db.User, as: 'user', attributes: ['name', 'zalo', 'phone', 'avatar'] },
             ],
-            attributes: ['id', 'title', 'star', 'address', 'description'],
             limit: pageSize,
             offset: offset
           });

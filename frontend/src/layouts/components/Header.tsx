@@ -12,7 +12,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NoImage from "../../assets/images/noImage.jpg";
 import Logo from "../../assets/images/logo.png";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -25,12 +25,15 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "../../redux/store";
 import { logout as logoutFunction } from "../../utils/auth";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import { routes } from "../../config/routes";
 import SearchInput from "../../components/SearchInput";
 import { Link } from "react-router-dom";
+import { getCategory } from "../../redux/callApi";
+import slugify from "slugify";
+import { ICategory } from "../../type";
 
 const SETTINGS = [
   {
@@ -65,10 +68,15 @@ const SETTINGS = [
 ];
 
 const Header: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [openMenu, setOpenMenu] = useState<null | HTMLElement>(null);
-
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const { user } = useSelector((state: RootState) => state.user);
+  const { categories } = useSelector((state: RootState) => state.api);
+
+  useEffect(() => {
+    dispatch(getCategory());
+  }, [dispatch]);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setOpenMenu(event.currentTarget);
@@ -91,8 +99,6 @@ const Header: React.FC = () => {
       dispatch(showSnackbar({ message: "Đã xảy ra lỗi", type: "error" }));
     }
   };
-
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -127,42 +133,20 @@ const Header: React.FC = () => {
               open={Boolean(anchorEl)}
               onClose={handleCloseMenu}
             >
-              <MenuItem>
-                <Link
-                  style={{ textDecoration: "none", color: "#000" }}
-                  to={routes.apartmentRent}
-                  state={"CTCH"}
-                >
-                  Cho thuê căn hộ
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  style={{ textDecoration: "none", color: "#000" }}
-                  to={routes.groundRent}
-                  state={"CTMB"}
-                >
-                  Cho thuê mặt bằng
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  style={{ textDecoration: "none", color: "#000" }}
-                  to={routes.motelRoomRent}
-                  state={"CTPT"}
-                >
-                  Cho thuê phòng trọ
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  style={{ textDecoration: "none", color: "#000" }}
-                  to={routes.houseRent}
-                  state={"NCT"}
-                >
-                  Nhà cho thuê
-                </Link>
-              </MenuItem>
+              {categories.map((category: ICategory) => (
+                <MenuItem>
+                  <Link
+                    style={{ textDecoration: "none", color: "#000" }}
+                    to={`/${slugify(category.value, {
+                      lower: true,
+                      strict: true,
+                    })}`}
+                    state={category.id}
+                  >
+                    {category.value}
+                  </Link>
+                </MenuItem>
+              ))}
             </Menu>
             <Box>
               <SearchInput />

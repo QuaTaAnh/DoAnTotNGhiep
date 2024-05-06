@@ -14,10 +14,9 @@ import { IPost } from "../../type";
 import Room from "../../assets/images/anhtro.jpg";
 
 const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
-  const { images, title, user, address, attributes } = data;
+  const { images, title, user, address, priceNumber, areaNumber } = data;
   const parts = address?.split(",");
   const province = parts?.[parts.length - 1]?.trim();
-  const imageUrl = JSON.parse(images.image);
 
   const [favorite, setFavorite] = useState<boolean>(false);
   const handleFavorite = (event: React.MouseEvent) => {
@@ -46,7 +45,7 @@ const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
             objectFit: "cover",
             objectPosition: "center",
           }}
-          src={imageUrl[0] || Room}
+          src={images[0]?.imageUrl || Room}
         />
         <Typography
           sx={{
@@ -56,7 +55,7 @@ const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
             backgroundColor: "#ccc",
           }}
         >
-          {imageUrl.length} ảnh
+          {images.length} ảnh
         </Typography>
         <CardContent sx={{ padding: "0 12px", flex: 1 }}>
           <Box>
@@ -75,7 +74,7 @@ const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
                 whiteSpace: "nowrap",
               }}
             >
-              {attributes?.acreage}
+              {areaNumber} m2
             </Typography>
             <Typography
               sx={{
@@ -85,13 +84,13 @@ const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
                 margin: "10px 0",
               }}
             >
-              {attributes?.price}
+              {priceNumber} triệu/tháng
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box sx={{ width: "26px", height: "26px", marginRight: "6px" }}>
                 <Avatar
                   alt="Logo"
-                  src={user?.avatar}
+                  src={user.avatar}
                   sx={{ width: "100%", height: "100%" }}
                 />
               </Box>
@@ -103,7 +102,7 @@ const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
                   marginRight: "24px",
                 }}
               >
-                {user?.name}
+                {user.name}
               </Typography>
               <Typography
                 sx={{

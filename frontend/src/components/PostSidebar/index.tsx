@@ -9,6 +9,7 @@ const PostSidebar: React.FC<any> = ({ title, price, image, createAt }: any) => {
     moment.locale("vn");
     return moment(date).fromNow();
   };
+
   return (
     <Link to="" style={{ textDecoration: "none" }}>
       <Card
@@ -24,7 +25,7 @@ const PostSidebar: React.FC<any> = ({ title, price, image, createAt }: any) => {
             <CardMedia
               component="img"
               sx={{ height: "66px" }}
-              image={image[0] || Room}
+              image={image[0]?.imageUrl || Room}
               alt="Anh"
             />
           </Grid>

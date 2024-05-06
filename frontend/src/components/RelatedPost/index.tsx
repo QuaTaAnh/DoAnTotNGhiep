@@ -53,13 +53,13 @@ const RelatedPost: React.FC = () => {
           >
             Tin mới đăng
           </Typography>
-          {newPosts?.map((post: IPost) => (
+          {newPosts.map((post: IPost) => (
             <PostSidebar
-              key={post?.id}
-              title={post?.title}
-              image={JSON.parse(post?.images?.image)}
-              price={post?.attributes?.price}
-              createAt={post?.createdAt}
+              key={post.id}
+              title={post.title}
+              image={post.images}
+              price={post.priceNumber}
+              createAt={post.createdAt}
             />
           ))}
         </Card>

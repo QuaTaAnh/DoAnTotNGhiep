@@ -1,10 +1,13 @@
 export interface IUser {
-  id?: number;
-  name?: string;
-  password?: string;
-  phone?: string;
-  zalo?: string;
-  avatar?: string;
+  id: number;
+  name: string;
+  password: string;
+  phone: string;
+  zalo: string;
+  avatar: string;
+  isAdmin?: boolean;
+  follower?: number;
+  following?: number;
 }
 
 export interface UpdateProfileForm extends IUser {
@@ -24,36 +27,36 @@ export interface TabPanelProps {
 }
 
 export interface IImage {
-  image: string;
-}
-
-export interface IAttribute {
-  acreage?: string;
-  hashtag?: string;
-  price?: string;
-  published?: string;
+  postId: number;
+  imageUrl: string;
 }
 
 export interface ICategory {
-  id?: number;
-  code?: string;
-  value?: string;
-  header: string;
-  subheader?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  id: number;
+  code: string;
+  value: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IPost {
-  id?: number;
-  user?: IUser;
-  title?: string;
-  attributes?: IAttribute;
-  description?: string;
-  address?: string;
-  star?: string;
-  images?: any;
-  createdAt?: string;
+  id: number;
+  user: IUser;
+  title: string;
+  shortDescription: string;
+  detail: string;
+  address: string;
+  status: string;
+  target: string;
+  priceNumber: number;
+  areaNumber: number;
+  categoryId: number;
+  userId: number;
+  priceId: number;
+  areaId: number;
+  images: IImage[] | any;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreatePostForm {
