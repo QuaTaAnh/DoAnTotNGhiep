@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Price.hasMany(models.Post, { foreignKey: 'priceId', as: 'price' })
         }
     }
     Price.init({
         code: DataTypes.STRING,
-        order: DataTypes.INTEGER,
         value: DataTypes.STRING,
     }, {
         sequelize,

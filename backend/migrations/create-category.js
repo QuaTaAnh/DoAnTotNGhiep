@@ -14,12 +14,6 @@ module.exports = {
             value: {
                 type: Sequelize.STRING
             },
-            header: {
-                type: Sequelize.STRING
-            },
-            subheader: {
-                type: Sequelize.STRING
-            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

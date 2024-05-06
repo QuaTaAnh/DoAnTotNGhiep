@@ -6,47 +6,44 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        autoIncrement: true
       },
       title: {
-        type: Sequelize.STRING
-      },
-      star: {
-        type: Sequelize.STRING,
-        defaultValue: "0"
-      },
-      labelCode: {
         type: Sequelize.STRING
       },
       address: {
         type: Sequelize.STRING
       },
-      attributesId: {
+      shortDescription: {
         type: Sequelize.STRING
       },
-      categoryCode: {
-        type: Sequelize.STRING
-      },
-      priceCode: {
-        type: Sequelize.STRING
-      },
-      areaCode: {
-        type: Sequelize.STRING
-      },
-      provinceCode: {
-        type: Sequelize.STRING
-      },
-      description: {
+      detail: {
         type: Sequelize.TEXT
       },
+      status: {
+        type: Sequelize.STRING
+      },
+      target: {
+        type: Sequelize.STRING
+      },
+      priceNumber: {
+        type: Sequelize.FLOAT
+      },
+      areaNumber: {
+        type: Sequelize.FLOAT
+      },
+      categoryId: {
+        type: Sequelize.INTEGER
+      },
+      priceId: {
+        type: Sequelize.INTEGER
+      },
+      areaId: {
+        type: Sequelize.INTEGER
+      },
       userId: {
-        type: Sequelize.STRING
-      },
-      overviewId: {
-        type: Sequelize.STRING
-      },
-      imagesId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

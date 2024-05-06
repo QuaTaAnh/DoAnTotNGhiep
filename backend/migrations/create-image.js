@@ -5,10 +5,14 @@ module.exports = {
             id: {
                 allowNull: false,
                 primaryKey: true,
-                type: Sequelize.STRING
+                type: Sequelize.INTEGER,
+                autoIncrement: true
             },
-            image: {
-                type: Sequelize.TEXT('long')
+            postId: {
+                type: Sequelize.INTEGER
+            },
+            imageUrl: {
+                type: Sequelize.STRING
             },
             createdAt: {
                 allowNull: false,

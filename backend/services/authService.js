@@ -1,6 +1,5 @@
 import db from '../models/index.js'
 import jwt from 'jsonwebtoken'
-import { v4 } from 'uuid'
 import { comparePassword, hashPassword } from '../helpers/authHelper.js'
 import cloudinary from "../config/cloudinary.js";
 
@@ -10,7 +9,6 @@ export const registerService = async ({ phone, password, name }) => {
         const response = await db.User.findOrCreate({
             where: { phone },
             defaults: {
-                id: v4(),
                 name,
                 phone,
                 password: hashedPass,
