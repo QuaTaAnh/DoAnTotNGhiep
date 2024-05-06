@@ -2,20 +2,20 @@ import db from '../models/index.js'
 import { Op } from 'sequelize';
 import cloudinary from "../config/cloudinary.js";
 
-export const getPostService = async (page, pageSize, priceCode, areaCode, categoryCode) => {
+export const getPostService = async (page, pageSize, priceId, areaId, categoryId) => {
     try {
         const offset = (page - 1) * pageSize;
         const valueFilter = [];
-        if (priceCode) {
-            valueFilter.push({ priceCode });
+        if (priceId) {
+            valueFilter.push({ priceId });
         }
 
-        if (areaCode) {
-            valueFilter.push({ areaCode });
+        if (areaId) {
+            valueFilter.push({ areaId });
         }
         
-        if (categoryCode) {
-            valueFilter.push({ categoryCode });
+        if (categoryId) {
+            valueFilter.push({ categoryId });
         }
         const posts = await db.Post.findAll({
             where: {

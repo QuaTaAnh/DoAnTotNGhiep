@@ -4,10 +4,10 @@ export const getPostController = async (req, res) =>{
     try {
         const page = req.query.page ? parseInt(req.query.page) : 1;
         const pageSize = 10
-        const priceCode = req.query.priceCode
-        const areaCode = req.query.areaCode
-        const categoryCode = req.query.categoryCode
-       const post = await getPostService(page, pageSize, priceCode, areaCode, categoryCode)
+        const priceId = req.query.priceId
+        const areaId = req.query.areaId
+        const categoryId = req.query.categoryId
+       const post = await getPostService(page, pageSize, priceId, areaId, categoryId)
        return res.status(200).json(post)
     } catch (error) {
         console.log(error)

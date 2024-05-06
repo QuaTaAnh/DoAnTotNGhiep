@@ -22,12 +22,12 @@ const Sidebar: React.FC = () => {
         <CardCustom
           title="Lọc theo khoảng giá"
           content={prices}
-          type="priceCode"
+          type="priceId"
         />
         <CardCustom
           title="Lọc theo diện tích"
           content={acreages}
-          type="areaCode"
+          type="areaId"
         />
       </Grid>
     </Grid>

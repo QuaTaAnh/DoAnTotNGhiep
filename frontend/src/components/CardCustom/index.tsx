@@ -8,7 +8,6 @@ import { getPostByPage } from "../../redux/callApi";
 interface ICardCustom {
   title: string;
   content?: any[];
-  category?: any[];
   type?: any;
 }
 
@@ -20,11 +19,11 @@ const CardCustom: React.FC<ICardCustom> = ({
   const dispatch = useDispatch<AppDispatch>();
   const { page } = useSelector((state: RootState) => state.api);
 
-  const handleFilter = (code: string) => {
+  const handleFilter = (id: number) => {
     dispatch(
       getPostByPage({
         page: page,
-        [type]: code,
+        [type]: id,
       })
     );
   };
@@ -52,7 +51,7 @@ const CardCustom: React.FC<ICardCustom> = ({
                 color: "#fa6819",
               },
             }}
-            onClick={() => handleFilter(item?.code)}
+            onClick={() => handleFilter(item?.id)}
           >
             <NavigateNextIcon />
             <Typography

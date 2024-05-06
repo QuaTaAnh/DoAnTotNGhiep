@@ -11,6 +11,8 @@ import { LOCATION, TEXT_INFO, TEXT_TITLE } from "../constants";
 import LocationButton from "../components/LocationButton";
 import { AppDispatch, RootState } from "../redux/store";
 import { getAcreage, getPrice } from "../redux/callApi";
+import Sidebar from "../components/Sidebar";
+import RelatedPost from "../components/RelatedPost";
 
 // eslint-disable-next-line no-empty-pattern
 const MainStyle = styled("div")(({}) => ({
@@ -74,7 +76,17 @@ const HomeRentLayout: React.FC<ILayout> = ({ children }: ILayout) => {
           </Grid>
 
           <Grid item xs={12} sx={{ marginTop: "64px" }}>
-            <Container maxWidth="lg">{children}</Container>
+            <Container maxWidth="lg">
+              <Grid container>
+                <Grid item md={8}>
+                  {children}
+                </Grid>
+                <Grid item md={4}>
+                  <Sidebar />
+                  <RelatedPost />
+                </Grid>
+              </Grid>
+            </Container>
             <Grid
               container
               sx={{
@@ -83,7 +95,7 @@ const HomeRentLayout: React.FC<ILayout> = ({ children }: ILayout) => {
                 justifyContent: "center",
               }}
             >
-              <Grid item md={9.6}>
+              <Grid item md={9.4}>
                 <Box
                   sx={{
                     width: "100%",

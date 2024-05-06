@@ -8,7 +8,7 @@ import { IPost } from "../../type";
 import { pageSuccess } from "../../redux/apiRedux";
 
 interface ListItemProp {
-  category?: string;
+  category?: number;
 }
 
 const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
@@ -19,7 +19,7 @@ const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
 
   useEffect(() => {
     if (category) {
-      dispatch(getPostByPage({ categoryCode: category, page: page }));
+      dispatch(getPostByPage({ categoryId: category, page: page }));
     } else {
       dispatch(getPostByPage({ page: page }));
     }

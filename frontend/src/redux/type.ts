@@ -7,7 +7,7 @@ export interface IAuthState {
 
 export interface IParamPost {
   page?: number;
-  priceCode?: string;
-  areaCode?: string;
-  categoryCode?: string;
+  priceId?: number;
+  areaId?: number;
+  categoryId?: number;
 }
