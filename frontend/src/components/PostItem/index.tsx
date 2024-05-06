@@ -14,7 +14,7 @@ import { IPost } from "../../type";
 import Room from "../../assets/images/anhtro.jpg";
 
 const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
-  const { images, title, user, address, priceNumber, areaNumber } = data;
+  const { id, images, title, user, address, priceNumber, areaNumber } = data;
   const parts = address?.split(",");
   const province = parts?.[parts.length - 1]?.trim();
 
@@ -24,7 +24,7 @@ const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
     setFavorite(true);
   };
   return (
-    <Link to={`test`} style={{ textDecoration: "none" }}>
+    <Link to={`/post-detail/${id}`} style={{ textDecoration: "none" }}>
       <Card
         sx={{
           position: "relative",

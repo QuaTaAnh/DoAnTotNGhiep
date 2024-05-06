@@ -8,6 +8,7 @@ import SearchPage from "../pages/SearchPage";
 import Profile from "../pages/Profile";
 import EditProfile from "../pages/EditProfile";
 import CreatePost from "../pages/CreatePost";
+import PostDetail from "../pages/PostDetail";
 
 export const publicRoutes = [
   { path: routes.test, component: Test, layout: null },
@@ -65,4 +66,5 @@ export const publicRoutes = [
     navigate: routes.login,
     layout: OnlyHeader,
   },
+  { path: routes.postDetail, component: PostDetail, navigate: routes.login },
 ];

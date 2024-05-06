@@ -1,4 +1,4 @@
-import { createPostService, getNewPostService, getPostSearchService, getPostService } from '../services/postService.js'
+import { createPostService, getNewPostService, getPostByIdService, getPostSearchService, getPostService } from '../services/postService.js'
 
 export const getPostController = async (req, res) =>{
     try {
@@ -62,6 +62,21 @@ export const createPostController = async (req, res) =>{
         }
         const post = await createPostService(id, req.body)
         return res.status(200).json(post)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
+            error
+        })
+    }
+}
+
+export const getPostByIdController = async (req, res) =>{
+    try {
+       const {id} = req.params
+       const post = await getPostByIdService(id)
+       return res.status(200).json(post)
     } catch (error) {
         console.log(error)
         res.status(500).send({

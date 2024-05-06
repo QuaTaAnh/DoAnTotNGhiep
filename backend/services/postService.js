@@ -195,3 +195,40 @@ export const createPostService = async(id, payload) =>{
         console.log(error);
     }
 }
+
+export const getPostByIdService = async (id) => {
+    try {
+        const posts = await db.Post.findOne({
+            where: {
+                id: id
+            },
+            include: [
+                { model: db.User, as: 'user', attributes: ['name', 'zalo', 'phone', 'avatar'] },
+                { 
+                    model: db.Image, 
+                    as: 'images', 
+                    attributes: ['imageUrl'] 
+                }
+            ],
+        });
+
+        //Sử dụng eager loading để lấy thông tin hình ảnh từ Cloudinary
+        // const postPromises = posts.map(async (post) => {
+        //     post.user.avatar = await getCloudinaryUrl(post.user.avatar);
+        //     post.images = await Promise.all(post.images.map(async (image) => {
+        //         image.imageUrl = await getCloudinaryUrl(image.imageUrl);
+        //         return image;
+        //     }));
+        //     return post;
+        // });
+
+        // const updatedPosts = await Promise.all(postPromises);
+        return {
+            status: true,
+            message: 'Lấy dữ liệu thành công!',
+            posts,
+        };
+    } catch (error) {
+        console.log(error);
+    }
+}
