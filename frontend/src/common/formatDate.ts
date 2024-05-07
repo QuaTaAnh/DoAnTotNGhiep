@@ -5,7 +5,7 @@ export const formatDateToDayMonthYear = (dateString: string): string => {
   return date.format("DD/MM/YYYY");
 };
 
-export const formatDate = (dateString: string): string => {
+export const formatDate = (dateString: string | any): string => {
   const dateObject = new Date(dateString);
 
   const year = dateObject.getFullYear();
@@ -15,9 +15,9 @@ export const formatDate = (dateString: string): string => {
   const minutes = dateObject.getMinutes();
   const seconds = dateObject.getSeconds();
 
-  return `${year}-${month < 10 ? "0" + month : month}-${
-    date < 10 ? "0" + date : date
-  } ${hours < 10 ? "0" + hours : hours}:${
+  return `${date < 10 ? "0" + date : date}-${
+    month < 10 ? "0" + month : month
+  }-${year} ${hours < 10 ? "0" + hours : hours}:${
     minutes < 10 ? "0" + minutes : minutes
   }:${seconds < 10 ? "0" + seconds : seconds}`;
 };

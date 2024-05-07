@@ -27,7 +27,7 @@ export interface TabPanelProps {
 }
 
 export interface IImage {
-  postId: number;
+  postId?: number;
   imageUrl: string;
 }
 
