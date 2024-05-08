@@ -11,3 +11,8 @@ export interface IParamPost {
   areaId?: number;
   categoryId?: number;
 }
+
+export interface ICommentState {
+  page?: number;
+  postId?: number;
+}

@@ -103,3 +103,13 @@ export interface UserPersonal extends IUser {
   followersCount: number;
   followingCount: number;
 }
+
+export interface Comment {
+  id: number;
+  userId: number;
+  postId: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  user: IUser;
+}

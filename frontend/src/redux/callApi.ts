@@ -8,7 +8,8 @@ import {
   postSuccess,
   priceSuccess,
 } from "./apiRedux";
-import { IParamPost } from "./type";
+import { ICommentState, IParamPost } from "./type";
+import { commentSuccess } from "./commentRedux";
 
 export const getProfile = createAsyncThunk(
   "profile/fetchProfile",
@@ -97,6 +98,27 @@ export const getPostByPage = createAsyncThunk(
       if (data?.status) {
         dispatch(postSuccess(data));
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(stopLoading());
+    }
+  }
+);
+
+export const getCommentByPage = createAsyncThunk(
+  "comment/fetchAllComment",
+  async (props: ICommentState, { dispatch }) => {
+    dispatch(startLoading());
+    try {
+      const { page, postId } = props;
+      const { data } = await request.get("/api/v1/comment/get-all", {
+        params: {
+          page: page,
+          postId: postId,
+        },
+      });
+      dispatch(commentSuccess(data));
     } catch (error) {
       console.log(error);
     } finally {

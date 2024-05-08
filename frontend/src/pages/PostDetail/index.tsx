@@ -5,6 +5,8 @@ import {
   Card,
   Grid,
   Pagination,
+  Tab,
+  Tabs,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -26,6 +28,8 @@ import RelatedPost from "../../components/RelatedPost";
 import PostItem from "../../components/PostItem";
 import { RootState } from "../../redux/store";
 import WcIcon from "@mui/icons-material/Wc";
+import { CustomTabPanel, a11yProps } from "../../components/CustomTabPanel";
+import CommentCustom from "../../components/Comment";
 
 const PostDetail: React.FC = () => {
   const { id } = useParams();
@@ -37,6 +41,11 @@ const PostDetail: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const parts = detail?.address?.split(",") || "";
   const city = parts[parts.length - 1];
+  const [value, setValue] = useState<number>(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   const getPostDetail = useCallback(async () => {
     dispatch(startLoading());
@@ -251,7 +260,20 @@ const PostDetail: React.FC = () => {
                   },
                 }}
               >
-                {detail?.user?.phone}
+                Số điện thoại: {detail?.user?.phone}
+              </Button>
+              <Button
+                fullWidth
+                sx={{
+                  color: "#fff",
+                  marginTop: "20px",
+                  backgroundColor: "#fa6819",
+                  "&:hover": {
+                    backgroundColor: "#ed570e",
+                  },
+                }}
+              >
+                Zalo: {detail?.user?.zalo}
               </Button>
               {user?.id !== detail?.user?.id && (
                 <Button
@@ -272,41 +294,70 @@ const PostDetail: React.FC = () => {
             <Card
               sx={{ padding: "20px", borderRadius: "0", marginTop: "20px" }}
             >
-              <Typography sx={{ fontSize: "18px", fontWeight: 700 }}>
-                Bài đăng gợi ý
-              </Typography>
-              {suggestPost.length > 0 &&
-                suggestPost.map(
-                  (post: IPost) =>
-                    post.id !== detail.id && (
-                      <PostItem key={post?.id} data={post} />
-                    )
-                )}
-              <Grid container justifyContent="center" sx={{ margin: "20px 0" }}>
-                {suggestPost?.filter((post) => post.id !== detail.id).length >
-                0 ? (
-                  <Pagination
-                    count={totalPages}
-                    onChange={onChangePage}
+              <Box
+                sx={{
+                  borderBottom: 1,
+                  borderColor: "divider",
+                }}
+              >
+                <Tabs value={value} onChange={handleChange} textColor="inherit">
+                  <Tab
+                    label="Bài đăng gợi ý"
+                    {...a11yProps(0)}
                     sx={{
-                      "& .Mui-selected": {
-                        backgroundColor: "#fa6819",
-                        color: "#000",
-                      },
-                      "& .MuiPaginationItem-root": {
-                        color: "#000",
-                        "&:hover": {
-                          backgroundColor: "#ed570e",
-                        },
-                      },
+                      textTransform: "none",
                     }}
                   />
-                ) : (
-                  <Typography sx={{ fontSize: "18px" }}>
-                    Không có bài đăng gợi ý
-                  </Typography>
-                )}
-              </Grid>
+                  <Tab
+                    label="Bình luận"
+                    {...a11yProps(1)}
+                    sx={{
+                      textTransform: "none",
+                    }}
+                  />
+                </Tabs>
+              </Box>
+              <CustomTabPanel value={value} index={0}>
+                {suggestPost.length > 0 &&
+                  suggestPost.map(
+                    (post: IPost) =>
+                      post.id !== detail.id && (
+                        <PostItem key={post?.id} data={post} />
+                      )
+                  )}
+                <Grid
+                  container
+                  justifyContent="center"
+                  sx={{ margin: "20px 0" }}
+                >
+                  {suggestPost?.filter((post) => post.id !== detail.id).length >
+                  0 ? (
+                    <Pagination
+                      count={totalPages}
+                      onChange={onChangePage}
+                      sx={{
+                        "& .Mui-selected": {
+                          backgroundColor: "#fa6819",
+                          color: "#000",
+                        },
+                        "& .MuiPaginationItem-root": {
+                          color: "#000",
+                          "&:hover": {
+                            backgroundColor: "#ed570e",
+                          },
+                        },
+                      }}
+                    />
+                  ) : (
+                    <Typography sx={{ fontSize: "18px" }}>
+                      Không có bài đăng gợi ý
+                    </Typography>
+                  )}
+                </Grid>
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={1}>
+                <CommentCustom postId={detail?.id} />
+              </CustomTabPanel>
             </Card>
           </Grid>
         </Grid>
