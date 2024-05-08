@@ -26,3 +26,9 @@ export const formatDateComment = (date: string) => {
   moment.locale("vn");
   return moment(date).fromNow();
 };
+
+export const expirationDate = (date: string) => {
+  const start = new Date(date);
+  start.setDate(start.getDate() + 5);
+  return start;
+};

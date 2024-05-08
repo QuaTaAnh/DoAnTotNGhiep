@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { IPost } from "../../../type";
 import PostItem from "../../../components/PostItem";
@@ -8,6 +8,7 @@ import { RootState } from "../../../redux/store";
 import request from "../../../utils/request";
 import ConfirmDialog from "../../../components/ShowConfirm";
 import { showSnackbar } from "../../../redux/snackbarRedux";
+import { expirationDate, formatDate } from "../../../common/formatDate";
 
 const PostActive: React.FC = () => {
   const dispatch = useDispatch();
@@ -63,16 +64,36 @@ const PostActive: React.FC = () => {
 
   return (
     <>
-      <Grid container>
+      <Grid container spacing={2}>
         {postUser.map((post: IPost) => (
-          <Grid item md={12}>
-            <PostItem
-              key={post.id}
-              data={post}
-              hiddenIcon
-              onClickHide={() => handleOpenDiaLog(post.id)}
-            />
-          </Grid>
+          <>
+            <Grid item md={8}>
+              <PostItem
+                key={post.id}
+                data={post}
+                hiddenIcon
+                onClickHide={() => handleOpenDiaLog(post.id)}
+              />
+            </Grid>
+            <Grid item md={4}>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                justifyContent={"space-between"}
+              >
+                <Typography
+                  sx={{ fontSize: "14px", color: "#000", padding: "10px 0" }}
+                >
+                  Ngày bắt đầu: {formatDate(post?.createdAt)}
+                </Typography>
+                <Typography
+                  sx={{ fontSize: "14px", color: "#000", padding: "10px 0" }}
+                >
+                  Ngày hết hạn: {formatDate(expirationDate(post?.createdAt))}
+                </Typography>
+              </Box>
+            </Grid>
+          </>
         ))}
       </Grid>
       <ConfirmDialog
