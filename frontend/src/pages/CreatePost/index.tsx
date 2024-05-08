@@ -51,7 +51,7 @@ const CreatePost: React.FC = () => {
     const areaId = getIdFromArea(payload.areaNumber, acreages);
     const resultPayload = {
       ...payload,
-      priceNumber: payload.priceNumber / Math.pow(10, 6),
+      priceNumber: (payload.priceNumber / Math.pow(10, 6)).toFixed(2),
       priceId,
       areaId,
     };

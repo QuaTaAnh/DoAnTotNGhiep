@@ -59,6 +59,7 @@ const PersonalUser: React.FC = () => {
       if (data.status) {
         dispatch(showSnackbar({ message: data.message, type: "success" }));
         setCheckFollow(true);
+        getUserById();
       }
     } catch (error) {
       console.log(error);
@@ -76,6 +77,7 @@ const PersonalUser: React.FC = () => {
       if (data.status) {
         dispatch(showSnackbar({ message: data.message, type: "success" }));
         setCheckFollow(false);
+        getUserById();
       }
     } catch (error) {
       console.log(error);
