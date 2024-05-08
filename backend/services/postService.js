@@ -242,13 +242,13 @@ export const getPostSuggestService = async (page, pageSize, priceId, areaId, add
     }
 }
 
-export const getPostByUserIdService = async (page, pageSize, userId) => {
+export const getPostByUserIdService = async (page, pageSize, userId, status) => {
     try {
         const offset = (page - 1) * pageSize;
         const posts = await db.Post.findAll({
             where: {
                 userId: userId,
-                status: 'active'
+                status: status
             },
             include: [
                 { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },

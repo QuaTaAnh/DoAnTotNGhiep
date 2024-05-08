@@ -112,7 +112,8 @@ export const getPostByUserIdController = async (req, res) =>{
         const page = req.query.page ? parseInt(req.query.page) : 1;
         const pageSize = 10
         const userId = parseInt(req.params.userId)
-       const post = await getPostByUserIdService(page, pageSize, userId)
+        const status = req.query.status
+       const post = await getPostByUserIdService(page, pageSize, userId, status)
        return res.status(200).json(post)
     } catch (error) {
         console.log(error)

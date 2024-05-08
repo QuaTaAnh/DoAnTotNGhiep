@@ -6,23 +6,19 @@ import { startLoading, stopLoading } from "../../../redux/loadingRedux";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import request from "../../../utils/request";
-import ConfirmDialog from "../../../components/ShowConfirm";
-import { showSnackbar } from "../../../redux/snackbarRedux";
 import { expirationDate, formatDate } from "../../../common/formatDate";
 
-const PostActive: React.FC = () => {
+const PostExpired: React.FC = () => {
   const dispatch = useDispatch();
   const [postUser, setPostUser] = useState<IPost[]>([]);
   const { user } = useSelector((state: RootState) => state.user);
-  const [open, setOpen] = useState<boolean>(false);
-  const [idHidden, setIdHidden] = useState<number>(0);
 
-  const getPostByStatusActive = async () => {
+  const getPostByStatusExpired = async () => {
     dispatch(startLoading());
     try {
       const { data } = await request.get(`/api/v1/post/${user?.id}`, {
         params: {
-          status: "active",
+          status: "expired",
         },
       });
       if (data.status) {
@@ -37,34 +33,9 @@ const PostActive: React.FC = () => {
 
   useEffect(() => {
     if (user?.id) {
-      getPostByStatusActive();
+      getPostByStatusExpired();
     }
   }, [user?.id]);
-
-  const handleOpenDiaLog = (postId: number) => {
-    setOpen(true);
-    setIdHidden(postId);
-  };
-
-  const handleHiddenPost = async () => {
-    console.log(idHidden);
-    dispatch(startLoading());
-    try {
-      const { data } = await request.post(`/api/v1/post/hidden/${idHidden}`);
-      if (data.status) {
-        dispatch(showSnackbar({ message: data.message, type: "success" }));
-        getPostByStatusActive();
-      } else {
-        dispatch(showSnackbar({ message: data.message, type: "error" }));
-      }
-    } catch (error) {
-      console.log(error);
-      dispatch(showSnackbar({ message: "Đã có lỗi xảy ra!", type: "error" }));
-    } finally {
-      setOpen(false);
-      dispatch(stopLoading());
-    }
-  };
 
   return (
     <>
@@ -72,12 +43,7 @@ const PostActive: React.FC = () => {
         {postUser.map((post: IPost) => (
           <>
             <Grid item md={8}>
-              <PostItem
-                key={post.id}
-                data={post}
-                hiddenIcon
-                onClickHide={() => handleOpenDiaLog(post.id)}
-              />
+              <PostItem key={post.id} data={post} />
             </Grid>
             <Grid item md={4}>
               <Box
@@ -100,15 +66,8 @@ const PostActive: React.FC = () => {
           </>
         ))}
       </Grid>
-      <ConfirmDialog
-        open={open}
-        onClose={() => setOpen(false)}
-        onConfirm={handleHiddenPost}
-        title="Xác nhận"
-        message="Bạn có chắc là bạn muốn ẩn tin này không?"
-      />
     </>
   );
 };
 
-export default PostActive;
+export default PostExpired;

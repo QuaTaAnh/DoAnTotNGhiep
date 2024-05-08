@@ -50,7 +50,11 @@ const PersonalUser: React.FC = () => {
   const getPostByUserId = async () => {
     dispatch(startLoading());
     try {
-      const { data } = await request.get(`/api/v1/post/${id}`);
+      const { data } = await request.get(`/api/v1/post/${id}`, {
+        params: {
+          status: "active",
+        },
+      });
       if (data.status) {
         setPostUser(data?.posts);
       }
