@@ -233,3 +233,58 @@ export const getPostByIdService = async (id) => {
         console.log(error);
     }
 }
+
+export const getPostSuggestService = async (page, pageSize, priceId, areaId) => {
+    try {
+        const offset = (page - 1) * pageSize;
+        const posts = await db.Post.findAll({
+            where: {
+                priceId: priceId,
+                areaId: areaId,
+            },
+            include: [
+                { model: db.User, as: 'user', attributes: ['name', 'zalo', 'phone', 'avatar'] },
+                { 
+                    model: db.Image, 
+                    as: 'images', 
+                    attributes: ['imageUrl'] 
+                }
+            ],
+            limit: pageSize,
+            offset: offset
+        });
+
+        //Sử dụng eager loading để lấy thông tin hình ảnh từ Cloudinary
+        // const postPromises = posts.map(async (post) => {
+        //     post.user.avatar = await getCloudinaryUrl(post.user.avatar);
+        //     post.images = await Promise.all(post.images.map(async (image) => {
+        //         image.imageUrl = await getCloudinaryUrl(image.imageUrl);
+        //         return image;
+        //     }));
+        //     return post;
+        // });
+
+        // const updatedPosts = await Promise.all(postPromises);
+
+        const currentPageTotal = await db.Post.findAll({
+            where: {
+                priceId: priceId,
+                areaId:areaId,
+            },
+        })
+
+        const totalCount = await db.Post.count();
+        const totalPages = Math.ceil(currentPageTotal.length / pageSize);
+
+        return {
+            status: true,
+            message: 'Lấy dữ liệu thành công!',
+            posts,
+            totalPages,
+            currentPage: page,
+            totalCount
+        };
+    } catch (error) {
+        console.log(error);
+    }
+}

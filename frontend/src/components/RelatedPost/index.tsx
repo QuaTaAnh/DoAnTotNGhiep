@@ -56,6 +56,7 @@ const RelatedPost: React.FC = () => {
           {newPosts.map((post: IPost) => (
             <PostSidebar
               key={post.id}
+              id={post.id}
               title={post.title}
               image={post.images}
               price={post.priceNumber}

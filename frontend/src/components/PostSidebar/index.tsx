@@ -4,14 +4,20 @@ import { Link } from "react-router-dom";
 import Room from "../../assets/images/anhtro.jpg";
 import moment from "moment";
 
-const PostSidebar: React.FC<any> = ({ title, price, image, createAt }: any) => {
+const PostSidebar: React.FC<any> = ({
+  id,
+  title,
+  price,
+  image,
+  createAt,
+}: any) => {
   const formatDate = (date: string) => {
     moment.locale("vn");
     return moment(date).fromNow();
   };
 
   return (
-    <Link to="" style={{ textDecoration: "none" }}>
+    <Link to={`/post-detail/${id}`} style={{ textDecoration: "none" }}>
       <Card
         sx={{
           height: "66px",
