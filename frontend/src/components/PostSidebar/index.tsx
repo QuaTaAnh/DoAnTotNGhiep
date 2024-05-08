@@ -57,7 +57,7 @@ const PostSidebar: React.FC<any> = ({
                 justifyContent={"space-between"}
               >
                 <Typography sx={{ fontSize: "12px" }}>
-                  Price: {price}
+                  Price: {price} triệu/tháng
                 </Typography>
                 <Typography sx={{ fontSize: "12px" }}>
                   {formatDate(createAt)}
