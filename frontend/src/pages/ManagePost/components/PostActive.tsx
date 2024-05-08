@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import request from "../../../utils/request";
 import ConfirmDialog from "../../../components/ShowConfirm";
+import { showSnackbar } from "../../../redux/snackbarRedux";
 
 const PostActive: React.FC = () => {
   const dispatch = useDispatch();
@@ -40,15 +41,31 @@ const PostActive: React.FC = () => {
     setIdHidden(postId);
   };
 
-  const handleHiddenPost = () => {
+  const handleHiddenPost = async () => {
     console.log(idHidden);
+    dispatch(startLoading());
+    try {
+      const { data } = await request.post(`/api/v1/post/hidden/${idHidden}`);
+      if (data.status) {
+        dispatch(showSnackbar({ message: data.message, type: "success" }));
+        getPostByUserId();
+      } else {
+        dispatch(showSnackbar({ message: data.message, type: "error" }));
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(showSnackbar({ message: "Đã có lỗi xảy ra!", type: "error" }));
+    } finally {
+      setOpen(false);
+      dispatch(stopLoading());
+    }
   };
 
   return (
     <>
       <Grid container>
         {postUser.map((post: IPost) => (
-          <Grid item md={12} position={"relative"}>
+          <Grid item md={12}>
             <PostItem
               key={post.id}
               data={post}

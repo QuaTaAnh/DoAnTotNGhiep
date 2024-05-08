@@ -1,4 +1,4 @@
-import { createPostService, getNewPostService, getPostByIdService, getPostByUserIdService, getPostSearchService, getPostService, getPostSuggestService } from '../services/postService.js'
+import { createPostService, getNewPostService, getPostByIdService, getPostByUserIdService, getPostSearchService, getPostService, getPostSuggestService, hiddenPostService } from '../services/postService.js'
 
 export const getPostController = async (req, res) =>{
     try {
@@ -114,6 +114,29 @@ export const getPostByUserIdController = async (req, res) =>{
         const userId = parseInt(req.params.userId)
        const post = await getPostByUserIdService(page, pageSize, userId)
        return res.status(200).json(post)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
+            error
+        })
+    }
+}
+
+export const hiddenPostController = async (req, res) =>{
+    try {
+        const id  = req.user.id
+        const postId = parseInt(req.params.postId)
+        console.log(id, postId, '123');
+        if(!id){
+            return res.status(200).send({
+                status: false,
+                message: "Bạn không có quyền để ẩn bài viết này!"
+            })
+        }
+        const hiddenPost = await hiddenPostService(postId)
+        return res.status(200).json(hiddenPost)
     } catch (error) {
         console.log(error)
         res.status(500).send({

@@ -141,7 +141,7 @@ const PostItem: React.FC<{
           <Box
             sx={{
               position: "absolute",
-              top: 4,
+              top: 40,
               right: 10,
               padding: "2px",
               color: "#000",

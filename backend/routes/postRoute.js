@@ -1,6 +1,6 @@
 import express  from "express";
 import authMiddleware from "../middlewares/authMiddleware.js";
-import { getPostController, getNewPostController, getPostSearchController, createPostController, getPostByIdController, getPostSuggestController, getPostByUserIdController } from "../controllers/postController";
+import { getPostController, getNewPostController, getPostSearchController, createPostController, getPostByIdController, getPostSuggestController, getPostByUserIdController, hiddenPostController } from "../controllers/postController";
 
 const router = express.Router()
 
@@ -12,5 +12,7 @@ router.get('/search/:keyword', getPostSearchController)
 router.get('/:id/detail', getPostByIdController)
 
 router.post('/create', authMiddleware, createPostController)
+router.post('/hidden/:postId', authMiddleware, hiddenPostController)
+
 
 export default router

@@ -43,7 +43,7 @@ const CreatePost: React.FC = () => {
     areaId: 0,
     images: [],
     target: "Tất cả",
-    status: "Hoạt động",
+    status: "active",
   });
 
   const handleSubmit = async () => {

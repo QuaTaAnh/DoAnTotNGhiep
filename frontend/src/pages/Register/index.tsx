@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { register as registerFunction } from "../../utils/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { IUser } from "../../type";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import { routes } from "../../config/routes";
 import Loading from "../../components/Loading";
@@ -32,7 +31,7 @@ const Register: React.FC = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: IUser) => {
+  const onSubmit = (data: any) => {
     try {
       registerFunction(dispatch, data).then((res: any) => {
         console.log(res);

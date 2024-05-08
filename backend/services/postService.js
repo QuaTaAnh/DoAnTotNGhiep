@@ -19,7 +19,8 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
         }
         const posts = await db.Post.findAll({
             where: {
-                [Op.and]: valueFilter
+                [Op.and]: valueFilter,
+                status: 'active'
             },
             include: [
                 { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
@@ -58,6 +59,9 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
 export const getNewPostService = async () => {
     try {
         const posts = await db.Post.findAll({
+            where: {
+                status: 'active' 
+            },
             order:  [['createdAt', 'desc']],
             include: [
                 {
@@ -87,7 +91,8 @@ export const getPostSearchService = async (page, pageSize, keyword) => {
             where: {
               title: {
                 [Op.like]: `%${keyword}%`
-              }
+              }, 
+              status: 'active'
             },
             include: [
                 { model: db.User, as: 'user', attributes: ['id','name', 'zalo', 'phone', 'avatar'] },
@@ -161,7 +166,8 @@ export const getPostByIdService = async (id) => {
     try {
         const post = await db.Post.findOne({
             where: {
-                id: id
+                id: id,
+                status: 'active'
             },
             include: [
                 { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
@@ -198,7 +204,8 @@ export const getPostSuggestService = async (page, pageSize, priceId, areaId, add
                 areaId: areaId,
                 address: {
                     [Op.like]: `%${address}%`
-                }
+                },
+                status: 'active' 
             },
             include: [
                 { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
@@ -240,7 +247,8 @@ export const getPostByUserIdService = async (page, pageSize, userId) => {
         const offset = (page - 1) * pageSize;
         const posts = await db.Post.findAll({
             where: {
-                userId: userId
+                userId: userId,
+                status: 'active'
             },
             include: [
                 { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
@@ -271,6 +279,34 @@ export const getPostByUserIdService = async (page, pageSize, userId) => {
             currentPage: page,
             totalCount
         };
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const hiddenPostService = async(postId) =>{
+    try {
+        const post = await db.Post.findOne({
+            where: {
+                id: postId,
+            },
+        });
+        console.log(post.status, '123');
+        if(post?.status === 'hidden'){
+            return {
+                status: false,
+                message: 'Tin này đã bị ẩn!',
+            };
+        } 
+        await db.Post.update(
+            {status: 'hidden'}, 
+            {where: { id: postId }}
+        );
+        return {
+            status: true,
+            message: 'Ẩn tin thành công!',
+        }
+        
     } catch (error) {
         console.log(error);
     }

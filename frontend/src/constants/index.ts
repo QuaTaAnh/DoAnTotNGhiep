@@ -75,6 +75,6 @@ export const TARGETS = [
 ];
 
 export const STATUS = [
-  { code: "Hoạt động", value: "Hoạt động" },
-  { code: "Không hoạt động", value: "Không hoạt động" },
+  { code: "active", value: "Hoạt động" },
+  { code: "notActive", value: "Không hoạt động" },
 ];
