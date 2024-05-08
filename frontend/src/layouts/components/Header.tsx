@@ -34,6 +34,8 @@ import { Link } from "react-router-dom";
 import { getCategory } from "../../redux/callApi";
 import slugify from "slugify";
 import { ICategory } from "../../type";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const SETTINGS = [
   {
@@ -68,6 +70,7 @@ const SETTINGS = [
 ];
 
 const Header: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const [openMenu, setOpenMenu] = useState<null | HTMLElement>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -162,6 +165,7 @@ const Header: React.FC = () => {
                 },
               }}
             >
+              <LanguageSwitcher />
               <IconButton size="large" sx={{ m: 0.5 }}>
                 <Badge badgeContent={6} color="error">
                   <NotificationsNoneIcon />
@@ -245,7 +249,7 @@ const Header: React.FC = () => {
                   }}
                 >
                   <DriveFileRenameOutlineIcon />
-                  ĐĂNG TIN
+                  {t("newPost")}
                 </Button>
               </Tooltip>
             </Box>
