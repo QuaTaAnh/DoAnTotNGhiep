@@ -19,9 +19,11 @@ import { getAcreage, getPrice } from "../../redux/callApi";
 import request from "../../utils/request";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
 import { showSnackbar } from "../../redux/snackbarRedux";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { prices, acreages } = useSelector((state: RootState) => state.api);
 
   useEffect(() => {
@@ -58,6 +60,7 @@ const CreatePost: React.FC = () => {
       const { data } = await request.post("/api/v1/post/create", resultPayload);
       if (data.status) {
         dispatch(showSnackbar({ message: data.message, type: "success" }));
+        navigate(`/post-detail/${data?.post?.id}`);
       } else {
         dispatch(showSnackbar({ message: data.message, type: "error" }));
       }

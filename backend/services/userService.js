@@ -37,7 +37,7 @@ export const updateProfileService = async (id, userPayload) => {
           }
           if(userPayload.avatar){
             const result = await cloudinary.uploader.upload(userPayload.avatar)
-            userPayload.avatar = result.public_id
+            userPayload.avatar = result.url
         }
         
         await db.User.update(userPayload, {

@@ -63,11 +63,6 @@ export const getProfileService = async (id ) => {
                 exclude: ['password']
             }
         })
-        //Rate Limit Exceeded. Limit of 500 api operations reached 
-        // if(user.avatar){
-        //     const result = await cloudinary.api.resource(user.avatar);
-        //     user.avatar = result?.url;
-        // }
         return {
             status: true,
             message: 'Lấy thông tin người dùng thành công!', 

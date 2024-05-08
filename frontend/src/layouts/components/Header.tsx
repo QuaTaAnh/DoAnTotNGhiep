@@ -30,7 +30,7 @@ import { logout as logoutFunction } from "../../utils/auth";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import { routes } from "../../config/routes";
 import SearchInput from "../../components/SearchInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getCategory } from "../../redux/callApi";
 import slugify from "slugify";
 import { ICategory } from "../../type";
@@ -71,6 +71,7 @@ const SETTINGS = [
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [openMenu, setOpenMenu] = useState<null | HTMLElement>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -247,6 +248,7 @@ const Header: React.FC = () => {
                       backgroundColor: "#ed570e",
                     },
                   }}
+                  onClick={() => navigate("/create-post")}
                 >
                   <DriveFileRenameOutlineIcon />
                   {t("newPost")}
