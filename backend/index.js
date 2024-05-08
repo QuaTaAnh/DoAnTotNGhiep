@@ -6,6 +6,8 @@ import connectDB from "./config/db.js"
 import initRoute from './routes/index.js'
 import bodyParser from 'body-parser'
 import generateCode from "./utils/generateCode.js"
+import cron from 'node-cron'
+import { expiredPostController } from "./controllers/postController.js"
 
 dotenv.config()
 
@@ -25,6 +27,9 @@ app.use(bodyParser.urlencoded({
 connectDB()
 
 initRoute(app)
+
+//job
+cron.schedule('0 0 * * *', expiredPostController); 
 
 const PORT = process.env.PORT || 8080
 

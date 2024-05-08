@@ -1,4 +1,4 @@
-import { createPostService, getNewPostService, getPostByIdService, getPostByUserIdService, getPostSearchService, getPostService, getPostSuggestService, hiddenPostService } from '../services/postService.js'
+import { createPostService, expiredPostService, getNewPostService, getPostByIdService, getPostByUserIdService, getPostSearchService, getPostService, getPostSuggestService, hiddenPostService } from '../services/postService.js'
 
 export const getPostController = async (req, res) =>{
     try {
@@ -137,6 +137,20 @@ export const hiddenPostController = async (req, res) =>{
         }
         const hiddenPost = await hiddenPostService(postId)
         return res.status(200).json(hiddenPost)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
+            error
+        })
+    }
+}
+
+export const expiredPostController = async (req, res) =>{
+    try {
+        const expiredPost = await expiredPostService();
+        res.status(200).json(expiredPost);
     } catch (error) {
         console.log(error)
         res.status(500).send({

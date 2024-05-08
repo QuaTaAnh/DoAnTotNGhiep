@@ -284,14 +284,13 @@ export const getPostByUserIdService = async (page, pageSize, userId) => {
     }
 }
 
-export const hiddenPostService = async(postId) =>{
+export const hiddenPostService = async (postId) =>{
     try {
         const post = await db.Post.findOne({
             where: {
                 id: postId,
             },
         });
-        console.log(post.status, '123');
         if(post?.status === 'hidden'){
             return {
                 status: false,
@@ -307,6 +306,20 @@ export const hiddenPostService = async(postId) =>{
             message: 'Ẩn tin thành công!',
         }
         
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const expiredPostService = async () =>{
+    try {
+        const fiveDaysAgo = new Date();
+        fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+        await db.Post.update(
+            { status: 'expired' },
+            { where: { createdAt: { [db.Sequelize.Op.lt]: fiveDaysAgo }, status: 'active' } }
+        );
+        console.log('Đã cập nhật trạng thái cho các bài đăng đã hết hạn.');
     } catch (error) {
         console.log(error);
     }
