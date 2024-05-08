@@ -6,8 +6,8 @@ export interface IUser {
   zalo: string;
   avatar: string;
   isAdmin?: boolean;
-  follower?: number;
-  following?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface UpdateProfileForm extends IUser {
@@ -97,4 +97,9 @@ export interface Ward {
   ward_id: string;
   ward_name: string;
   ward_type: string;
+}
+
+export interface UserPersonal extends IUser {
+  followersCount: number;
+  followingCount: number;
 }

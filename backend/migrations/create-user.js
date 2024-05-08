@@ -27,12 +27,6 @@ module.exports = {
       isAdmin: {
         type: Sequelize.BOOLEAN
       },
-      follower: {
-        type: Sequelize.INTEGER
-      },
-      following: {
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

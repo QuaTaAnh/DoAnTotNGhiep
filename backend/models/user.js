@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Post, { foreignKey: 'userId', as: 'user' })
+      User.belongsToMany(models.User, { as: 'Follower', through: 'Follow', foreignKey: 'followingId' });
+      User.belongsToMany(models.User, { as: 'Following', through: 'Follow', foreignKey: 'followerId' });
+
     }
   }
   User.init({
@@ -21,8 +24,6 @@ module.exports = (sequelize, DataTypes) => {
     zalo: DataTypes.STRING,
     avatar: DataTypes.STRING,
     isAdmin: DataTypes.BOOLEAN,
-    follower: DataTypes.INTEGER,
-    following: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'User',

@@ -5,6 +5,7 @@ import {
   Card,
   Grid,
   Pagination,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
@@ -185,29 +186,35 @@ const PostDetail: React.FC = () => {
               sx={{ padding: "20px", marginLeft: "20px", borderRadius: "0" }}
             >
               <Link
-                to=""
+                to={
+                  user?.id !== detail?.user.id
+                    ? `/user/${detail?.user.id}`
+                    : "/profile"
+                }
                 style={{
                   textDecoration: "none",
                 }}
               >
-                <Box display={"flex"} alignItems={"center"}>
-                  <Avatar
-                    alt="Avatar"
-                    sx={{ marginRight: "10px" }}
-                    src={detail?.user?.avatar ?? NoImage}
-                  />
-                  <Typography
-                    sx={{ fontSize: "16px", fontWeight: 700, color: "#000" }}
-                  >
-                    {detail?.user?.name}
-                  </Typography>
-                </Box>
+                <Tooltip title="Trang cá nhân">
+                  <Box display={"flex"} alignItems={"center"}>
+                    <Avatar
+                      alt="Avatar"
+                      sx={{ marginRight: "10px" }}
+                      src={detail?.user?.avatar ?? NoImage}
+                    />
+                    <Typography
+                      sx={{ fontSize: "16px", fontWeight: 700, color: "#000" }}
+                    >
+                      {detail?.user?.name}
+                    </Typography>
+                  </Box>
+                </Tooltip>
               </Link>
               <Button
                 fullWidth
                 sx={{
                   color: "#fff",
-                  marginTop: "20px",
+                  marginTop: "40px",
                   backgroundColor: "#fa6819",
                   "&:hover": {
                     backgroundColor: "#ed570e",

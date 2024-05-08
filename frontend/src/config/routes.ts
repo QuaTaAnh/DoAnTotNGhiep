@@ -12,4 +12,5 @@ export const routes = {
   editProfile: "/edit-profile",
   createPost: "/create-post",
   postDetail: "/post-detail/:id",
+  personalUser: "/user/:id",
 };
