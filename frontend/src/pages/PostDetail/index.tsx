@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
 import request from "../../utils/request";
 import { IPost } from "../../type";
@@ -23,6 +23,7 @@ import NoImage from "../../assets/images/noImage.jpg";
 import { formatDate } from "../../common/formatDate";
 import RelatedPost from "../../components/RelatedPost";
 import PostItem from "../../components/PostItem";
+import { RootState } from "../../redux/store";
 
 const PostDetail: React.FC = () => {
   const { id } = useParams();
@@ -31,6 +32,9 @@ const PostDetail: React.FC = () => {
   const [suggestPost, setSuggestPost] = useState<IPost[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const { user } = useSelector((state: RootState) => state.user);
+  const parts = detail?.address?.split(",") || "";
+  const city = parts[parts.length - 1];
 
   const getPostDetail = useCallback(async () => {
     dispatch(startLoading());
@@ -52,6 +56,7 @@ const PostDetail: React.FC = () => {
           page: page,
           priceId: detail?.priceId,
           areaId: detail?.areaId,
+          address: city,
         },
       });
       if (data.status) {
@@ -66,7 +71,9 @@ const PostDetail: React.FC = () => {
   };
 
   useEffect(() => {
-    getPostSuggestDetail();
+    if (detail) {
+      getPostSuggestDetail();
+    }
   }, [detail]);
 
   useEffect(() => {
@@ -209,16 +216,18 @@ const PostDetail: React.FC = () => {
               >
                 {detail?.user?.phone}
               </Button>
-              <Button
-                fullWidth
-                sx={{
-                  color: "#fa6819",
-                  marginTop: "20px",
-                  border: "1px solid #ccc",
-                }}
-              >
-                Chat với người bán
-              </Button>
+              {user?.id !== detail?.user?.id && (
+                <Button
+                  fullWidth
+                  sx={{
+                    color: "#fa6819",
+                    marginTop: "20px",
+                    border: "1px solid #ccc",
+                  }}
+                >
+                  Chat với người bán
+                </Button>
+              )}
             </Card>
             <RelatedPost />
           </Grid>

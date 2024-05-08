@@ -16,7 +16,7 @@ interface ImageDetailProps {
 
 const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
   const settings = {
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -76,34 +76,38 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
           />
         ))}
       </div>
-      <IconButton
-        aria-label="previous"
-        onClick={goToPrevSlide}
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "10px",
-          transform: "translateY(-200%)",
-          color: "#fff",
-          backgroundColor: "#fa6819",
-        }}
-      >
-        <KeyboardArrowLeftIcon />
-      </IconButton>
-      <IconButton
-        aria-label="next"
-        onClick={goToNextSlide}
-        style={{
-          position: "absolute",
-          top: "50%",
-          right: "10px",
-          transform: "translateY(-200%)",
-          color: "#fff",
-          backgroundColor: "#fa6819",
-        }}
-      >
-        <KeyboardArrowRightIcon />
-      </IconButton>
+      {images.length > 1 && (
+        <>
+          <IconButton
+            aria-label="previous"
+            onClick={goToPrevSlide}
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "10px",
+              transform: "translateY(-200%)",
+              color: "#fff",
+              backgroundColor: "#fa6819",
+            }}
+          >
+            <KeyboardArrowLeftIcon />
+          </IconButton>
+          <IconButton
+            aria-label="next"
+            onClick={goToNextSlide}
+            style={{
+              position: "absolute",
+              top: "50%",
+              right: "10px",
+              transform: "translateY(-200%)",
+              color: "#fff",
+              backgroundColor: "#fa6819",
+            }}
+          >
+            <KeyboardArrowRightIcon />
+          </IconButton>
+        </>
+      )}
     </div>
   );
 };

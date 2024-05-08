@@ -93,7 +93,9 @@ export const getPostSuggestController = async (req, res) =>{
         const pageSize = 10
         const priceId = req.query.priceId
         const areaId = req.query.areaId
-       const post = await getPostSuggestService(page, pageSize, priceId, areaId)
+        const address = req.query.address
+       
+       const post = await getPostSuggestService(page, pageSize, priceId, areaId, address)
        return res.status(200).json(post)
     } catch (error) {
         console.log(error)

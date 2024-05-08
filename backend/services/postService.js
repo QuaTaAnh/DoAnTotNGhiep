@@ -22,7 +22,7 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
                 [Op.and]: valueFilter
             },
             include: [
-                { model: db.User, as: 'user', attributes: ['name', 'zalo', 'phone', 'avatar'] },
+                { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
                 { 
                     model: db.Image, 
                     as: 'images', 
@@ -90,7 +90,7 @@ export const getPostSearchService = async (page, pageSize, keyword) => {
               }
             },
             include: [
-                { model: db.User, as: 'user', attributes: ['name', 'zalo', 'phone', 'avatar'] },
+                { model: db.User, as: 'user', attributes: ['id','name', 'zalo', 'phone', 'avatar'] },
                 {
                     model: db.Image,
                     as: 'images',
@@ -164,7 +164,7 @@ export const getPostByIdService = async (id) => {
                 id: id
             },
             include: [
-                { model: db.User, as: 'user', attributes: ['name', 'zalo', 'phone', 'avatar'] },
+                { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
                 { 
                     model: db.Image, 
                     as: 'images', 
@@ -189,16 +189,19 @@ export const getPostByIdService = async (id) => {
     }
 }
 
-export const getPostSuggestService = async (page, pageSize, priceId, areaId) => {
+export const getPostSuggestService = async (page, pageSize, priceId, areaId, address) => {
     try {
         const offset = (page - 1) * pageSize;
         const posts = await db.Post.findAll({
             where: {
                 priceId: priceId,
                 areaId: areaId,
+                address: {
+                    [Op.like]: `%${address}%`
+                }
             },
             include: [
-                { model: db.User, as: 'user', attributes: ['name', 'zalo', 'phone', 'avatar'] },
+                { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
                 { 
                     model: db.Image, 
                     as: 'images', 
