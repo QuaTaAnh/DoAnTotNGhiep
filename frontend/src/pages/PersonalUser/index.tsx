@@ -5,17 +5,19 @@ import { useParams } from "react-router-dom";
 import request from "../../utils/request";
 import { useDispatch } from "react-redux";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
-import { UserPersonal } from "../../type";
+import { IPost, UserPersonal } from "../../type";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import AddIcon from "@mui/icons-material/Add";
 import DoneIcon from "@mui/icons-material/Done";
 import { formatDate } from "../../common/formatDate";
+import PostSidebar from "../../components/PostSidebar";
 
 const PersonalUser: React.FC = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [userPersonal, setUserPersonal] = useState<UserPersonal>();
   const [checkFollow, setCheckFollow] = useState<boolean>(false);
+  const [postUser, setPostUser] = useState<IPost[]>([]);
 
   const getUserById = async () => {
     dispatch(startLoading());
@@ -45,10 +47,25 @@ const PersonalUser: React.FC = () => {
     }
   };
 
+  const getPostByUserId = async () => {
+    dispatch(startLoading());
+    try {
+      const { data } = await request.get(`/api/v1/post/${id}`);
+      if (data.status) {
+        setPostUser(data?.posts);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(stopLoading());
+    }
+  };
+
   useEffect(() => {
     if (id) {
       getUserById();
       getCheckFollow();
+      getPostByUserId();
     }
   }, [id]);
 
@@ -176,7 +193,22 @@ const PersonalUser: React.FC = () => {
               )}
             </Card>
           </Grid>
-          <Grid item md={8}></Grid>
+          <Grid item md={8}>
+            <Card
+              sx={{ padding: "20px", marginLeft: "20px", borderRadius: "0" }}
+            >
+              {postUser.map((post: IPost) => (
+                <PostSidebar
+                  key={post.id}
+                  id={post.id}
+                  title={post.title}
+                  image={post.images}
+                  price={post.priceNumber}
+                  createAt={post.createdAt}
+                />
+              ))}
+            </Card>
+          </Grid>
         </Grid>
       )}
     </>

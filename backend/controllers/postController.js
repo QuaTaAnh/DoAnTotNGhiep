@@ -1,4 +1,4 @@
-import { createPostService, getNewPostService, getPostByIdService, getPostSearchService, getPostService, getPostSuggestService } from '../services/postService.js'
+import { createPostService, getNewPostService, getPostByIdService, getPostByUserIdService, getPostSearchService, getPostService, getPostSuggestService } from '../services/postService.js'
 
 export const getPostController = async (req, res) =>{
     try {
@@ -96,6 +96,23 @@ export const getPostSuggestController = async (req, res) =>{
         const address = req.query.address
        
        const post = await getPostSuggestService(page, pageSize, priceId, areaId, address)
+       return res.status(200).json(post)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
+            error
+        })
+    }
+}
+
+export const getPostByUserIdController = async (req, res) =>{
+    try {
+        const page = req.query.page ? parseInt(req.query.page) : 1;
+        const pageSize = 10
+        const userId = parseInt(req.params.userId)
+       const post = await getPostByUserIdService(page, pageSize, userId)
        return res.status(200).json(post)
     } catch (error) {
         console.log(error)

@@ -234,3 +234,43 @@ export const getPostSuggestService = async (page, pageSize, priceId, areaId, add
         console.log(error);
     }
 }
+
+export const getPostByUserIdService = async (page, pageSize, userId) => {
+    try {
+        const offset = (page - 1) * pageSize;
+        const posts = await db.Post.findAll({
+            where: {
+                userId: userId
+            },
+            include: [
+                { 
+                    model: db.Image, 
+                    as: 'images', 
+                    attributes: ['imageUrl'] 
+                }
+            ],
+            limit: pageSize,
+            offset: offset
+        });
+
+        const currentPageTotal = await db.Post.findAll({
+            where: {
+                userId: userId
+            },
+        })
+
+        const totalCount = await db.Post.count();
+        const totalPages = Math.ceil(currentPageTotal.length / pageSize);
+
+        return {
+            status: true,
+            message: 'Lấy dữ liệu thành công!',
+            posts,
+            totalPages,
+            currentPage: page,
+            totalCount
+        };
+    } catch (error) {
+        console.log(error);
+    }
+}
