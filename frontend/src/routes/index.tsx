@@ -10,6 +10,7 @@ import EditProfile from "../pages/EditProfile";
 import CreatePost from "../pages/CreatePost";
 import PostDetail from "../pages/PostDetail";
 import PersonalUser from "../pages/PersonalUser";
+import ManagePost from "../pages/ManagePost";
 
 export const publicRoutes = [
   { path: routes.test, component: Test, layout: null },
@@ -72,5 +73,11 @@ export const publicRoutes = [
     path: routes.personalUser,
     component: PersonalUser,
     navigate: routes.login,
+  },
+  {
+    path: routes.managePost,
+    component: ManagePost,
+    navigate: routes.login,
+    layout: OnlyHeader,
   },
 ];

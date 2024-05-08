@@ -13,4 +13,5 @@ export const routes = {
   createPost: "/create-post",
   postDetail: "/post-detail/:id",
   personalUser: "/user/:id",
+  managePost: "/manage-post",
 };

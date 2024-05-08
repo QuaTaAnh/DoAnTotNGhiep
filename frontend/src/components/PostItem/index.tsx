@@ -12,8 +12,13 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { IPost } from "../../type";
 import Room from "../../assets/images/anhtro.jpg";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
+const PostItem: React.FC<{
+  data: IPost;
+  hiddenIcon?: boolean;
+  onClickHide?: () => void;
+}> = ({ data, hiddenIcon, onClickHide }) => {
   const { id, images, title, user, address, priceNumber, areaNumber } = data;
   const parts = address?.split(",");
   const province = parts?.[parts.length - 1]?.trim();
@@ -23,6 +28,7 @@ const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
     event.preventDefault();
     setFavorite(true);
   };
+
   return (
     <Link to={`/post-detail/${id}`} style={{ textDecoration: "none" }}>
       <Card
@@ -131,6 +137,25 @@ const PostItem: React.FC<{ data: IPost }> = ({ data }) => {
         >
           {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </Box>
+        {hiddenIcon && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 4,
+              right: 10,
+              padding: "2px",
+              color: "#000",
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              if (onClickHide) {
+                onClickHide();
+              }
+            }}
+          >
+            <VisibilityOffIcon sx={{ fontSize: "24px" }} />
+          </Box>
+        )}
       </Card>
     </Link>
   );

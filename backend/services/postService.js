@@ -243,6 +243,7 @@ export const getPostByUserIdService = async (page, pageSize, userId) => {
                 userId: userId
             },
             include: [
+                { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
                 { 
                     model: db.Image, 
                     as: 'images', 

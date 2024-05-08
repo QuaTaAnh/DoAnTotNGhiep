@@ -25,6 +25,7 @@ import { formatDate } from "../../common/formatDate";
 import RelatedPost from "../../components/RelatedPost";
 import PostItem from "../../components/PostItem";
 import { RootState } from "../../redux/store";
+import WcIcon from "@mui/icons-material/Wc";
 
 const PostDetail: React.FC = () => {
   const { id } = useParams();
@@ -145,20 +146,49 @@ const PostDetail: React.FC = () => {
                 alignItems={"center"}
                 paddingTop={"10px"}
               >
+                <Grid container>
+                  <Grid md={6}>
+                    <Box display={"flex"}>
+                      <DescriptionIcon />
+                      <Typography
+                        sx={{
+                          fontSize: "15px",
+                          color: "#000",
+                          marginLeft: "6px",
+                        }}
+                      >
+                        {detail?.shortDescription}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid md={6}>
+                    <Box display={"flex"}>
+                      <CropIcon />
+                      <Typography
+                        sx={{
+                          fontSize: "15px",
+                          color: "#000",
+                          marginLeft: "6px",
+                        }}
+                      >
+                        {detail?.areaNumber} m2
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
+              <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                paddingTop={"10px"}
+              >
                 <Box display={"flex"}>
-                  <DescriptionIcon />
+                  <WcIcon />
                   <Typography
                     sx={{ fontSize: "15px", color: "#000", marginLeft: "6px" }}
                   >
-                    {detail?.shortDescription}
-                  </Typography>
-                </Box>
-                <Box display={"flex"}>
-                  <CropIcon />
-                  <Typography
-                    sx={{ fontSize: "15px", color: "#000", marginLeft: "6px" }}
-                  >
-                    {detail?.areaNumber} m2
+                    Dành cho: {detail?.target}
                   </Typography>
                 </Box>
               </Box>
@@ -189,7 +219,7 @@ const PostDetail: React.FC = () => {
                 to={
                   user?.id !== detail?.user.id
                     ? `/user/${detail?.user.id}`
-                    : "/profile"
+                    : "/manage-post"
                 }
                 style={{
                   textDecoration: "none",

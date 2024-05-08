@@ -48,7 +48,7 @@ const SETTINGS = [
     id: 2,
     icon: <WidgetsIcon fontSize="small" />,
     title: "Quản lý tin đăng",
-    navigate: "/story2",
+    navigate: routes.managePost,
   },
   {
     id: 3,
