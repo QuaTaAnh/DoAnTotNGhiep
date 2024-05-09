@@ -66,3 +66,62 @@ export const getCommentByPageService = async(page, postId) =>{
         console.log(error);
     }
 }
+
+export const updateCommentService = async(userId, commentId, content) =>{
+    try {
+        const comment = await db.Comment.findOne({
+            where: {
+                id: commentId
+            }, 
+            raw: true
+        })
+        if(!comment){
+            return {
+                status: false,
+                message: 'Không tìm thấy bình luận!'
+            }
+        } 
+        if(comment.userId !== userId){
+            return {
+                status: false,
+                message: 'Bạn không có quyền sửa bình luận!!'
+            }
+        }
+        await db.Comment.update(
+            { content: content },
+            { where: { id: commentId }},
+        );
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deleteCommentService = async(userId, commentId) =>{
+    try {
+        const comment = await db.Comment.findOne({
+            where: {
+                id: commentId
+            }, 
+            raw: true
+        })
+        if(!comment){
+            return {
+                status: false,
+                message: 'Không tìm thấy bình luận!'
+            }
+        } 
+        if(comment.userId !== userId){
+            return {
+                status: false,
+                message: 'Bạn không có quyền xóa bình luận!!'
+            }
+        }
+        await db.Comment.destroy({
+            where: {
+                id: commentId
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -55,7 +55,9 @@ const CommentItem: React.FC<CommentItemProps> = ({
   const handleSaveEdit = async (id: number) => {
     dispatch(startLoading());
     try {
-      await request.put(`/comments/${id}`, { content: editedContent });
+      await request.put(`/api/v1/comment/${id}`, {
+        content: editedContent,
+      });
       dispatch(updateComment({ id: id, content: editedContent }));
       dispatch(showSnackbar({ message: "Sửa thành công!", type: "success" }));
       setIsEditing(false);
@@ -70,14 +72,14 @@ const CommentItem: React.FC<CommentItemProps> = ({
   const handleDelete = async (id: number) => {
     dispatch(startLoading());
     try {
-      await request.delete(`/comments/${id}`);
+      await request.delete(`/api/v1/comment/${id}`);
       dispatch(showSnackbar({ message: "Xóa thành công!", type: "success" }));
       dispatch(deleteComment(id));
-      setOpen(false);
     } catch (error) {
       console.log(error);
       dispatch(showSnackbar({ message: "Đã có lỗi xảy ra!", type: "error" }));
     } finally {
+      setOpen(false);
       dispatch(stopLoading());
     }
   };
