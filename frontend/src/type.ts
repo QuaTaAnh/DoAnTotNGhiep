@@ -113,3 +113,12 @@ export interface Comment {
   updatedAt: string;
   user: IUser;
 }
+
+export interface SavePostProp {
+  id: number;
+  postId: number;
+  userId: number;
+  post: IPost;
+  createdAt: string;
+  updatedAt: string;
+}

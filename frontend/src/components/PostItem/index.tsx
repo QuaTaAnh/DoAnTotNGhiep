@@ -6,27 +6,69 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { IPost } from "../../type";
 import Room from "../../assets/images/anhtro.jpg";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { showSnackbar } from "../../redux/snackbarRedux";
+import { useDispatch } from "react-redux";
+import request from "../../utils/request";
+import { startLoading, stopLoading } from "../../redux/loadingRedux";
 
 const PostItem: React.FC<{
   data: IPost;
   hiddenIcon?: boolean;
   onClickHide?: () => void;
 }> = ({ data, hiddenIcon, onClickHide }) => {
+  const dispatch = useDispatch();
   const { id, images, title, user, address, priceNumber, areaNumber } = data;
   const parts = address?.split(",");
   const province = parts?.[parts.length - 1]?.trim();
-
   const [favorite, setFavorite] = useState<boolean>(false);
-  const handleFavorite = (event: React.MouseEvent) => {
+
+  const getCheckFavorite = async () => {
+    dispatch(startLoading());
+    try {
+      const { data } = await request.get(`/api/v1/save/${id}/is-check`);
+      if (data.status) {
+        setFavorite(data.status);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(stopLoading());
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      getCheckFavorite();
+    }
+  }, [id]);
+
+  const handleFavorite = async (event: React.MouseEvent) => {
     event.preventDefault();
-    setFavorite(true);
+    dispatch(startLoading());
+    try {
+      let newData;
+      if (!favorite) {
+        newData = await request.post(`/api/v1/save/${id}`);
+      } else {
+        newData = await request.delete(`/api/v1/save/${id}`);
+      }
+      const { data } = newData;
+      if (data.status) {
+        dispatch(showSnackbar({ message: data.message, type: "success" }));
+        setFavorite(!favorite);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(stopLoading());
+    }
   };
 
   return (

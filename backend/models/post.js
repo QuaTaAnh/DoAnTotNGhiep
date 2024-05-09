@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsTo(models.Price, {foreignKey: 'priceId', targetKey: 'id', as: 'price'});
       Post.belongsTo(models.Area, {foreignKey: 'areaId', targetKey: 'id', as: 'area'});
       Post.belongsTo(models.User, { foreignKey: 'userId', targetKey: 'id', as: 'user' })
+      Post.hasMany(models.SavePost, { foreignKey: 'postId', as: 'save' })
     }
   }
   Post.init({

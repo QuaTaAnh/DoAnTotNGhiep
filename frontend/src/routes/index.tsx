@@ -11,6 +11,7 @@ import CreatePost from "../pages/CreatePost";
 import PostDetail from "../pages/PostDetail";
 import PersonalUser from "../pages/PersonalUser";
 import ManagePost from "../pages/ManagePost";
+import SavePost from "../pages/SavePost";
 
 export const publicRoutes = [
   { path: routes.test, component: Test, layout: null },
@@ -77,6 +78,12 @@ export const publicRoutes = [
   {
     path: routes.managePost,
     component: ManagePost,
+    navigate: routes.login,
+    layout: OnlyHeader,
+  },
+  {
+    path: routes.savePost,
+    component: SavePost,
     navigate: routes.login,
     layout: OnlyHeader,
   },

@@ -28,7 +28,7 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
                     model: db.Image, 
                     as: 'images', 
                     attributes: ['imageUrl'] 
-                }
+                },
             ],
             limit: pageSize,
             offset: offset

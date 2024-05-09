@@ -56,7 +56,7 @@ const Header: React.FC = () => {
       id: 3,
       icon: <FavoriteIcon fontSize="small" />,
       title: t("savePost"),
-      navigate: "/stor3",
+      navigate: routes.savePost,
     },
     {
       id: 4,
