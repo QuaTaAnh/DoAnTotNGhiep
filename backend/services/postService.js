@@ -36,7 +36,8 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
 
         const currentPageTotal = await db.Post.findAll({
             where: {
-                [Op.and]: valueFilter
+                [Op.and]: valueFilter,
+                status: 'active'
             },
         })
 
@@ -109,7 +110,8 @@ export const getPostSearchService = async (page, pageSize, keyword) => {
           const currentPageTotal = await db.Post.findAll({
             where: {
                 title: {
-                    [Op.like]: `%${keyword}%`
+                    [Op.like]: `%${keyword}%`,
+                    status: 'active'
                 }}
             })
 
@@ -223,6 +225,7 @@ export const getPostSuggestService = async (page, pageSize, priceId, areaId, add
             where: {
                 priceId: priceId,
                 areaId:areaId,
+                status: 'active'
             },
         })
 
@@ -264,7 +267,8 @@ export const getPostByUserIdService = async (page, pageSize, userId, status) => 
 
         const currentPageTotal = await db.Post.findAll({
             where: {
-                userId: userId
+                userId: userId,
+                status: 'active'
             },
         })
 

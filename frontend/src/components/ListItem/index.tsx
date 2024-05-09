@@ -6,12 +6,14 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { getPostByPage } from "../../redux/callApi";
 import { IPost } from "../../type";
 import { pageSuccess } from "../../redux/apiRedux";
+import { useTranslation } from "react-i18next";
 
 interface ListItemProp {
   category?: number;
 }
 
 const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const { posts, totalPages, page } = useSelector(
     (state: RootState) => state.api
@@ -44,7 +46,7 @@ const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
       <Grid container>
         <Grid item md={12}>
           <Typography sx={{ fontSize: "18px", fontWeight: 700 }}>
-            Danh sách tin đăng
+            {t("listPosts")}
           </Typography>
         </Grid>
 
@@ -58,7 +60,7 @@ const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
           }}
         >
           <Typography sx={{ fontSize: "14px", marginRight: "10px" }}>
-            Sắp xếp
+            {t("sort")}
           </Typography>
           <Button
             variant="contained"
@@ -74,7 +76,7 @@ const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
               },
             }}
           >
-            Mặc định
+            {t("default")}
           </Button>
           <Button
             variant="contained"
@@ -90,7 +92,7 @@ const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
               },
             }}
           >
-            Mới nhất
+            {t("new")}
           </Button>
         </Grid>
 

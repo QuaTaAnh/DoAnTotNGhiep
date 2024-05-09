@@ -6,7 +6,6 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import Filter from "../components/Filter";
 import { LOCATION, TEXT_INFO, TEXT_TITLE } from "../constants";
 import LocationButton from "../components/LocationButton";
 import { AppDispatch, RootState } from "../redux/store";
@@ -47,9 +46,6 @@ const HomeRentLayout: React.FC<ILayout> = ({ children }: ILayout) => {
       <ContentStyle>
         <Grid container spacing={2}>
           <Grid container sx={{ marginTop: "64px" }}>
-            <Grid item md={12}>
-              <Filter />
-            </Grid>
             <Grid item md={12}>
               <Typography
                 width={"100%"}

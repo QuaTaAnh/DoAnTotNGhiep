@@ -6,8 +6,10 @@ import { useDispatch } from "react-redux";
 import request from "../../utils/request";
 import { IPost } from "../../type";
 import PostItem from "../../components/PostItem";
+import { useTranslation } from "react-i18next";
 
 const SearchPage: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { params } = useParams();
   const [dataSearch, setDataSearch] = useState<IPost[]>([]);
@@ -50,7 +52,7 @@ const SearchPage: React.FC = () => {
             padding: "10px 0",
           }}
         >
-          Kết quả tìm kiếm <span style={{ color: "#fa6819" }}>{params}</span>
+          {t("resultSearch")} <span style={{ color: "#fa6819" }}>{params}</span>
         </Typography>
         <Grid container spacing={4}>
           {dataSearch?.length > 0 ? (
@@ -62,7 +64,7 @@ const SearchPage: React.FC = () => {
           ) : (
             <Grid container justifyContent="center">
               <Typography sx={{ fontSize: "40px", paddingTop: "20px" }}>
-                Không có kết quả
+                {t("noResults")}
               </Typography>
             </Grid>
           )}

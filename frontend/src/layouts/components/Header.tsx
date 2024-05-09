@@ -37,40 +37,39 @@ import { ICategory } from "../../type";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
-const SETTINGS = [
-  {
-    id: 1,
-    icon: <AddIcon fontSize="small" />,
-    title: "Đăng tin cho thuê",
-    navigate: routes.createPost,
-  },
-  {
-    id: 2,
-    icon: <WidgetsIcon fontSize="small" />,
-    title: "Quản lý tin đăng",
-    navigate: routes.managePost,
-  },
-  {
-    id: 3,
-    icon: <FavoriteIcon fontSize="small" />,
-    title: "Tin đã lưu",
-    navigate: "/stor3",
-  },
-  {
-    id: 4,
-    icon: <PersonIcon fontSize="small" />,
-    title: "Thông tin cá nhân",
-    navigate: routes.profile,
-  },
-  {
-    id: 5,
-    icon: <LogoutIcon fontSize="small" />,
-    title: "Đăng xuất",
-  },
-];
-
 const Header: React.FC = () => {
   const { t } = useTranslation();
+  const SETTINGS = [
+    {
+      id: 1,
+      icon: <AddIcon fontSize="small" />,
+      title: t("newPost"),
+      navigate: routes.createPost,
+    },
+    {
+      id: 2,
+      icon: <WidgetsIcon fontSize="small" />,
+      title: t("managePost"),
+      navigate: routes.managePost,
+    },
+    {
+      id: 3,
+      icon: <FavoriteIcon fontSize="small" />,
+      title: t("savePost"),
+      navigate: "/stor3",
+    },
+    {
+      id: 4,
+      icon: <PersonIcon fontSize="small" />,
+      title: t("personalInformation"),
+      navigate: routes.profile,
+    },
+    {
+      id: 5,
+      icon: <LogoutIcon fontSize="small" />,
+      title: t("logout"),
+    },
+  ];
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [openMenu, setOpenMenu] = useState<null | HTMLElement>(null);
@@ -234,7 +233,7 @@ const Header: React.FC = () => {
                   )
                 )}
               </Menu>
-              <Tooltip title="Đăng tin">
+              <Tooltip title="New Post">
                 <Button
                   variant="contained"
                   size="medium"

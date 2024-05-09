@@ -1,3 +1,18 @@
 {
-    "newPost": "New Post"
+    "newPost": "New Post",
+    "managePost": "Manage Post",
+    "savePost": "Save Post",
+    "personalInformation": "Personal Information",
+    "logout": "Log Out",
+    "apartment": "Rental Apartment",
+    "ground": "Rental Ground",
+    "room": "Rental Room",
+    "house": "Rental House",
+    "search": "Search",
+    "resultSearch": "Result Search",
+    "noResults": "No Results",
+    "listPosts": "List Posts",
+    "sort": "Sort",
+    "default": "Default",
+    "new": "New"
 }

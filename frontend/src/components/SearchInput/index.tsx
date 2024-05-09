@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // eslint-disable-next-line no-empty-pattern
 const BoxSearch = styled("div")(({}) => ({
@@ -40,6 +41,7 @@ const StyledInputBase = styled(InputBase)(({}) => ({
 }));
 
 const SearchInput: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -60,13 +62,13 @@ const SearchInput: React.FC = () => {
   return (
     <BoxSearch>
       <StyledInputBase
-        placeholder="Phòng trọ cho thuê?"
+        placeholder={t("search")}
         inputProps={{ "aria-label": "search" }}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         onKeyPress={handleKeyPress}
       />
-      <Tooltip title="Tìm kiếm">
+      <Tooltip title="Search">
         <SearchIconWrapper onClick={handleSearch}>
           <SearchIcon />
         </SearchIconWrapper>

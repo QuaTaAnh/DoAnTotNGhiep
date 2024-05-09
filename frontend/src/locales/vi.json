@@ -1,3 +1,18 @@
 {
-    "newPost": "Đăng tin"
+    "newPost": "Đăng tin",
+    "managePost": "Quản lý tin đăng",
+    "savePost": "Tin đã lưu",
+    "personalInformation": "Thông tin cá nhân",
+    "logout": "Đăng xuất",
+    "apartment": "Cho thuê căn hộ",
+    "ground": "Cho thuê mặt bằng",
+    "room": "Cho thuê phòng trọ",
+    "house": "Nhà cho thuê",
+    "search": "Bạn cần tìm gì?",
+    "resultSearch": "Kết quả tìm kiếm",
+    "noResults": "Không có kết quả",
+    "listPosts": "Danh sách tin đăng",
+    "sort": "Sắp xếp",
+    "default": "Mặc định",
+    "new": "Mới nhất"
 }
