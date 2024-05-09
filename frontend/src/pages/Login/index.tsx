@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  Card,
   Container,
   IconButton,
   InputAdornment,
@@ -58,11 +59,19 @@ const Login: React.FC = () => {
   };
 
   return (
-    <>
+    <Card
+      sx={{
+        width: "480px",
+        height: "540px",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)",
+        margin: "auto",
+        marginTop: "90px",
+      }}
+    >
       <Container
         maxWidth="xs"
         sx={{
-          marginTop: "70px",
+          marginTop: "50px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -168,7 +177,7 @@ const Login: React.FC = () => {
         </Box>
       </Container>
       {loading ? <Loading /> : null}
-    </>
+    </Card>
   );
 };
 
