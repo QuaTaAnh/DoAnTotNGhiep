@@ -12,6 +12,7 @@ export const registerService = async ({ phone, password, name }) => {
                 name,
                 phone,
                 password: hashedPass,
+                isAdmin: false
             }
         })
         const user = response[1] && jwt.sign({ id: response[0].id, phone: response[0].phone }, process.env.SECRET_KEY, { expiresIn: '2d' })
@@ -43,7 +44,7 @@ export const loginService = async ({ phone, password }) => {
             message: 'Sai mật khẩu!'
         }
       }
-      const token =  await jwt.sign({id: user.id, phone: user.phone}, process.env.SECRET_KEY, {expiresIn: '1d'}) 
+      const token =  await jwt.sign({id: user.id, phone: user.phone, isAdmin: user.isAdmin}, process.env.SECRET_KEY, {expiresIn: '1d'}) 
       return {
         status: true,
         message: 'Đăng nhập thành công!', 

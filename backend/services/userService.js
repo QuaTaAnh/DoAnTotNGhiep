@@ -83,5 +83,32 @@ export const getUserPersonalService = async (id) => {
   }
 }
 
+export const getAllUserService = async (page, pageSize) => {
+  try {
+    const offset = (page - 1) * pageSize;
+      const users = await db.User.findAll({
+        where: {
+          isAdmin: 0
+        },
+        attributes: ['id', 'name', 'phone', 'zalo', 'createdAt', 'updatedAt'],
+        order: [['id', 'asc']],
+        limit: pageSize,
+        offset: offset,
+      })
+      const totalUsers = await db.User.count();
+      const totalPages = Math.ceil(totalUsers / pageSize)
+
+      return {
+        status: true,
+        message: 'Lấy dữ liệu thành công!',
+        users,
+        totalPages,
+        totalUsers,
+        currentPage: page
+      };
+  } catch (error) {
+      console.log(error);
+  }
+}
 
   

@@ -137,7 +137,7 @@ const Header: React.FC = () => {
               onClose={handleCloseMenu}
             >
               {categories.map((category: ICategory) => (
-                <MenuItem>
+                <MenuItem key={category.id}>
                   <Link
                     style={{ textDecoration: "none", color: "#000" }}
                     to={`/${slugify(category.value, {
@@ -199,10 +199,11 @@ const Header: React.FC = () => {
                 {SETTINGS.map((setting) =>
                   setting.navigate ? (
                     <Link
+                      key={setting.id}
                       to={setting.navigate}
                       style={{ textDecoration: "none", color: "#000" }}
                     >
-                      <MenuItem key={setting.id}>
+                      <MenuItem>
                         {setting.icon}
                         <Typography
                           textAlign="center"

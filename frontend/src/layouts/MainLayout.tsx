@@ -7,6 +7,9 @@ import styled from "@emotion/styled";
 import Loading from "../components/Loading";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import SidebarCustom from "./components/SidebarCustom";
+import { useLocation } from "react-router-dom";
+import Breadcrumb from "../components/Breadcrumbs";
 
 // eslint-disable-next-line no-empty-pattern
 const MainStyle = styled("div")(({}) => ({
@@ -18,7 +21,6 @@ const MainStyle = styled("div")(({}) => ({
 // eslint-disable-next-line no-empty-pattern
 const ContentStyle = styled("div")(({}) => ({
   flexGrow: 1,
-  padding: "20px",
 }));
 
 // eslint-disable-next-line no-empty-pattern
@@ -28,20 +30,58 @@ const FooterStyle = styled("div")(({}) => ({
 
 const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
   const loading = useSelector((state: RootState) => state.loading);
+  const { user } = useSelector((state: RootState) => state.user);
+  const location = useLocation();
+  const pathnames = location.pathname.split("/").filter((x) => x);
+
+  const homeBreadcrumb = {
+    label: "Home",
+    href: "/",
+  };
+
+  const breadcrumbs = [
+    homeBreadcrumb,
+    ...pathnames.map((pathname, index) => {
+      const url = `/${pathnames.slice(0, index + 1).join("/")}`;
+      const label = pathname.replace(/-/g, " ");
+      return {
+        label: label.charAt(0).toUpperCase() + label.slice(1),
+        href: url,
+      };
+    }),
+  ];
 
   return (
     <MainStyle>
       <Header />
       <ContentStyle>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sx={{ marginTop: "64px" }}>
-            <Container maxWidth="lg">{children}</Container>
+        <Grid container sx={{ marginTop: "64px" }}>
+          {user?.isAdmin ? (
+            <Grid item md={3}>
+              <Container
+                sx={{
+                  width: "100%",
+                  overflowY: "auto",
+                  maxHeight: "calc(100vh - 64px)",
+                }}
+              >
+                <SidebarCustom />
+              </Container>
+            </Grid>
+          ) : null}
+          <Grid item md={user?.isAdmin ? 9 : 12}>
+            <Grid margin={2}>
+              {user?.isAdmin && <Breadcrumb items={breadcrumbs} />}
+            </Grid>
+            <Container>{children}</Container>
           </Grid>
         </Grid>
       </ContentStyle>
-      <FooterStyle>
-        <Footer />
-      </FooterStyle>
+      {!user?.isAdmin ? (
+        <FooterStyle>
+          <Footer />
+        </FooterStyle>
+      ) : null}
       {loading ? <Loading /> : null}
     </MainStyle>
   );

@@ -2,7 +2,6 @@ import { routes } from "../config/routes";
 import HomeRentLayout from "../layouts/HomeRentLayout";
 import OnlyHeader from "../layouts/OnlyHeader";
 import Home from "../pages/Home";
-import Test from "../pages/Test";
 import Rent from "../pages/Rent";
 import SearchPage from "../pages/SearchPage";
 import Profile from "../pages/Profile";
@@ -12,10 +11,12 @@ import PostDetail from "../pages/PostDetail";
 import PersonalUser from "../pages/PersonalUser";
 import ManagePost from "../pages/ManagePost";
 import SavePost from "../pages/SavePost";
+import ManageUser from "../pages/Admin/ManageUser";
+import Dashboard from "../pages/Admin/Dashboard";
+import ManageCategory from "../pages/Admin/ManageCategory";
 
 export const publicRoutes = [
-  { path: routes.test, component: Test, layout: null },
-  { path: routes.test, component: Test, layout: OnlyHeader },
+  { path: routes.dashboard, component: Dashboard },
   {
     path: routes.home,
     component: Home,
@@ -86,5 +87,15 @@ export const publicRoutes = [
     component: SavePost,
     navigate: routes.login,
     layout: OnlyHeader,
+  },
+  {
+    path: routes.manageUser,
+    component: ManageUser,
+    navigate: routes.login,
+  },
+  {
+    path: routes.manageCategory,
+    component: ManageCategory,
+    navigate: routes.login,
   },
 ];
