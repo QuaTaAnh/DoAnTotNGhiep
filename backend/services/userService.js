@@ -1,5 +1,6 @@
 import db from '../models/index.js'
 import cloudinary from "../config/cloudinary.js";
+import { Op } from 'sequelize';
 import { comparePassword, hashPassword } from '../helpers/authHelper.js'
 
 export const updateProfileService = async (id, userPayload) => {
@@ -105,6 +106,29 @@ export const getAllUserService = async (page, pageSize) => {
         totalPages,
         totalUsers,
         currentPage: page
+      };
+  } catch (error) {
+      console.log(error);
+  }
+}
+
+export const statistUserRegisterService = async () => {
+  try {
+      const today = new Date();
+      const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+      const count = await db.User.count({
+        where: {
+          createdAt: {
+            [Op.between]: [startDate, endDate]
+          }
+        }
+      });
+      return {
+        status: true,
+        message: 'Lấy dữ liệu thành công!',
+        count
       };
   } catch (error) {
       console.log(error);

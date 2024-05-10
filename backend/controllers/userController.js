@@ -1,4 +1,4 @@
-import { getAllUserService, getUserPersonalService, updateProfileService } from "../services/userService.js"
+import { getAllUserService, getUserPersonalService, statistUserRegisterService, updateProfileService } from "../services/userService.js"
 
 export const updateProfileController = async (req, res) => {
     try {
@@ -46,4 +46,19 @@ export const getAllUserController = async (req, res) => {
         })
     }
 }
+
+export const statistUserRegisterController = async (req, res) => {
+    try {
+        const result = await statistUserRegisterService()
+        return res.status(200).json(result)
+    } catch (error) {
+        console.log(error) 
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
+            error
+        })
+    }
+}
+
 
