@@ -47,7 +47,6 @@ const PostActive: React.FC = () => {
   };
 
   const handleHiddenPost = async () => {
-    console.log(idHidden);
     dispatch(startLoading());
     try {
       const { data } = await request.post(`/api/v1/post/hidden/${idHidden}`);

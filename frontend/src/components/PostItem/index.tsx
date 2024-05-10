@@ -30,7 +30,6 @@ const PostItem: React.FC<{
   const [favorite, setFavorite] = useState<boolean>(false);
 
   const getCheckFavorite = async () => {
-    dispatch(startLoading());
     try {
       const { data } = await request.get(`/api/v1/save/${id}/is-check`);
       if (data.status) {
@@ -38,8 +37,6 @@ const PostItem: React.FC<{
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      dispatch(stopLoading());
     }
   };
 
