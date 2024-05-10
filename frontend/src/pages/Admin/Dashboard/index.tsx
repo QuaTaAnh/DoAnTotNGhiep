@@ -1,38 +1,27 @@
 import { Container, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
   Legend,
   CartesianGrid,
+  BarChart,
+  Bar,
 } from "recharts";
 import request from "../../../utils/request";
 
 const Dashboard: React.FC = () => {
-  const [registrationData, setRegistrationData] = useState([]);
+  const [registrationData, setRegistrationData] = useState<any>([]);
 
   const getStaticRegister = async () => {
     try {
-      const res = await request.get("/api/v1/user/static-user-register");
-      const count = res.data.count;
-      const today = new Date();
-      const data: any = [];
-      for (let i = 6; i >= 0; i--) {
-        const date = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDate() - i
-        );
-        data.push({
-          name: date.toLocaleDateString(),
-          registrations: i === 6 ? count : 0,
-        });
-      }
-
-      setRegistrationData(data);
+      const { data } = await request.get("/api/v1/user/static-user-register");
+      const count = data.counts.map((item: any) => ({
+        month: `Tháng ${item.month}/${item.year}`,
+        registrations: item.count,
+      }));
+      setRegistrationData(count);
     } catch (error) {
       console.error("Đã xảy ra lỗi:", error);
     }
@@ -45,16 +34,21 @@ const Dashboard: React.FC = () => {
   return (
     <Container maxWidth="md">
       <Typography variant="h5" align="center" marginBottom={4}>
-        Số người đăng kí theo ngày
+        Số người đăng kí trong tháng
       </Typography>
-      <LineChart width={800} height={400} data={registrationData}>
+      <BarChart
+        width={800}
+        height={400}
+        data={registrationData}
+        margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
+      >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
+        <XAxis dataKey="month" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="registrations" stroke="#8884d8" />
-      </LineChart>
+        <Bar dataKey="registrations" fill="#8884d8" />
+      </BarChart>
     </Container>
   );
 };
