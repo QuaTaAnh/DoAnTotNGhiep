@@ -91,7 +91,7 @@ export const getAllUserService = async (page, pageSize) => {
         where: {
           isAdmin: 0
         },
-        attributes: ['id', 'name', 'phone', 'zalo', 'createdAt', 'updatedAt'],
+        attributes: ['id', 'name', 'phone', 'zalo', 'avatar', 'createdAt', 'updatedAt'],
         order: [['id', 'asc']],
         limit: pageSize,
         offset: offset,

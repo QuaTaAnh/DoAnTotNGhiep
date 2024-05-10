@@ -7,6 +7,7 @@ import { startLoading, stopLoading } from "../../../redux/loadingRedux";
 import request from "../../../utils/request";
 import { formatDate } from "../../../common/formatDate";
 import { useNavigate } from "react-router-dom";
+import UpdateUser from "./UpdateUser";
 
 const ManageUser: React.FC = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const ManageUser: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [users, setUsers] = useState<IUser[]>([]);
+  const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
+  const [initValue, setInitValue] = useState<IUser>();
 
   const getUsers = useCallback(async () => {
     dispatch(startLoading());
@@ -41,6 +44,11 @@ const ManageUser: React.FC = () => {
   // const handlePageChange = (page: number) => {
   //   setPage(page);
   // };
+
+  const openModalEdit = (params: IUser | any) => {
+    setInitValue(params.row);
+    setIsOpenEdit(true);
+  };
 
   const columns: GridColDef<IUser>[] = [
     {
@@ -101,7 +109,7 @@ const ManageUser: React.FC = () => {
                 margin: "0 4px",
                 textTransform: "none",
               }}
-              onClick={() => navigate(`/manage-update-user/${params.id}`)}
+              onClick={() => openModalEdit(params)}
             >
               Update
             </Button>
@@ -146,6 +154,11 @@ const ManageUser: React.FC = () => {
           />
         </Grid>
       </Grid>
+      <UpdateUser
+        isOpen={isOpenEdit}
+        setIsOpen={setIsOpenEdit}
+        data={initValue}
+      />
     </Container>
   );
 };
