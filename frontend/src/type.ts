@@ -126,3 +126,7 @@ export interface SavePostProp {
 export type AdminUpdateProfileForm = Partial<
   Pick<IUser, "avatar" | "name" | "phone" | "zalo" | "id">
 >;
+
+export type AdminCreateUpdateCategory = Partial<
+  Pick<ICategory, "code" | "value" | "id">
+>;

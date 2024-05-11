@@ -1,14 +1,25 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../../common/formatDate";
 import { RootState } from "../../../redux/store";
 import { ICategory } from "../../../type";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CreateUpdateCategory from "./UpdateCategory";
 
 const ManageCategory: React.FC = () => {
-  const navigate = useNavigate();
   const { categories } = useSelector((state: RootState) => state.api);
+  const [initValue, setInitValue] = useState<ICategory>();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  const openModalEdit = (params: ICategory | any) => {
+    setIsEdit(true);
+    setIsOpen(true);
+    setInitValue(params.row);
+  };
 
   const columns: GridColDef<ICategory>[] = [
     {
@@ -19,7 +30,7 @@ const ManageCategory: React.FC = () => {
     },
     {
       field: "code",
-      headerName: "Mã",
+      headerName: "Mã danh mục",
       width: 120,
       editable: true,
       valueGetter: (value, row) => row.code,
@@ -52,31 +63,25 @@ const ManageCategory: React.FC = () => {
       renderCell: (params) => {
         return (
           <div>
-            <Button
+            <IconButton
               sx={{
-                border: "1px solid #ccc",
                 color: "#fa6819",
-                padding: "4px 16px",
-                borderRadius: "5px",
                 margin: "0 4px",
                 textTransform: "none",
               }}
-              onClick={() => navigate(`/manage-update-category/${params.id}`)}
+              onClick={() => openModalEdit(params)}
             >
-              Update
-            </Button>
-            <Button
+              <EditIcon />
+            </IconButton>
+            <IconButton
               sx={{
-                border: "1px solid #ccc",
                 color: "#fa6819",
-                padding: "4px 16px",
-                borderRadius: "5px",
                 margin: "0 4px",
                 textTransform: "none",
               }}
             >
-              Delete
-            </Button>
+              <DeleteIcon />
+            </IconButton>
           </div>
         );
       },
@@ -100,6 +105,7 @@ const ManageCategory: React.FC = () => {
                 backgroundColor: "#ed570e",
               },
             }}
+            onClick={() => setIsOpen(true)}
           >
             Thêm mới
           </Button>
@@ -122,6 +128,13 @@ const ManageCategory: React.FC = () => {
           />
         </Grid>
       </Grid>
+      <CreateUpdateCategory
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
+        data={initValue}
+      />
     </Container>
   );
 };
