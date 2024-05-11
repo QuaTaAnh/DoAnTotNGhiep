@@ -1,60 +1,76 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import {
+  Avatar,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IUser } from "../../../type";
-import { useDispatch } from "react-redux";
-import { startLoading, stopLoading } from "../../../redux/loadingRedux";
-import request from "../../../utils/request";
+import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../../common/formatDate";
-import { useNavigate } from "react-router-dom";
 import UpdateUser from "./UpdateUser";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { getAllUsers } from "../../../redux/callApi";
+import NoImage from "../../../assets/images/noImage.jpg";
+import EditIcon from "@mui/icons-material/Edit";
 
 const ManageUser: React.FC = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [users, setUsers] = useState<IUser[]>([]);
   const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
   const [initValue, setInitValue] = useState<IUser>();
-
-  const getUsers = useCallback(async () => {
-    dispatch(startLoading());
-    try {
-      const { data } = await request.get(`/api/v1/user/all`, {
-        params: {
-          page: page,
-        },
-      });
-      if (data.status) {
-        setUsers(data.users);
-        setTotalPages(data.totalPages);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(stopLoading());
-    }
-  }, [page]);
+  const { allUsers, totalPages } = useSelector(
+    (state: RootState) => state.user
+  );
 
   useEffect(() => {
-    getUsers();
-  }, [getUsers]);
-
-  // const handlePageChange = (page: number) => {
-  //   setPage(page);
-  // };
+    dispatch(getAllUsers({ page }));
+  }, [dispatch, page]);
 
   const openModalEdit = (params: IUser | any) => {
     setInitValue(params.row);
     setIsOpenEdit(true);
   };
 
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
   const columns: GridColDef<IUser>[] = [
+    {
+      field: "avatar",
+      headerName: "Avatar",
+      width: 80,
+      renderCell: (params) => {
+        return (
+          <div>
+            <Avatar
+              sx={{
+                width: 46,
+                height: 46,
+              }}
+              src={params.row.avatar || NoImage}
+              alt="avatar"
+            />
+          </div>
+        );
+      },
+    },
     {
       field: "id",
       headerName: "ID",
-      width: 90,
+      width: 50,
       valueGetter: (value, row) => `
       ${row.id || ""}`,
     },
@@ -100,64 +116,80 @@ const ManageUser: React.FC = () => {
       renderCell: (params) => {
         return (
           <div>
-            <Button
+            <IconButton
               sx={{
-                border: "1px solid #ccc",
                 color: "#fa6819",
-                padding: "4px 16px",
-                borderRadius: "5px",
                 margin: "0 4px",
                 textTransform: "none",
               }}
               onClick={() => openModalEdit(params)}
             >
-              Update
-            </Button>
-            <Button
-              sx={{
-                border: "1px solid #ccc",
-                color: "#fa6819",
-                padding: "4px 16px",
-                borderRadius: "5px",
-                margin: "0 4px",
-                textTransform: "none",
-              }}
-            >
-              Delete
-            </Button>
+              <EditIcon />
+            </IconButton>
           </div>
         );
       },
     },
   ];
+
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
         Quản lý người dùng
       </Typography>
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} container justifyContent="flex-end">
+        <Grid item xs={12} container justifyContent="center">
           <DataGrid
             style={{ height: "480px" }}
-            rows={users ? users : []}
+            rows={allUsers ? allUsers : []}
             columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
             checkboxSelection
             disableRowSelectionOnClick
+            pageSizeOptions={[10]}
           />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          container
+          justifyContent="center"
+          marginBottom={"20px"}
+        >
+          <Button
+            onClick={handlePrevPage}
+            disabled={page === 1}
+            sx={{
+              border: "1px solid #ccc",
+              color: "#fa6819",
+              padding: "4px 16px",
+              borderRadius: "5px",
+              margin: "0 4px",
+              textTransform: "none",
+            }}
+          >
+            Previous Page
+          </Button>
+          <Button
+            onClick={handleNextPage}
+            disabled={page === totalPages}
+            sx={{
+              border: "1px solid #ccc",
+              color: "#fa6819",
+              padding: "4px 16px",
+              borderRadius: "5px",
+              margin: "0 4px",
+              textTransform: "none",
+            }}
+          >
+            Next Page
+          </Button>
         </Grid>
       </Grid>
       <UpdateUser
         isOpen={isOpenEdit}
         setIsOpen={setIsOpenEdit}
         data={initValue}
+        page={page}
       />
     </Container>
   );

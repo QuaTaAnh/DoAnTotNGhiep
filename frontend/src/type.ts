@@ -122,3 +122,7 @@ export interface SavePostProp {
   createdAt: string;
   updatedAt: string;
 }
+
+export type AdminUpdateProfileForm = Partial<
+  Pick<IUser, "avatar" | "name" | "phone" | "zalo" | "id">
+>;

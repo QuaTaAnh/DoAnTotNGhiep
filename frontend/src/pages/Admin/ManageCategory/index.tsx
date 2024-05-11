@@ -83,7 +83,7 @@ const ManageCategory: React.FC = () => {
     },
   ];
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
         Quản lý danh mục
       </Typography>

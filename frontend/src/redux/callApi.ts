@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import request from "../utils/request";
 import { startLoading, stopLoading } from "./loadingRedux";
-import { profileSuccess } from "./userRedux";
+import { allUserSuccess, profileSuccess, totalPageSuccess } from "./userRedux";
 import {
   acreageSuccess,
   categorySuccess,
@@ -121,6 +121,29 @@ export const getCommentByPage = createAsyncThunk(
       dispatch(commentSuccess(data));
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(stopLoading());
+    }
+  }
+);
+
+export const getAllUsers = createAsyncThunk(
+  "profile/allUsers",
+  async (props: any, { dispatch }) => {
+    try {
+      dispatch(startLoading());
+      const { page } = props;
+      const { data } = await request.get(`/api/v1/user/all`, {
+        params: {
+          page: page,
+        },
+      });
+      dispatch(allUserSuccess(data?.users));
+      dispatch(totalPageSuccess(data?.totalPages));
+      return data?.users;
+    } catch (error) {
+      console.error("Error");
+      throw error;
     } finally {
       dispatch(stopLoading());
     }

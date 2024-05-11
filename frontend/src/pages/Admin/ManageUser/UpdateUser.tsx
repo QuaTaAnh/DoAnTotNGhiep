@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IUser } from "../../../type";
+import { AdminUpdateProfileForm, IUser } from "../../../type";
 import {
   Avatar,
   Box,
@@ -10,14 +10,31 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useForm } from "react-hook-form";
+import { adminEditProfileUser as adminEditProfileFunction } from "../../../utils/auth";
+import { useDispatch } from "react-redux";
+import { showSnackbar } from "../../../redux/snackbarRedux";
+import { getAllUsers } from "../../../redux/callApi";
+import { AppDispatch } from "../../../redux/store";
 
 const UpdateUser: React.FC<{
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   data: IUser | any;
-}> = ({ isOpen, setIsOpen, data }) => {
+  page: number;
+}> = ({ isOpen, setIsOpen, data, page }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [avatar, setAvatar] = useState<string>("");
+  const [avatarUrl, setAvatarUrl] = useState<File | Blob | string | null | any>(
+    ""
+  );
+  const [avartarChanged, setAvatarChanged] = useState<boolean>(false);
+  const [formChanged, setFormChanged] = useState<boolean>(false);
+
+  const handleInputChange = () => {
+    setFormChanged(true);
+  };
+
   const {
     register,
     handleSubmit,
@@ -33,9 +50,24 @@ const UpdateUser: React.FC<{
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
+    setAvatarChanged(true);
+    setFormChanged(true);
     if (files && files.length > 0) {
       const selectedFile = files[0];
       setAvatar(URL.createObjectURL(selectedFile as Blob));
+      setFileToBase(selectedFile);
+    }
+  };
+
+  const setFileToBase = (file: any) => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result as any);
+      };
+    } else {
+      setAvatarUrl("");
     }
   };
 
@@ -45,12 +77,41 @@ const UpdateUser: React.FC<{
     setValue("zalo", data?.zalo);
   }, [data]);
 
-  const onSubmit = (payload: any) => {
-    console.log(payload);
+  const onSubmit = (payload: AdminUpdateProfileForm) => {
+    let params = { ...payload };
+    if (avartarChanged) {
+      params = { id: data.id, ...payload, avatar: avatarUrl };
+    }
+    try {
+      adminEditProfileFunction(dispatch, params).then((res: any) => {
+        if (res.data.status === true) {
+          dispatch(
+            showSnackbar({ message: res.data.message, type: "success" })
+          );
+          dispatch(getAllUsers({ page }));
+          setIsOpen(false);
+        } else {
+          dispatch(
+            showSnackbar({
+              message: res.data.message,
+              type: "error",
+            })
+          );
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch(showSnackbar({ message: "Đã có lỗi xảy ra!", type: "error" }));
+    }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setFormChanged(false);
   };
 
   return (
-    <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+    <Modal open={isOpen} onClose={handleClose}>
       <Box
         sx={{
           position: "absolute",
@@ -101,6 +162,7 @@ const UpdateUser: React.FC<{
               required: "Vui lòng nhập họ tên.",
             })}
             error={!!errors.name}
+            onChange={handleInputChange}
             helperText={errors.name?.message as any}
           />
           <TextField
@@ -113,6 +175,7 @@ const UpdateUser: React.FC<{
               required: "Vui lòng nhập số điện thoại.",
             })}
             error={!!errors.phone}
+            onChange={handleInputChange}
             helperText={errors.phone?.message as any}
           />
           <TextField
@@ -125,6 +188,7 @@ const UpdateUser: React.FC<{
               required: "Vui lòng nhập số zalo.",
             })}
             error={!!errors.zalo}
+            onChange={handleInputChange}
             helperText={errors.zalo?.message as any}
           />
           <Box
@@ -148,6 +212,7 @@ const UpdateUser: React.FC<{
                   backgroundColor: "#ed570e",
                 },
               }}
+              disabled={!formChanged}
             >
               Update
             </Button>
@@ -166,7 +231,7 @@ const UpdateUser: React.FC<{
               backgroundColor: "#ed570e",
             },
           }}
-          onClick={() => setIsOpen(false)}
+          onClick={handleClose}
         >
           <CloseIcon />
         </Button>

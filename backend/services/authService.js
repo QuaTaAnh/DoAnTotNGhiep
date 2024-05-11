@@ -12,7 +12,8 @@ export const registerService = async ({ phone, password, name }) => {
                 name,
                 phone,
                 password: hashedPass,
-                isAdmin: false
+                isAdmin: false,
+                zalo: phone
             }
         })
         const user = response[1] && jwt.sign({ id: response[0].id, phone: response[0].phone }, process.env.SECRET_KEY, { expiresIn: '2d' })

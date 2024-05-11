@@ -48,3 +48,19 @@ export const editProfile = async (
     dispatch(stopLoading());
   }
 };
+
+export const adminEditProfileUser = async (
+  dispatch: Dispatch<any>,
+  user: IUser | any
+) => {
+  dispatch(startLoading());
+  try {
+    const res = await request.patch("api/v1/user/admin-update", user);
+    return res;
+  } catch (error) {
+    console.log(error);
+    return error;
+  } finally {
+    dispatch(stopLoading());
+  }
+};
