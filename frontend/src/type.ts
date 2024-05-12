@@ -128,5 +128,5 @@ export type AdminUpdateProfileForm = Partial<
 >;
 
 export type AdminCreateUpdateCategory = Partial<
-  Pick<ICategory, "code" | "value" | "id">
+  Pick<ICategory, "code" | "value">
 >;

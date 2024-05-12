@@ -146,7 +146,12 @@ const Header: React.FC = () => {
                     })}`}
                     state={category.id}
                   >
-                    {category.value}
+                    {category.value
+                      .split(" ")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
                   </Link>
                 </MenuItem>
               ))}

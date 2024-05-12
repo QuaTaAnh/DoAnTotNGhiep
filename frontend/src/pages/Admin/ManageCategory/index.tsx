@@ -1,19 +1,27 @@
 import { Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../../common/formatDate";
-import { RootState } from "../../../redux/store";
+import { AppDispatch, RootState } from "../../../redux/store";
 import { ICategory } from "../../../type";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CreateUpdateCategory from "./UpdateCategory";
+import CreateUpdateCategory from "./CreateUpdateCategory";
+import ConfirmDialog from "../../../components/ShowConfirm";
+import request from "../../../utils/request";
+import { startLoading, stopLoading } from "../../../redux/loadingRedux";
+import { showSnackbar } from "../../../redux/snackbarRedux";
+import { getCategory } from "../../../redux/callApi";
 
 const ManageCategory: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { categories } = useSelector((state: RootState) => state.api);
   const [initValue, setInitValue] = useState<ICategory>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [idCate, setIdCate] = useState<number>(0);
 
   const openModalEdit = (params: ICategory | any) => {
     setIsEdit(true);
@@ -40,7 +48,13 @@ const ManageCategory: React.FC = () => {
       headerName: "Tên danh mục",
       width: 200,
       editable: true,
-      valueGetter: (value, row) => row.value,
+      valueGetter: (value, row) => {
+        const formattedValue = row.value
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+        return formattedValue;
+      },
     },
     {
       field: "createdAt",
@@ -79,6 +93,7 @@ const ManageCategory: React.FC = () => {
                 margin: "0 4px",
                 textTransform: "none",
               }}
+              onClick={() => handleOpenDiaLog(params.row.id)}
             >
               <DeleteIcon />
             </IconButton>
@@ -87,6 +102,31 @@ const ManageCategory: React.FC = () => {
       },
     },
   ];
+
+  const handleOpenDiaLog = (cateId: number) => {
+    setOpenDelete(true);
+    setIdCate(cateId);
+  };
+
+  const handleDelete = async () => {
+    dispatch(startLoading());
+    try {
+      const { data } = await request.delete(`/api/v1/category/${idCate}`);
+      if (data.status) {
+        dispatch(showSnackbar({ message: data.message, type: "success" }));
+        dispatch(getCategory());
+      } else {
+        dispatch(showSnackbar({ message: data.message, type: "error" }));
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(showSnackbar({ message: "Đã có lỗi xảy ra!", type: "error" }));
+    } finally {
+      setOpenDelete(false);
+      dispatch(stopLoading());
+    }
+  };
+
   return (
     <Container maxWidth="lg">
       <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
@@ -115,14 +155,6 @@ const ManageCategory: React.FC = () => {
             style={{ height: "480px" }}
             rows={categories ? categories : []}
             columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
             checkboxSelection
             disableRowSelectionOnClick
           />
@@ -134,6 +166,13 @@ const ManageCategory: React.FC = () => {
         isEdit={isEdit}
         setIsEdit={setIsEdit}
         data={initValue}
+      />
+      <ConfirmDialog
+        open={openDelete}
+        onClose={() => setOpenDelete(false)}
+        onConfirm={handleDelete}
+        title="Xác nhận"
+        message="Bạn có chắc là bạn muốn xóa danh mục này không?"
       />
     </Container>
   );

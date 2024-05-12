@@ -15,3 +15,81 @@ export const getCategoryService = async () => {
         console.log(error);
     }
 }
+
+export const createCategoryService = async(payload) =>{
+    try {
+        const existingCategory = await db.Category.findOne({
+            where: {
+                code: payload.code
+            }
+        });
+        if (existingCategory) {
+            return {
+                status: false,
+                message: 'Mã danh mục đã tồn tại!.'
+            };
+        }
+        const newCate = await db.Category.create({
+            ...payload,
+        });
+        if (newCate) {
+            return {
+                status: true,
+                message: 'Tạo danh mục thành công!',
+            };
+        } else {
+            return {
+                status: false,
+                message: 'Không thể tạo danh mục'
+            };
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateCategoryService = async(id, payload) =>{
+    try {
+        const category = await db.Category.findOne({
+            where: {
+                id: id
+            }
+        });
+        const existingCategory = await db.Category.findOne({
+            where: {
+                code: category.code
+            }
+        });
+        if(existingCategory && existingCategory.code !== payload.code){
+            return {
+                status: false,
+                message: 'Mã danh mục đã tồn tại!.'
+            };
+        }
+        await db.Category.update(payload, {
+            where: { id }
+        });
+        return {
+            status: true,
+            message: 'Cập nhật danh mục thành công!'
+          };
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deleteCategoryService = async(id) =>{
+    try {
+        await db.Category.destroy({
+            where: {
+                id: id,
+            }
+        })
+        return {
+            status: true,
+            message: 'Xóa danh mục thành công!'
+          };
+    } catch (error) {
+        console.log(error);
+    }
+}

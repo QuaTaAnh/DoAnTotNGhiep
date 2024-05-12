@@ -68,10 +68,12 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
                 <SidebarCustom />
               </Container>
             </Grid>
-          ) : null}
+          ) : (
+            <></>
+          )}
           <Grid item md={user?.isAdmin ? 9 : 12}>
             <Grid margin={2}>
-              {user?.isAdmin && <Breadcrumb items={breadcrumbs} />}
+              {user?.isAdmin ? <Breadcrumb items={breadcrumbs} /> : <></>}
             </Grid>
             <Container>{children}</Container>
           </Grid>
@@ -81,7 +83,9 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
         <FooterStyle>
           <Footer />
         </FooterStyle>
-      ) : null}
+      ) : (
+        <></>
+      )}
       {loading ? <Loading /> : null}
     </MainStyle>
   );

@@ -3,6 +3,12 @@ import React, { useEffect, useState } from "react";
 import { AdminCreateUpdateCategory, ICategory } from "../../../type";
 import { useForm } from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
+import { AppDispatch } from "../../../redux/store";
+import { useDispatch } from "react-redux";
+import { startLoading, stopLoading } from "../../../redux/loadingRedux";
+import request from "../../../utils/request";
+import { showSnackbar } from "../../../redux/snackbarRedux";
+import { getCategory } from "../../../redux/callApi";
 
 const CreateUpdateCategory: React.FC<{
   isOpen: boolean;
@@ -12,6 +18,7 @@ const CreateUpdateCategory: React.FC<{
   data: ICategory | any;
 }> = ({ isOpen, setIsOpen, isEdit, setIsEdit, data }) => {
   const [formChanged, setFormChanged] = useState<boolean>(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleInputChange = () => {
     setFormChanged(true);
@@ -39,8 +46,52 @@ const CreateUpdateCategory: React.FC<{
     reset();
   };
 
-  const onSubmit = (payload: AdminCreateUpdateCategory) => {
-    console.log(payload);
+  const onSubmit = async (payload: AdminCreateUpdateCategory) => {
+    const params = { ...payload };
+    params.code = params?.code?.toUpperCase();
+    if (isEdit) {
+      try {
+        dispatch(startLoading());
+        const res = await request.post(
+          `/api/v1/category/update/${data.id}`,
+          params
+        );
+        if (res.data.status) {
+          dispatch(
+            showSnackbar({ message: res.data.message, type: "success" })
+          );
+          dispatch(getCategory());
+          setIsOpen(false);
+          setIsEdit(false);
+          reset();
+        } else {
+          dispatch(showSnackbar({ message: res.data.message, type: "error" }));
+        }
+      } catch (error) {
+        console.log(error);
+        dispatch(showSnackbar({ message: "Đã xảy ra lỗi", type: "error" }));
+      } finally {
+        dispatch(stopLoading());
+      }
+    } else {
+      try {
+        dispatch(startLoading());
+        const { data } = await request.post("/api/v1/category/create", params);
+        if (data.status) {
+          dispatch(showSnackbar({ message: data.message, type: "success" }));
+          dispatch(getCategory());
+          setIsOpen(false);
+          reset();
+        } else {
+          dispatch(showSnackbar({ message: data.message, type: "error" }));
+        }
+      } catch (error) {
+        console.log(error);
+        dispatch(showSnackbar({ message: "Đã xảy ra lỗi", type: "error" }));
+      } finally {
+        dispatch(stopLoading());
+      }
+    }
   };
 
   return (
@@ -73,6 +124,12 @@ const CreateUpdateCategory: React.FC<{
             })}
             error={!!errors.code}
             onChange={handleInputChange}
+            inputProps={{ style: { textTransform: "uppercase" } }}
+            onKeyDown={(e) => {
+              if (e.key === " ") {
+                e.preventDefault();
+              }
+            }}
             helperText={errors.code?.message as any}
           />
           <TextField
@@ -84,6 +141,7 @@ const CreateUpdateCategory: React.FC<{
             {...register("value", {
               required: "Vui lòng nhập tên danh mục.",
             })}
+            inputProps={{ style: { textTransform: "capitalize" } }}
             error={!!errors.value}
             onChange={handleInputChange}
             helperText={errors.value?.message as any}
