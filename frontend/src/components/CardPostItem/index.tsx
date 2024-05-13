@@ -28,7 +28,6 @@ const CardPostItem: React.FC<{
           display: "flex",
           flexDirection: "column",
           marginBottom: 2,
-          width: "320px",
           padding: "10px",
         }}
       >

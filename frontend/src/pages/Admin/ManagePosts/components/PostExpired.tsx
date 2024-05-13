@@ -47,7 +47,7 @@ const PostExpired: React.FC = () => {
     <>
       <Grid container spacing={2}>
         {posts.map((post: IPost) => (
-          <Grid key={post.id} md={4} xs={12}>
+          <Grid item key={post.id} md={4}>
             <CardPostItem data={post} />
           </Grid>
         ))}

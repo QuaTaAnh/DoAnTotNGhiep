@@ -44,7 +44,7 @@ const PostItem: React.FC<{
     if (id) {
       getCheckFavorite();
     }
-  }, [id]);
+  }, [id, hiddenIcon, onClickHide]);
 
   const handleFavorite = async (event: React.MouseEvent) => {
     event.preventDefault();

@@ -10,7 +10,7 @@ import { showSnackbar } from "../../redux/snackbarRedux";
 import AddIcon from "@mui/icons-material/Add";
 import DoneIcon from "@mui/icons-material/Done";
 import { formatDate } from "../../common/formatDate";
-import PostSidebar from "../../components/PostSidebar";
+import CardPostItem from "../../components/CardPostItem";
 
 const PersonalUser: React.FC = () => {
   const { id } = useParams();
@@ -198,20 +198,13 @@ const PersonalUser: React.FC = () => {
             </Card>
           </Grid>
           <Grid item md={8}>
-            <Card
-              sx={{ padding: "20px", marginLeft: "20px", borderRadius: "0" }}
-            >
+            <Grid container spacing={2}>
               {postUser.map((post: IPost) => (
-                <PostSidebar
-                  key={post.id}
-                  id={post.id}
-                  title={post.title}
-                  image={post.images}
-                  price={post.priceNumber}
-                  createAt={post.createdAt}
-                />
+                <Grid item key={post.id} md={6}>
+                  <CardPostItem data={post} />
+                </Grid>
               ))}
-            </Card>
+            </Grid>
           </Grid>
         </Grid>
       )}
