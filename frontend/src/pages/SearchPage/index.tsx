@@ -1,12 +1,12 @@
-import { Box, Grid, Pagination, Typography } from "@mui/material";
+import { Box, Container, Grid, Pagination, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import request from "../../utils/request";
 import { IPost } from "../../type";
-import PostItem from "../../components/PostItem";
 import { useTranslation } from "react-i18next";
+import CardPostItem from "../../components/CardPostItem";
 
 const SearchPage: React.FC = () => {
   const { t } = useTranslation();
@@ -41,7 +41,7 @@ const SearchPage: React.FC = () => {
     setPage(page);
   };
   return (
-    <Grid container spacing={2}>
+    <Container maxWidth="lg">
       <Box sx={{ width: "100%" }}>
         <Typography
           sx={{
@@ -57,8 +57,8 @@ const SearchPage: React.FC = () => {
         <Grid container spacing={4}>
           {dataSearch?.length > 0 ? (
             dataSearch?.map((item: IPost) => (
-              <Grid item xs={12} md={12}>
-                <PostItem key={item?.id} data={item} />
+              <Grid item md={4} key={item.id}>
+                <CardPostItem data={item} />
               </Grid>
             ))
           ) : (
@@ -79,7 +79,7 @@ const SearchPage: React.FC = () => {
           />
         )}
       </Grid>
-    </Grid>
+    </Container>
   );
 };
 

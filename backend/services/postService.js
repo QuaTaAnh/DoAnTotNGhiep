@@ -92,8 +92,8 @@ export const getPostSearchService = async (page, pageSize, keyword) => {
             where: {
               title: {
                 [Op.like]: `%${keyword}%`
-              }, 
-              status: 'active'
+                }, 
+            status: 'active'
             },
             include: [
                 { model: db.User, as: 'user', attributes: ['id','name', 'zalo', 'phone', 'avatar'] },
@@ -111,8 +111,9 @@ export const getPostSearchService = async (page, pageSize, keyword) => {
             where: {
                 title: {
                     [Op.like]: `%${keyword}%`,
-                    status: 'active'
-                }}
+                    },
+                status: 'active'
+                }
             })
 
         const totalCount = await db.Post.count();
