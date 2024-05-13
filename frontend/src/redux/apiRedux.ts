@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICategory } from "../type";
+import { IAPIState } from "./type";
 
-const initialState = {
+const initialState: IAPIState = {
   posts: [],
   totalPages: 0,
   page: 1,

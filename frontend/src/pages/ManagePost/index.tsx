@@ -13,8 +13,8 @@ import { RootState } from "../../redux/store";
 import NoImage from "../../assets/images/noImage.jpg";
 import { CustomTabPanel, a11yProps } from "../../components/CustomTabPanel";
 import PostActive from "./components/PostActive";
-import PostHidden from "./components/PostHidden";
 import PostExpired from "./components/PostExpired";
+import PostHidden from "./components/PostHidden";
 
 const ManagePost: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -67,22 +67,8 @@ const ManagePost: React.FC = () => {
                 }}
               />
               <Tab
-                label="Bị từ chối"
-                {...a11yProps(2)}
-                sx={{
-                  textTransform: "none",
-                }}
-              />
-              <Tab
-                label="Chờ duyệt"
-                {...a11yProps(3)}
-                sx={{
-                  textTransform: "none",
-                }}
-              />
-              <Tab
                 label="Đã ẩn"
-                {...a11yProps(4)}
+                {...a11yProps(2)}
                 sx={{
                   textTransform: "none",
                 }}
@@ -97,12 +83,6 @@ const ManagePost: React.FC = () => {
           <PostExpired />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Bị từ chối
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={3}>
-          Chờ duyệt
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={4}>
           <PostHidden />
         </CustomTabPanel>
       </Grid>

@@ -50,7 +50,10 @@ const Information: React.FC<AddressFieldsProps> = ({
         <label htmlFor="">Loại chuyên mục</label>
         <Select
           fullWidth
-          sx={{ height: "40px", marginTop: "10px" }}
+          sx={{
+            height: "40px",
+            marginTop: "10px",
+          }}
           value={payload.categoryId}
           onChange={(e) => {
             setPayload((prev: CreatePostForm) => ({

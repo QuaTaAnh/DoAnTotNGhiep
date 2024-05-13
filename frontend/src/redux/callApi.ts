@@ -84,8 +84,7 @@ export const getPostByPage = createAsyncThunk(
   async (dataParams: IParamPost, { dispatch }) => {
     dispatch(startLoading());
     try {
-      const { page, priceId, areaId, categoryId } = dataParams;
-      console.log(dataParams);
+      const { page, priceId, areaId, categoryId, status } = dataParams;
 
       const { data } = await request.get("api/v1/post/get-all", {
         params: {
@@ -93,6 +92,7 @@ export const getPostByPage = createAsyncThunk(
           priceId: priceId,
           areaId: areaId,
           categoryId: categoryId,
+          status: status,
         },
       });
       if (data?.status) {

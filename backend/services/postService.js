@@ -2,7 +2,7 @@ import db from '../models/index.js'
 import { Op } from 'sequelize';
 import cloudinary from "../config/cloudinary.js";
 
-export const getPostService = async (page, pageSize, priceId, areaId, categoryId) => {
+export const getPostService = async (page, pageSize, priceId, areaId, categoryId, status) => {
     try {
         const offset = (page - 1) * pageSize;
         const valueFilter = [];
@@ -20,7 +20,7 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
         const posts = await db.Post.findAll({
             where: {
                 [Op.and]: valueFilter,
-                status: 'active'
+                status: status
             },
             include: [
                 { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
@@ -37,7 +37,7 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
         const currentPageTotal = await db.Post.findAll({
             where: {
                 [Op.and]: valueFilter,
-                status: 'active'
+                status: status
             },
         })
 
@@ -169,7 +169,6 @@ export const getPostByIdService = async (id) => {
         const post = await db.Post.findOne({
             where: {
                 id: id,
-                status: 'active'
             },
             include: [
                 { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
@@ -268,7 +267,7 @@ export const getPostByUserIdService = async (page, pageSize, userId, status) => 
         const currentPageTotal = await db.Post.findAll({
             where: {
                 userId: userId,
-                status: 'active'
+                status: status
             },
         })
 

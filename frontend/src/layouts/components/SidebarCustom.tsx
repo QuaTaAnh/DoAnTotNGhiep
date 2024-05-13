@@ -19,6 +19,12 @@ const SidebarCustom: React.FC = () => {
       title: "Quản lý danh mục",
       navigate: routes.manageCategory,
     },
+    {
+      id: 3,
+      icon: <CategoryIcon fontSize="small" />,
+      title: "Quản lý tin đăng",
+      navigate: routes.managePosts,
+    },
   ];
   return (
     <Box

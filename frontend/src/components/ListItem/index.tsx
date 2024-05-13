@@ -21,9 +21,11 @@ const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
 
   useEffect(() => {
     if (category) {
-      dispatch(getPostByPage({ categoryId: category, page: page }));
+      dispatch(
+        getPostByPage({ categoryId: category, page: page, status: "active" })
+      );
     } else {
-      dispatch(getPostByPage({ page: page }));
+      dispatch(getPostByPage({ page: page, status: "active" }));
     }
   }, [category, dispatch, page]);
 
@@ -102,7 +104,7 @@ const ListItem: React.FC<ListItemProp> = ({ category }: ListItemProp) => {
         </Grid>
       </Grid>
       <Grid container justifyContent="center" sx={{ margin: "20px 0" }}>
-        {totalPages > 0 && posts?.length > 0 && (
+        {totalPages > 1 && posts?.length > 0 && (
           <Pagination
             count={totalPages}
             onChange={onChangePage}

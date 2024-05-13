@@ -11,9 +11,10 @@ import PostDetail from "../pages/PostDetail";
 import PersonalUser from "../pages/PersonalUser";
 import ManagePost from "../pages/ManagePost";
 import SavePost from "../pages/SavePost";
-import ManageUser from "../pages/Admin/ManageUser";
 import Dashboard from "../pages/Admin/Dashboard";
-import ManageCategory from "../pages/Admin/ManageCategory";
+import ManageUsers from "../pages/Admin/ManageUsers";
+import ManageCategories from "../pages/Admin/ManageCategories";
+import ManagePosts from "../pages/Admin/ManagePosts";
 
 export const publicRoutes = [
   { path: routes.dashboard, component: Dashboard },
@@ -90,12 +91,17 @@ export const publicRoutes = [
   },
   {
     path: routes.manageUser,
-    component: ManageUser,
+    component: ManageUsers,
     navigate: routes.login,
   },
   {
     path: routes.manageCategory,
-    component: ManageCategory,
+    component: ManageCategories,
+    navigate: routes.login,
+  },
+  {
+    path: routes.managePosts,
+    component: ManagePosts,
     navigate: routes.login,
   },
 ];

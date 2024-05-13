@@ -1,4 +1,4 @@
-import { IUser } from "../type";
+import { ICategory, IPost, IUser, TypeDefault } from "../type";
 
 export interface IAuthState {
   user: IUser | null;
@@ -12,9 +12,19 @@ export interface IParamPost {
   priceId?: number;
   areaId?: number;
   categoryId?: number;
+  status?: string;
 }
 
 export interface ICommentState {
   page?: number;
   postId?: number;
+}
+
+export interface IAPIState {
+  posts: IPost[];
+  totalPages: number;
+  page: number;
+  categories: ICategory[];
+  prices: TypeDefault[];
+  acreages: TypeDefault[];
 }

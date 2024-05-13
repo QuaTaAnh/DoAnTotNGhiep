@@ -22,6 +22,7 @@ const CardCustom: React.FC<ICardCustom> = ({
   const handleFilter = (id: number) => {
     dispatch(
       getPostByPage({
+        status: "active",
         page: page,
         [type]: id,
       })
