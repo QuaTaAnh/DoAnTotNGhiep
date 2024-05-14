@@ -35,7 +35,10 @@ const OnlyHeader: React.FC<ILayout> = ({ children }: ILayout) => {
       <Header />
       <Container
         maxWidth="lg"
-        sx={{ marginTop: "88px", paddingBottom: "60px" }}
+        sx={{
+          marginTop: "88px",
+          paddingBottom: "60px",
+        }}
       >
         <Breadcrumb items={breadcrumbs} />
         {children}

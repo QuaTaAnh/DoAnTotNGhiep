@@ -21,6 +21,7 @@ const MainStyle = styled("div")(({}) => ({
 // eslint-disable-next-line no-empty-pattern
 const ContentStyle = styled("div")(({}) => ({
   flexGrow: 1,
+  backgroundColor: "#f4f4f4",
 }));
 
 // eslint-disable-next-line no-empty-pattern

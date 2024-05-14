@@ -76,5 +76,5 @@ export const TARGETS = [
 
 export const STATUS = [
   { code: "active", value: "Hoạt động" },
-  { code: "notActive", value: "Không hoạt động" },
+  { code: "hidden", value: "Không hoạt động" },
 ];

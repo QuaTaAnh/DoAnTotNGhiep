@@ -228,7 +228,7 @@ const PostDetail: React.FC = () => {
                 to={
                   user?.id !== detail?.user.id
                     ? `/user/${detail?.user.id}`
-                    : "/manage-post"
+                    : "/profile"
                 }
                 style={{
                   textDecoration: "none",
