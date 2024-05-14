@@ -6,13 +6,11 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { LOCATION, TEXT_INFO, TEXT_TITLE } from "../constants";
-import LocationButton from "../components/LocationButton";
+import { TEXT_INFO, TEXT_TITLE } from "../constants";
 import { AppDispatch, RootState } from "../redux/store";
 import { getAcreage, getPrice } from "../redux/callApi";
 import Sidebar from "../components/Sidebar";
 import RelatedPost from "../components/RelatedPost";
-import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line no-empty-pattern
 const MainStyle = styled("div")(({}) => ({
@@ -34,15 +32,7 @@ const FooterStyle = styled("div")(({}) => ({
 
 const HomeRentLayout: React.FC<ILayout> = ({ children }: ILayout) => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const loading = useSelector((state: RootState) => state.loading);
-  const { user } = useSelector((state: RootState) => state.user);
-
-  useEffect(() => {
-    if (user?.isAdmin) {
-      navigate("/dashboard");
-    }
-  }, [user]);
 
   useEffect(() => {
     dispatch(getPrice());
@@ -68,16 +58,6 @@ const HomeRentLayout: React.FC<ILayout> = ({ children }: ILayout) => {
                 {TEXT_TITLE}
               </Typography>
             </Grid>
-
-            <Container maxWidth="lg">
-              <Grid container spacing={12}>
-                {LOCATION.map((item: any) => (
-                  <Grid key={item?.id} item xs={12} md={4}>
-                    <LocationButton name={item?.name} image={item?.image} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Container>
           </Grid>
 
           <Grid item xs={12} sx={{ marginTop: "64px" }}>

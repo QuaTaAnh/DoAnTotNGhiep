@@ -41,7 +41,7 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
             },
         })
 
-        const totalCount = await db.Post.count();
+        const totalCount = currentPageTotal.length
         const totalPages = Math.ceil(currentPageTotal.length / pageSize);
 
         return {
@@ -57,28 +57,95 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
     }
 }
 
-export const getNewPostService = async () => {
+export const getNewPostService = async (page, pageSize) => {
     try {
+        const offset = (page - 1) * pageSize;
         const posts = await db.Post.findAll({
             where: {
                 status: 'active' 
             },
             order:  [['createdAt', 'desc']],
             include: [
+                { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
                 {
                     model: db.Image,
                     as: 'images',
                     attributes: ['imageUrl']
                 }
             ],
-            offset: 0,
-            limit: 5,
+            limit: pageSize,
+            offset: offset
         });
+
+        const currentPageTotal = await db.Post.findAll({
+            where: {
+                status: 'active'
+            },
+            order:  [['createdAt', 'desc']],
+        })
+
+        const totalCount = currentPageTotal.length
+        const totalPages = Math.ceil(currentPageTotal.length / pageSize);
         
         return {
             status: true,
             message: 'Lấy dữ liệu thành công!',
             posts,
+            totalPages,
+            currentPage: page,
+            totalCount
+        };
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getPostFollowService = async (page, pageSize, userId) => {
+    try {
+        const follow = await db.Follow.findAll({
+            where: {
+                followerId: userId
+            },
+            raw: true
+        })
+        const followingUser = follow.map(item => item.followingId);
+        const offset = (page - 1) * pageSize;
+        const posts = await db.Post.findAll({
+            where: {
+                userId: followingUser,
+                status: 'active'
+            },
+            order:  [['createdAt', 'desc']],
+            include: [
+                { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
+                {
+                    model: db.Image,
+                    as: 'images',
+                    attributes: ['imageUrl']
+                }
+            ],
+            limit: pageSize,
+            offset: offset
+        });
+
+        const currentPageTotal = await db.Post.findAll({
+            where: {
+                userId: followingUser,
+                status: 'active'
+            },
+            order:  [['createdAt', 'desc']],
+        })
+
+        const totalCount = currentPageTotal.length
+        const totalPages = Math.ceil(currentPageTotal.length / pageSize);
+        
+        return {
+            status: true,
+            message: 'Lấy dữ liệu thành công!',
+            posts,
+            totalPages,
+            currentPage: page,
+            totalCount
         };
     } catch (error) {
         console.log(error);

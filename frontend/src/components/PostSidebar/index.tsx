@@ -2,20 +2,15 @@ import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import Room from "../../assets/images/anhtro.jpg";
-import moment from "moment";
+import { formatDateComment } from "../../common/formatDate";
 
 const PostSidebar: React.FC<any> = ({
   id,
   title,
   price,
   image,
-  createAt,
+  createdAt,
 }: any) => {
-  const formatDate = (date: string) => {
-    moment.locale("vn");
-    return moment(date).fromNow();
-  };
-
   return (
     <Link to={`/post-detail/${id}`} style={{ textDecoration: "none" }}>
       <Card
@@ -60,7 +55,7 @@ const PostSidebar: React.FC<any> = ({
                   Price: {price} triệu/tháng
                 </Typography>
                 <Typography sx={{ fontSize: "12px" }}>
-                  {formatDate(createAt)}
+                  {formatDateComment(createdAt)}
                 </Typography>
               </Grid>
             </CardContent>

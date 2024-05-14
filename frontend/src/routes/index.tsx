@@ -22,7 +22,7 @@ export const publicRoutes = [
     path: routes.home,
     component: Home,
     navigate: routes.login,
-    layout: HomeRentLayout,
+    // layout: HomeRentLayout,
   },
   {
     path: routes.apartmentRent,

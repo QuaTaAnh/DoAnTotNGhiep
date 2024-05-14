@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { ILayout } from "./type";
@@ -8,7 +8,7 @@ import Loading from "../components/Loading";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import SidebarCustom from "./components/SidebarCustom";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumbs";
 
 // eslint-disable-next-line no-empty-pattern
@@ -32,6 +32,7 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
   const loading = useSelector((state: RootState) => state.loading);
   const { user } = useSelector((state: RootState) => state.user);
   const location = useLocation();
+  const navigate = useNavigate();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
   const homeBreadcrumb = {
@@ -50,6 +51,12 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
       };
     }),
   ];
+
+  useEffect(() => {
+    if (user?.isAdmin) {
+      navigate("/dashboard");
+    }
+  }, [user]);
 
   return (
     <MainStyle>
