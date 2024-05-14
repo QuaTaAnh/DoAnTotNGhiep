@@ -1,5 +1,5 @@
 import { getProfileService } from "../services/authService.js"
-import { getAllUserService, statistUserRegisterService, updateProfileService } from "../services/userService.js"
+import { getAllUserService, getUserByIdService, statistUserRegisterService, updateProfileService } from "../services/userService.js"
 
 export const updateProfileController = async (req, res) => {
     try {
@@ -67,6 +67,21 @@ export const adminUpdateUserController = async (req, res) => {
         const id = req.body.id
         const {...user} = req.body
         const result = await updateProfileService(id, user)
+        return res.status(200).json(result)
+    } catch (error) {
+        console.log(error) 
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
+            error
+        })
+    }
+}
+
+export const getUserByIdController = async (req, res) => {
+    try {
+        const id = req.params.id
+        const result = await getUserByIdService(id)
         return res.status(200).json(result)
     } catch (error) {
         console.log(error) 

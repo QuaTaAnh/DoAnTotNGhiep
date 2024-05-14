@@ -15,6 +15,7 @@ import Dashboard from "../pages/Admin/Dashboard";
 import ManageUsers from "../pages/Admin/ManageUsers";
 import ManageCategories from "../pages/Admin/ManageCategories";
 import ManagePosts from "../pages/Admin/ManagePosts";
+import ManageFollow from "../pages/ManageFollow";
 
 export const publicRoutes = [
   { path: routes.dashboard, component: Dashboard },
@@ -22,7 +23,6 @@ export const publicRoutes = [
     path: routes.home,
     component: Home,
     navigate: routes.login,
-    // layout: HomeRentLayout,
   },
   {
     path: routes.apartmentRent,
@@ -103,5 +103,11 @@ export const publicRoutes = [
     path: routes.managePosts,
     component: ManagePosts,
     navigate: routes.login,
+  },
+  {
+    path: routes.follow,
+    component: ManageFollow,
+    navigate: routes.login,
+    layout: OnlyHeader,
   },
 ];

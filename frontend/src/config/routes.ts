@@ -15,6 +15,7 @@ export const routes = {
   personalUser: "/user/:id",
   managePost: "/manage-post",
   savePost: "/save-post",
+  follow: "/follow",
   dashboard: "/dashboard",
   manageCategory: "/dashboard/manage-category",
   manageUser: "/dashboard/manage-user",

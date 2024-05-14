@@ -8,6 +8,10 @@ import { formatDate } from "../../common/formatDate";
 const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
   const navigate = useNavigate();
 
+  const handleClickFollow = () => {
+    navigate("/follow", { state: { data } });
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item md={12}>
@@ -34,12 +38,32 @@ const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
             alignItems={"center"}
             justifyContent={"space-between"}
             marginTop={"10px"}
+            sx={{ cursor: "pointer" }}
+            onClick={handleClickFollow}
           >
             <Typography sx={{ fontSize: "16px", color: "#000" }}>
-              Người theo dõi: {data?.followersCount}
+              Người theo dõi:
+              <span
+                style={{
+                  cursor: "pointer",
+                  padding: "0 4px",
+                  color: "#fa6819",
+                }}
+              >
+                {data?.follower?.length}
+              </span>
             </Typography>
             <Typography sx={{ fontSize: "16px", color: "#000" }}>
-              Đang theo dõi: {data?.followingCount}
+              Đang theo dõi:
+              <span
+                style={{
+                  cursor: "pointer",
+                  padding: "0 4px",
+                  color: "#fa6819",
+                }}
+              >
+                {data?.following?.length}
+              </span>
             </Typography>
           </Box>
           <Box
@@ -72,7 +96,8 @@ const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
               marginTop: "20px",
               border: "1px solid #ccc",
               "&:hover": {
-                backgroundColor: "#fff",
+                color: "#fff",
+                backgroundColor: "#fa6819",
               },
             }}
             onClick={() => navigate("/edit-profile")}

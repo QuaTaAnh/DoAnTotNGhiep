@@ -52,13 +52,11 @@ const SavePost: React.FC = () => {
         Tin đã lưu
       </Typography>
       <Grid container spacing={2}>
-        <Grid item md={12}>
-          {postSave?.map((save: any) => (
-            <Grid item md={12}>
-              <PostItem key={save.id} data={save.post} />
-            </Grid>
-          ))}
-        </Grid>
+        {postSave?.map((save: any) => (
+          <Grid item md={12}>
+            <PostItem key={save.id} data={save.post} />
+          </Grid>
+        ))}
       </Grid>
       <Grid container justifyContent="center" sx={{ margin: "20px 0" }}>
         {totalPages > 1 && (

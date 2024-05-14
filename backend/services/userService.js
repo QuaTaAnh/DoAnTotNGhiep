@@ -102,4 +102,31 @@ export const statistUserRegisterService = async () => {
   }
 }
 
+export const getUserByIdService = async (id) => {
+  try {
+      const user = await db.User.findOne({
+          where: {
+              id: id,
+          },
+          attributes: {
+            exclude: ['password']
+          }
+      });
+      if (!user) {
+          return {
+              status: false,
+              message: 'Người dùng không tồn tại!'
+          };
+      }
+
+      return {
+          status: true,
+          message: 'Lấy dữ liệu thành công!',
+          user
+      };
+  } catch (error) {
+      console.log(error);
+  }
+}
+
   

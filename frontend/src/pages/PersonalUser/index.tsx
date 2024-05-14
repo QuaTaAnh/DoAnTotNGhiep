@@ -134,10 +134,10 @@ const PersonalUser: React.FC = () => {
                 marginTop={"10px"}
               >
                 <Typography sx={{ fontSize: "14px", color: "#000" }}>
-                  Người theo dõi: {userPersonal?.followersCount}
+                  Người theo dõi: {userPersonal?.follower?.length}
                 </Typography>
                 <Typography sx={{ fontSize: "14px", color: "#000" }}>
-                  Đang theo dõi: {userPersonal?.followingCount}
+                  Đang theo dõi: {userPersonal?.following?.length}
                 </Typography>
               </Box>
               <Box

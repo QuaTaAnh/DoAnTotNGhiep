@@ -8,8 +8,8 @@ export interface IUser {
   isAdmin?: boolean;
   createdAt?: string;
   updatedAt?: string;
-  followersCount?: number;
-  followingCount?: number;
+  follower?: FollowProp[];
+  following?: FollowProp[];
 }
 
 export interface UpdateProfileForm extends IUser {
@@ -116,6 +116,13 @@ export interface SavePostProp {
   postId: number;
   userId: number;
   post: IPost;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FollowProp {
+  followerId: number;
+  followingId: number;
   createdAt: string;
   updatedAt: string;
 }

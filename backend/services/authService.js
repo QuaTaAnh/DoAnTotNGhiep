@@ -64,17 +64,19 @@ export const getProfileService = async (id) => {
                 exclude: ['password']
             }
         })
-        const followersCount = await db.Follow.count({
-            where: { followingId: user.id }
+        const follower = await db.Follow.findAll({
+            where: { followingId: user.id },
+            attributes: ['followerId']
           });
       
-        const followingCount = await db.Follow.count({
-          where: { followerId: user.id }
+        const following = await db.Follow.findAll({
+          where: { followerId: user.id },
+          attributes: ['followingId']
         });
         
         user = user.toJSON(); 
-        user.followersCount = followersCount;
-        user.followingCount = followingCount;
+        user.follower = follower;
+        user.following = following;
         return {
             status: true,
             message: 'Lấy thông tin người dùng thành công!', 
