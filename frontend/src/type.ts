@@ -8,6 +8,8 @@ export interface IUser {
   isAdmin?: boolean;
   createdAt?: string;
   updatedAt?: string;
+  followersCount?: number;
+  followingCount?: number;
 }
 
 export interface UpdateProfileForm extends IUser {
@@ -97,11 +99,6 @@ export interface Ward {
   ward_id: string;
   ward_name: string;
   ward_type: string;
-}
-
-export interface UserPersonal extends IUser {
-  followersCount: number;
-  followingCount: number;
 }
 
 export interface Comment {

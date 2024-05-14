@@ -56,15 +56,25 @@ export const loginService = async ({ phone, password }) => {
   }
 }
 
-export const getProfileService = async (id ) => {
+export const getProfileService = async (id) => {
     try {
         let user = await db.User.findOne({
             where: { id },
-            raw: true,
             attributes: {
                 exclude: ['password']
             }
         })
+        const followersCount = await db.Follow.count({
+            where: { followingId: user.id }
+          });
+      
+        const followingCount = await db.Follow.count({
+          where: { followerId: user.id }
+        });
+        
+        user = user.toJSON(); 
+        user.followersCount = followersCount;
+        user.followingCount = followingCount;
         return {
             status: true,
             message: 'Lấy thông tin người dùng thành công!', 

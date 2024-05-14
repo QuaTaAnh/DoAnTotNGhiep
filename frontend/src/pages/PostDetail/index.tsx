@@ -235,17 +235,40 @@ const PostDetail: React.FC = () => {
                 }}
               >
                 <Tooltip title="Trang cá nhân">
-                  <Box display={"flex"} alignItems={"center"}>
-                    <Avatar
-                      alt="Avatar"
-                      sx={{ marginRight: "10px" }}
-                      src={detail?.user?.avatar ?? NoImage}
-                    />
-                    <Typography
-                      sx={{ fontSize: "16px", fontWeight: 700, color: "#000" }}
-                    >
-                      {detail?.user?.name}
-                    </Typography>
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    justifyContent={"space-between"}
+                  >
+                    <Box display={"flex"} alignItems={"center"}>
+                      <Avatar
+                        alt="Avatar"
+                        sx={{ marginRight: "10px" }}
+                        src={detail?.user?.avatar ?? NoImage}
+                      />
+                      <Typography
+                        sx={{
+                          fontSize: "16px",
+                          fontWeight: 700,
+                          color: "#000",
+                        }}
+                      >
+                        {detail?.user?.name}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography
+                        sx={{
+                          fontSize: "14px",
+                          padding: "2px 8px",
+                          borderRadius: "12px",
+                          color: "#fa6819",
+                          border: "1px solid #fa6819",
+                        }}
+                      >
+                        Xem trang
+                      </Typography>
+                    </Box>
                   </Box>
                 </Tooltip>
               </Link>
@@ -291,9 +314,7 @@ const PostDetail: React.FC = () => {
             <RelatedPost />
           </Grid>
           <Grid item md={12}>
-            <Card
-              sx={{ padding: "20px", borderRadius: "0", marginTop: "20px" }}
-            >
+            <Card sx={{ padding: "20px", borderRadius: "0", margin: "20px 0" }}>
               <Box
                 sx={{
                   borderBottom: 1,

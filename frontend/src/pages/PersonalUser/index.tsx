@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import request from "../../utils/request";
 import { useDispatch } from "react-redux";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
-import { IPost, UserPersonal } from "../../type";
+import { IPost, IUser } from "../../type";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import AddIcon from "@mui/icons-material/Add";
 import DoneIcon from "@mui/icons-material/Done";
@@ -15,7 +15,7 @@ import CardPostItem from "../../components/CardPostItem";
 const PersonalUser: React.FC = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [userPersonal, setUserPersonal] = useState<UserPersonal>();
+  const [userPersonal, setUserPersonal] = useState<IUser>();
   const [checkFollow, setCheckFollow] = useState<boolean>(false);
   const [postUser, setPostUser] = useState<IPost[]>([]);
 

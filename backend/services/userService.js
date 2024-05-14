@@ -54,36 +54,6 @@ export const updateProfileService = async (id, userPayload) => {
     }
 }
 
-export const getUserPersonalService = async (id) => {
-  try {
-      let user = await db.User.findOne({
-        where: {
-          id: id
-        },
-        attributes: { exclude: ['password'] }
-      })
-      const followersCount = await db.Follow.count({
-        where: { followingId: id }
-      });
-  
-      const followingCount = await db.Follow.count({
-        where: { followerId: id }
-      });
-
-      user = user.toJSON(); 
-      user.followersCount = followersCount;
-      user.followingCount = followingCount;
-
-      return {
-        status: true,
-        message: 'Lấy dữ liệu thành công!',
-        user,
-      };
-  } catch (error) {
-      console.log(error);
-  }
-}
-
 export const getAllUserService = async (page, pageSize) => {
   try {
     const offset = (page - 1) * pageSize;

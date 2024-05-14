@@ -1,4 +1,5 @@
-import { getAllUserService, getUserPersonalService, statistUserRegisterService, updateProfileService } from "../services/userService.js"
+import { getProfileService } from "../services/authService.js"
+import { getAllUserService, statistUserRegisterService, updateProfileService } from "../services/userService.js"
 
 export const updateProfileController = async (req, res) => {
     try {
@@ -19,7 +20,7 @@ export const updateProfileController = async (req, res) => {
 export const getUserPersonalController = async (req, res) => {
     try {
         const { id }  = req.params
-        const result = await getUserPersonalService(id)
+        const result = await getProfileService(id)
         return res.status(200).json(result)
     } catch (error) {
         console.log(error) 
