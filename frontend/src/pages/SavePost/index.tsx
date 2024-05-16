@@ -37,7 +37,7 @@ const SavePost: React.FC = () => {
     if (user?.id) {
       getPostSave();
     }
-  }, [user?.id]);
+  }, [page, user?.id]);
 
   const onChangePage = (
     event: React.ChangeEvent<unknown>,

@@ -399,3 +399,35 @@ export const expiredPostService = async () =>{
         console.log(error);
     }
 }
+
+export const incrementPostViewService = async (postId, userId) =>{
+    try {
+        const post = await db.Post.findOne({
+            where: {
+                id: postId
+            }
+        });
+
+        if(post.userId === userId){
+            return 
+        }
+
+        if(!post){
+            return {
+                status: false,
+                message: 'Không tìm thấy bài đăng!',
+            }
+        }
+        await db.Post.increment('viewsCount', { 
+            where: { id: postId },
+            by: 1,
+         })
+        return {
+            status: true,
+            message: 'Đã tăng lượt truy cập bài đăng này!',
+        };
+    } catch (error) {
+        console.log(error);
+    }
+}
+

@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Room from "../../assets/images/anhtro.jpg";
 import { formatDateComment } from "../../common/formatDate";
+import request from "../../utils/request";
 
 const PostSidebar: React.FC<any> = ({
   id,
@@ -11,8 +12,20 @@ const PostSidebar: React.FC<any> = ({
   image,
   createdAt,
 }: any) => {
+  const handleIncrementPostView = async () => {
+    try {
+      await request.post(`/api/v1/post/increment-view/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Link to={`/post-detail/${id}`} style={{ textDecoration: "none" }}>
+    <Link
+      to={`/post-detail/${id}`}
+      style={{ textDecoration: "none" }}
+      onClick={handleIncrementPostView}
+    >
       <Card
         sx={{
           height: "66px",

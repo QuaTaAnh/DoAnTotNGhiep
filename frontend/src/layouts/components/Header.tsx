@@ -36,6 +36,7 @@ import slugify from "slugify";
 import { ICategory } from "../../type";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
+import NotificationList from "../../components/NotificationList";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -73,6 +74,9 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [openMenu, setOpenMenu] = useState<null | HTMLElement>(null);
+  const [openNotification, setOpenNotification] = useState<null | HTMLElement>(
+    null
+  );
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const { user } = useSelector((state: RootState) => state.user);
   const { categories } = useSelector((state: RootState) => state.api);
@@ -87,6 +91,14 @@ const Header: React.FC = () => {
 
   const handleCloseUserMenu = () => {
     setOpenMenu(null);
+  };
+
+  const handleOpenNotification = (event: React.MouseEvent<HTMLElement>) => {
+    setOpenNotification(event.currentTarget);
+  };
+
+  const handleCloseNotification = () => {
+    setOpenNotification(null);
   };
 
   const handleLogout = () => {
@@ -171,11 +183,32 @@ const Header: React.FC = () => {
               }}
             >
               <LanguageSwitcher />
-              <IconButton size="large" sx={{ m: 0.5 }}>
+              <IconButton
+                size="large"
+                sx={{ m: 0.5 }}
+                onClick={handleOpenNotification}
+              >
                 <Badge badgeContent={6} color="error">
                   <NotificationsNoneIcon />
                 </Badge>
               </IconButton>
+              <Menu
+                sx={{ mt: "45px" }}
+                anchorEl={openNotification}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(openNotification)}
+                onClose={handleCloseNotification}
+              >
+                <NotificationList />
+              </Menu>
               <IconButton size="large" sx={{ m: 0.5 }}>
                 <Badge badgeContent={9} color="error">
                   <ChatBubbleOutlineIcon />

@@ -78,8 +78,21 @@ const CardPostItem: React.FC<{
       dispatch(stopLoading());
     }
   };
+
+  const handleIncrementPostView = async () => {
+    try {
+      await request.post(`/api/v1/post/increment-view/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Link to={`/post-detail/${id}`} style={{ textDecoration: "none" }}>
+    <Link
+      to={`/post-detail/${id}`}
+      style={{ textDecoration: "none" }}
+      onClick={handleIncrementPostView}
+    >
       <Card
         sx={{
           position: "relative",

@@ -1,6 +1,6 @@
 import express  from "express";
 import authMiddleware from "../middlewares/authMiddleware.js";
-import { getPostController, getNewPostController, getPostSearchController, createPostController, getPostByIdController, getPostSuggestController, getPostByUserIdController, hiddenPostController, adminGetPostController, getPostFollowController } from "../controllers/postController";
+import { getPostController, getNewPostController, getPostSearchController, createPostController, getPostByIdController, getPostSuggestController, getPostByUserIdController, hiddenPostController, adminGetPostController, getPostFollowController, incrementPostViewController } from "../controllers/postController";
 
 const router = express.Router()
 
@@ -14,5 +14,6 @@ router.get('/:id/detail', getPostByIdController)
 
 router.post('/create', authMiddleware, createPostController)
 router.post('/hidden/:postId', authMiddleware, hiddenPostController)
+router.post('/increment-view/:postId', authMiddleware, incrementPostViewController)
 
 export default router
