@@ -183,15 +183,17 @@ const Header: React.FC = () => {
               }}
             >
               <LanguageSwitcher />
-              <IconButton
-                size="large"
-                sx={{ m: 0.5 }}
-                onClick={handleOpenNotification}
-              >
-                <Badge badgeContent={6} color="error">
-                  <NotificationsNoneIcon />
-                </Badge>
-              </IconButton>
+              <Tooltip title="Thông báo">
+                <IconButton
+                  size="large"
+                  sx={{ m: 0.5 }}
+                  onClick={handleOpenNotification}
+                >
+                  <Badge badgeContent={6} color="error">
+                    <NotificationsNoneIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
                 anchorEl={openNotification}
@@ -214,7 +216,7 @@ const Header: React.FC = () => {
                   <ChatBubbleOutlineIcon />
                 </Badge>
               </IconButton>
-              <Tooltip title="Open settings">
+              <Tooltip title="Cài đặt">
                 <IconButton onClick={handleOpenUserMenu} sx={{ m: 0.5 }}>
                   <Avatar alt="Avatar" src={user?.avatar ?? NoImage} />
                 </IconButton>
@@ -272,7 +274,7 @@ const Header: React.FC = () => {
                   )
                 )}
               </Menu>
-              <Tooltip title="New Post">
+              <Tooltip title="Đăng tin">
                 <Button
                   variant="contained"
                   size="medium"

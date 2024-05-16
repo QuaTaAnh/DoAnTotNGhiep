@@ -56,6 +56,7 @@ export interface IPost {
   userId: number;
   priceId: number;
   areaId: number;
+  viewsCount: number;
   images: IImage[] | any;
   createdAt: string;
   updatedAt: string;

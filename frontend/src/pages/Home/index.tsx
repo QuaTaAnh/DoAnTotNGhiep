@@ -5,6 +5,7 @@ import {
   IconButton,
   Tab,
   Tabs,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -65,11 +66,13 @@ const Home: React.FC = () => {
               />
             </Tabs>
           </Box>
-          <Box>
-            <IconButton size="large" onClick={() => setIsOpen(true)}>
-              <FilterAltIcon />
-            </IconButton>
-          </Box>
+          <Tooltip title="Lọc">
+            <Box>
+              <IconButton size="large" onClick={() => setIsOpen(true)}>
+                <FilterAltIcon />
+              </IconButton>
+            </Box>
+          </Tooltip>
         </Box>
       </Grid>
       <CustomTabPanel value={value} index={0}>

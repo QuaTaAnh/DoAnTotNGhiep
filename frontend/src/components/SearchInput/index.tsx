@@ -68,7 +68,7 @@ const SearchInput: React.FC = () => {
         onChange={(e) => setSearchValue(e.target.value)}
         onKeyPress={handleKeyPress}
       />
-      <Tooltip title="Search">
+      <Tooltip title="Tìm kiếm">
         <SearchIconWrapper onClick={handleSearch}>
           <SearchIcon />
         </SearchIconWrapper>

@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import Room from "../../assets/images/anhtro.jpg";
@@ -19,6 +20,7 @@ import { useDispatch } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { formatDateComment } from "../../common/formatDate";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 const CardPostItem: React.FC<{
   data: IPost;
@@ -156,25 +158,56 @@ const CardPostItem: React.FC<{
               </Typography>
             </Box>
             <Box
-              sx={{ display: "flex", alignItems: "center", padding: "10px 0" }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "10px 0",
+              }}
             >
-              <Box sx={{ width: "26px", height: "26px", marginRight: "6px" }}>
-                <Avatar
-                  alt="Logo"
-                  src={user.avatar || NoImage}
-                  sx={{ width: "100%", height: "100%" }}
-                />
-              </Box>
-              <Typography
-                sx={{
-                  fontSize: "12px",
-                  whiteSpace: "nowrap",
-                  color: "#000",
-                  marginRight: "24px",
-                }}
-              >
-                {user.name}
-              </Typography>
+              <Tooltip title="Trang cá nhân">
+                <Link
+                  to={`/user/${user.id}`}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "26px",
+                    height: "26px",
+                    marginRight: "6px",
+                    textDecoration: "none",
+                  }}
+                >
+                  <Avatar
+                    alt="Logo"
+                    src={user.avatar || NoImage}
+                    sx={{ width: "100%", height: "100%" }}
+                  />
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      whiteSpace: "nowrap",
+                      color: "#000",
+                      marginLeft: "8px",
+                    }}
+                  >
+                    {user.name}
+                  </Typography>
+                </Link>
+              </Tooltip>
+              <Tooltip title="Lượt truy cập">
+                <Box display={"flex"} alignItems={"center"}>
+                  <TrendingUpIcon />
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      whiteSpace: "nowrap",
+                      color: "#000",
+                    }}
+                  >
+                    {data.viewsCount}
+                  </Typography>
+                </Box>
+              </Tooltip>
             </Box>
             <Typography
               sx={{
@@ -194,21 +227,23 @@ const CardPostItem: React.FC<{
             </Typography>
           </Box>
         </CardContent>
-        <Box
-          sx={{
-            position: "absolute",
-            top: 4,
-            right: 10,
-            padding: "2px",
-            color: "#fa6819",
-            "&:hover": {
-              color: "#ed570e",
-            },
-          }}
-          onClick={handleFavorite}
-        >
-          {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-        </Box>
+        <Tooltip title="Yêu thích">
+          <Box
+            sx={{
+              position: "absolute",
+              top: 4,
+              right: 10,
+              padding: "2px",
+              color: "#fa6819",
+              "&:hover": {
+                color: "#ed570e",
+              },
+            }}
+            onClick={handleFavorite}
+          >
+            {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </Box>
+        </Tooltip>
         {hiddenIcon && (
           <Box
             sx={{

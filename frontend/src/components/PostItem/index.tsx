@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -17,6 +18,7 @@ import { showSnackbar } from "../../redux/snackbarRedux";
 import { useDispatch } from "react-redux";
 import request from "../../utils/request";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 const PostItem: React.FC<{
   data: IPost;
@@ -170,6 +172,20 @@ const PostItem: React.FC<{
               >
                 {province}
               </Typography>
+              <Tooltip title="Lượt truy cập">
+                <Box display={"flex"} alignItems={"center"} marginLeft={"10px"}>
+                  <TrendingUpIcon />
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      whiteSpace: "nowrap",
+                      color: "#000",
+                    }}
+                  >
+                    {data.viewsCount}
+                  </Typography>
+                </Box>
+              </Tooltip>
             </Box>
           </Box>
         </CardContent>
