@@ -6,13 +6,13 @@ import { CreatePostForm, District, Province, Ward } from "../../../type";
 interface AddressFieldsProps {
   setPayload: any;
   hidden?: boolean;
-  setAdressChanged?: any;
+  setAddressChanged?: any;
 }
 
 const Address: React.FC<AddressFieldsProps> = ({
   setPayload,
   hidden,
-  setAdressChanged,
+  setAddressChanged,
 }: AddressFieldsProps) => {
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [province, setProvince] = useState<string>("");
@@ -20,6 +20,15 @@ const Address: React.FC<AddressFieldsProps> = ({
   const [district, setDistrict] = useState<string>("");
   const [wards, setWards] = useState<Ward[]>([]);
   const [ward, setWard] = useState<string>("");
+  const [provinceSelected, setProvinceSelected] = useState<boolean>(false);
+  const [districtSelected, setDistrictSelected] = useState<boolean>(false);
+  const [wardSelected, setWardSelected] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (provinceSelected && districtSelected && wardSelected) {
+      setAddressChanged(true);
+    }
+  }, [provinceSelected, districtSelected, wardSelected]);
 
   const address: string = `${
     ward ? `${wards?.find((item) => item.ward_id === ward)?.ward_name},` : ""
@@ -92,7 +101,7 @@ const Address: React.FC<AddressFieldsProps> = ({
             value={province}
             onChange={(e) => {
               setProvince(e.target.value);
-              setAdressChanged(true);
+              setProvinceSelected(true);
             }}
           >
             {provinces.map((prov: Province) => (
@@ -108,7 +117,10 @@ const Address: React.FC<AddressFieldsProps> = ({
             fullWidth
             sx={{ height: "40px", marginTop: "10px" }}
             value={district}
-            onChange={(e) => setDistrict(e.target.value)}
+            onChange={(e) => {
+              setDistrict(e.target.value);
+              setDistrictSelected(true);
+            }}
           >
             {districts.map((dis: District) => (
               <MenuItem key={dis.district_id} value={dis.district_id}>
@@ -123,7 +135,10 @@ const Address: React.FC<AddressFieldsProps> = ({
             fullWidth
             sx={{ height: "40px", marginTop: "10px" }}
             value={ward}
-            onChange={(e) => setWard(e.target.value)}
+            onChange={(e) => {
+              setWard(e.target.value);
+              setWardSelected(true);
+            }}
           >
             {wards.map((war: Ward) => (
               <MenuItem key={war.ward_id} value={war.ward_id}>

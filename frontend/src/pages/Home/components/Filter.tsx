@@ -25,7 +25,7 @@ const Filter: React.FC<{
   const { prices, acreages, page } = useSelector(
     (state: RootState) => state.api
   );
-  const [addressChanged, setAdressChanged] = useState<boolean>(false);
+  const [addressChanged, setAddressChanged] = useState<boolean>(false);
   const [priceChanged, setPriceChanged] = useState<boolean>(false);
   const [areaChanged, setAreaChanged] = useState<boolean>(false);
 
@@ -45,6 +45,7 @@ const Filter: React.FC<{
   const handleClose = () => {
     setIsOpen(false);
     setPayload(initialPayload);
+    setAddressChanged(false);
   };
 
   const handleSubmit = () => {
@@ -74,7 +75,7 @@ const Filter: React.FC<{
       })
     );
     setIsOpen(false);
-    setAdressChanged(false);
+    setAddressChanged(false);
     setPriceChanged(false);
     setAreaChanged(false);
     setPayload(initialPayload);
@@ -98,11 +99,10 @@ const Filter: React.FC<{
         <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
           Lọc
         </Typography>
-
         <Address
           setPayload={setPayload}
           hidden
-          setAdressChanged={setAdressChanged}
+          setAddressChanged={setAddressChanged}
         />
         <Grid container>
           <Grid item md={12}>
