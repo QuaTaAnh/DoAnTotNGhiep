@@ -5,10 +5,14 @@ import { CreatePostForm, District, Province, Ward } from "../../../type";
 
 interface AddressFieldsProps {
   setPayload: any;
+  hidden?: boolean;
+  setAdressChanged?: any;
 }
 
 const Address: React.FC<AddressFieldsProps> = ({
   setPayload,
+  hidden,
+  setAdressChanged,
 }: AddressFieldsProps) => {
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [province, setProvince] = useState<string>("");
@@ -86,7 +90,10 @@ const Address: React.FC<AddressFieldsProps> = ({
             fullWidth
             sx={{ height: "40px", marginTop: "10px" }}
             value={province}
-            onChange={(e) => setProvince(e.target.value)}
+            onChange={(e) => {
+              setProvince(e.target.value);
+              setAdressChanged(true);
+            }}
           >
             {provinces.map((prov: Province) => (
               <MenuItem key={prov.province_id} value={prov.province_id}>
@@ -126,19 +133,23 @@ const Address: React.FC<AddressFieldsProps> = ({
           </Select>
         </Grid>
       </Grid>
-      <label htmlFor="">Số nhà</label>
-      <TextField
-        size="small"
-        fullWidth
-        margin="normal"
-        onChange={(e) => {
-          const newApartmentNumber = e.target.value;
-          setPayload((prev: CreatePostForm) => ({
-            ...prev,
-            address: `${newApartmentNumber}, ${address}`,
-          }));
-        }}
-      />
+      {!hidden && (
+        <>
+          <label htmlFor="">Số nhà</label>
+          <TextField
+            size="small"
+            fullWidth
+            margin="normal"
+            onChange={(e) => {
+              const newApartmentNumber = e.target.value;
+              setPayload((prev: CreatePostForm) => ({
+                ...prev,
+                address: `${newApartmentNumber}, ${address}`,
+              }));
+            }}
+          />
+        </>
+      )}
       <label htmlFor="">Địa chỉ chính xác</label>
       <TextField
         size="small"

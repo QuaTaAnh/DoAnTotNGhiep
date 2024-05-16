@@ -7,8 +7,9 @@ export const getPostController = async (req, res) =>{
         const priceId = req.query.priceId
         const areaId = req.query.areaId
         const categoryId = req.query.categoryId
+        const address = req.query.address
         const status = req.query.status
-       const post = await getPostService(page, pageSize, priceId, areaId, categoryId, status)
+       const post = await getPostService(page, pageSize, priceId, areaId, categoryId, status, address)
        return res.status(200).json(post)
     } catch (error) {
         console.log(error)

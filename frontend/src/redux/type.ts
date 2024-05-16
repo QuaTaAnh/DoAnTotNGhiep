@@ -11,6 +11,7 @@ export interface IParamPost {
   page?: number;
   priceId?: number;
   areaId?: number;
+  address?: string;
   categoryId?: number;
   status?: string;
 }

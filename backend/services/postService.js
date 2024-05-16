@@ -2,7 +2,7 @@ import db from '../models/index.js'
 import { Op } from 'sequelize';
 import cloudinary from "../config/cloudinary.js";
 
-export const getPostService = async (page, pageSize, priceId, areaId, categoryId, status) => {
+export const getPostService = async (page, pageSize, priceId, areaId, categoryId, status, address) => {
     try {
         const offset = (page - 1) * pageSize;
         const valueFilter = [];
@@ -16,6 +16,10 @@ export const getPostService = async (page, pageSize, priceId, areaId, categoryId
         
         if (categoryId) {
             valueFilter.push({ categoryId });
+        }
+
+        if (address) {
+            valueFilter.push({ address: { [Op.like]: `%${address}%` } });
         }
         const posts = await db.Post.findAll({
             where: {

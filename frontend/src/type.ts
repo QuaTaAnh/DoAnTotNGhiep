@@ -69,8 +69,8 @@ export interface CreatePostForm {
   categoryId: number;
   priceId: number;
   areaId: number;
-  priceNumber: number;
-  areaNumber: number;
+  priceNumber: number | any;
+  areaNumber: number | any;
   images: string[];
   target: string;
   status: string;
@@ -133,4 +133,8 @@ export type AdminUpdateProfileForm = Partial<
 
 export type AdminCreateUpdateCategory = Partial<
   Pick<ICategory, "code" | "value">
+>;
+
+export type FilterForm = Partial<
+  Pick<CreatePostForm, "address" | "priceNumber" | "areaNumber">
 >;
