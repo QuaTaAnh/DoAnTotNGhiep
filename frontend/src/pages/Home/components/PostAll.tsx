@@ -1,17 +1,15 @@
 import { Grid, Pagination } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CardPostItem from "../../../components/CardPostItem";
 import { IPost } from "../../../type";
 import { getPostByPage } from "../../../redux/callApi";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
-import { pageSuccess } from "../../../redux/apiRedux";
 
 const PostAll: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { posts, totalPages, page } = useSelector(
-    (state: RootState) => state.api
-  );
+  const { posts, totalPages } = useSelector((state: RootState) => state.api);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
     dispatch(getPostByPage({ page: page, status: "active" }));
@@ -21,7 +19,7 @@ const PostAll: React.FC = () => {
     event: React.ChangeEvent<unknown>,
     pageNumber: number
   ) => {
-    dispatch(pageSuccess(pageNumber));
+    setPage(pageNumber);
   };
   return (
     <>

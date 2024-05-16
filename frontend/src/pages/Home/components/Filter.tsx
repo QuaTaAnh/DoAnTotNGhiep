@@ -74,6 +74,10 @@ const Filter: React.FC<{
       })
     );
     setIsOpen(false);
+    setAdressChanged(false);
+    setPriceChanged(false);
+    setAreaChanged(false);
+    setPayload(initialPayload);
   };
 
   return (
@@ -94,6 +98,7 @@ const Filter: React.FC<{
         <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
           Lọc
         </Typography>
+
         <Address
           setPayload={setPayload}
           hidden
@@ -155,7 +160,6 @@ const Filter: React.FC<{
             />
           </Grid>
         </Grid>
-
         <Box
           sx={{
             display: "flex",
