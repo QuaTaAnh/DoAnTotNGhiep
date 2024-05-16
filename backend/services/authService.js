@@ -66,12 +66,12 @@ export const getProfileService = async (id) => {
         })
         const follower = await db.Follow.findAll({
             where: { followingId: user.id },
-            attributes: ['followerId']
+            attributes: ['followerId', 'createdAt']
           });
       
         const following = await db.Follow.findAll({
           where: { followerId: user.id },
-          attributes: ['followingId']
+          attributes: ['followingId', 'createdAt']
         });
         
         user = user.toJSON(); 

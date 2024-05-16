@@ -189,9 +189,7 @@ const Header: React.FC = () => {
                   sx={{ m: 0.5 }}
                   onClick={handleOpenNotification}
                 >
-                  <Badge badgeContent={6} color="error">
-                    <NotificationsNoneIcon />
-                  </Badge>
+                  <NotificationsNoneIcon />
                 </IconButton>
               </Tooltip>
               <Menu

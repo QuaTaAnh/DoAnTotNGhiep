@@ -1,6 +1,5 @@
 import { checkFollowService, followService, unFollowService } from "../services/followService"
 
-
 export const checkFollowController = async (req, res) =>{
     try {
         const followerId  = req.user.id
