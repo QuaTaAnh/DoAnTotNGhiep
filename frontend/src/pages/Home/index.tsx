@@ -15,6 +15,7 @@ import PostNew from "./components/PostNew";
 import PostFollow from "./components/PostFollow";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Filter from "./components/Filter";
+import Banner from "../../components/Banner";
 
 const Home: React.FC = () => {
   const [value, setValue] = useState<number>(0);
@@ -34,57 +35,60 @@ const Home: React.FC = () => {
       >
         Danh sách tin đăng
       </Typography>
-      <Grid item md={12} display={"flex"}>
-        <Box display={"flex"} alignItems={"center"}>
-          <Box
-            sx={{
-              borderBottom: 1,
-              borderColor: "divider",
-            }}
-          >
-            <Tabs value={value} onChange={handleChange} textColor="inherit">
-              <Tab
-                label="Tất cả"
-                {...a11yProps(0)}
-                sx={{
-                  textTransform: "none",
-                }}
-              />
-              <Tab
-                label="Mới nhất"
-                {...a11yProps(1)}
-                sx={{
-                  textTransform: "none",
-                }}
-              />
-              <Tab
-                label="Đang theo dõi"
-                {...a11yProps(2)}
-                sx={{
-                  textTransform: "none",
-                }}
-              />
-            </Tabs>
-          </Box>
-          <Tooltip title="Lọc">
-            <Box>
-              <IconButton size="large" onClick={() => setIsOpen(true)}>
-                <FilterAltIcon />
-              </IconButton>
+      <Grid container>
+        <Grid item md={12} display={"flex"}>
+          <Box display={"flex"} alignItems={"center"}>
+            <Box
+              sx={{
+                borderBottom: 1,
+                borderColor: "divider",
+              }}
+            >
+              <Tabs value={value} onChange={handleChange} textColor="inherit">
+                <Tab
+                  label="Tất cả"
+                  {...a11yProps(0)}
+                  sx={{
+                    textTransform: "none",
+                  }}
+                />
+                <Tab
+                  label="Mới nhất"
+                  {...a11yProps(1)}
+                  sx={{
+                    textTransform: "none",
+                  }}
+                />
+                <Tab
+                  label="Đang theo dõi"
+                  {...a11yProps(2)}
+                  sx={{
+                    textTransform: "none",
+                  }}
+                />
+              </Tabs>
             </Box>
-          </Tooltip>
-        </Box>
+            <Tooltip title="Lọc">
+              <Box>
+                <IconButton size="large" onClick={() => setIsOpen(true)}>
+                  <FilterAltIcon />
+                </IconButton>
+              </Box>
+            </Tooltip>
+          </Box>
+        </Grid>
+        <CustomTabPanel value={value} index={0}>
+          <PostAll />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <PostNew />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          <PostFollow />
+        </CustomTabPanel>
+        <Filter isOpen={isOpen} setIsOpen={setIsOpen} />
       </Grid>
-      <CustomTabPanel value={value} index={0}>
-        <PostAll />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <PostNew />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <PostFollow />
-      </CustomTabPanel>
-      <Filter isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Banner />
     </Container>
   );
 };
