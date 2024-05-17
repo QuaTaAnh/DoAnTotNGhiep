@@ -37,7 +37,7 @@ const PostDetail: React.FC = () => {
   const [detail, setDetail] = useState<IPost>();
   const [suggestPost, setSuggestPost] = useState<IPost[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useSelector((state: RootState) => state.user);
   const parts = detail?.address?.split(",") || "";
   const city = parts[parts.length - 1];

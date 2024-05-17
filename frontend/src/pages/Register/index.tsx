@@ -64,16 +64,16 @@ const Register: React.FC = () => {
     <Card
       sx={{
         width: "480px",
-        height: "540px",
+        height: "580px",
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)",
         margin: "auto",
-        marginTop: "90px",
+        marginTop: "56px",
       }}
     >
       <Container
         maxWidth="xs"
         sx={{
-          marginTop: "50px",
+          marginTop: "20px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -115,6 +115,11 @@ const Register: React.FC = () => {
             margin="normal"
             {...register("phone", {
               required: "Vui lòng nhập số điện thoại.",
+              pattern: {
+                value: /^0\d{9}$/,
+                message:
+                  "Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0.",
+              },
             })}
             error={!!errors.phone}
             helperText={errors.phone?.message as any}

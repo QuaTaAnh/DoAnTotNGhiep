@@ -57,7 +57,7 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
     if (user?.isAdmin) {
       navigate("/dashboard");
     }
-  }, [navigate, user]);
+  }, [user]);
 
   return (
     <MainStyle>

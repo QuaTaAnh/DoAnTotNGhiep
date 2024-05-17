@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../../common/formatDate";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { ICategory } from "../../../type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateUpdateCategory from "./CreateUpdateCategory";
@@ -22,6 +22,10 @@ const ManageCategories: React.FC = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [idCate, setIdCate] = useState<number>(0);
+
+  useEffect(() => {
+    dispatch(getCategory());
+  }, [dispatch]);
 
   const openModalEdit = (params: ICategory | any) => {
     setIsEdit(true);

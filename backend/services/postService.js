@@ -166,6 +166,7 @@ export const getPostSearchService = async (page, pageSize, keyword) => {
                 }, 
             status: 'active'
             },
+            order:  [['createdAt', 'desc']],
             include: [
                 { model: db.User, as: 'user', attributes: ['id','name', 'zalo', 'phone', 'avatar'] },
                 {
