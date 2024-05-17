@@ -4,8 +4,10 @@ import { Avatar, Box, Button, Card, Grid, Typography } from "@mui/material";
 import { IUser } from "../../type";
 import { useNavigate } from "react-router";
 import { formatDate } from "../../common/formatDate";
+import { useTranslation } from "react-i18next";
 
 const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleClickFollow = () => {
@@ -30,7 +32,7 @@ const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
             marginTop={"10px"}
           >
             <Typography sx={{ fontSize: "16px", color: "#000" }}>
-              Họ tên: {data?.name}
+              {t("name")}: {data?.name}
             </Typography>
           </Box>
           <Box
@@ -42,7 +44,7 @@ const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
             onClick={handleClickFollow}
           >
             <Typography sx={{ fontSize: "16px", color: "#000" }}>
-              Người theo dõi:
+              {t("tab.follower")}:
               <span
                 style={{
                   cursor: "pointer",
@@ -54,7 +56,7 @@ const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
               </span>
             </Typography>
             <Typography sx={{ fontSize: "16px", color: "#000" }}>
-              Đang theo dõi:
+              {t("tab.following")}:
               <span
                 style={{
                   cursor: "pointer",
@@ -73,7 +75,7 @@ const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
             marginTop={"10px"}
           >
             <Typography sx={{ fontSize: "16px", color: "#000" }}>
-              Số điện thoại: {data?.phone}
+              {t("phoneNumber")}: {data?.phone}
             </Typography>
             <Typography sx={{ fontSize: "16px", color: "#000" }}>
               Zalo: {data?.zalo}
@@ -86,7 +88,7 @@ const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
             marginTop={"10px"}
           >
             <Typography sx={{ fontSize: "16px", color: "#000" }}>
-              Đã tham gia: {formatDate(data?.createdAt)}
+              {t("createdAt")}: {formatDate(data?.createdAt)}
             </Typography>
           </Box>
           <Button
@@ -102,7 +104,7 @@ const CardProfile: React.FC<{ data: IUser | null }> = ({ data }) => {
             }}
             onClick={() => navigate("/edit-profile")}
           >
-            Update
+            {t("button.update")}
           </Button>
         </Card>
       </Grid>

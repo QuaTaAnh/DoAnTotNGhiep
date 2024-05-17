@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import request from "../../../utils/request";
 import { expirationDate, formatDate } from "../../../common/formatDate";
+import { useTranslation } from "react-i18next";
 
 const PostExpired: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [postUser, setPostUser] = useState<IPost[]>([]);
   const { user } = useSelector((state: RootState) => state.user);
@@ -54,12 +56,12 @@ const PostExpired: React.FC = () => {
                 <Typography
                   sx={{ fontSize: "14px", color: "#000", padding: "10px 0" }}
                 >
-                  Ngày bắt đầu: {formatDate(post?.createdAt)}
+                  {t("startDate")}: {formatDate(post?.createdAt)}
                 </Typography>
                 <Typography
                   sx={{ fontSize: "14px", color: "#000", padding: "10px 0" }}
                 >
-                  Ngày hết hạn: {formatDate(expirationDate(post?.createdAt))}
+                  {t("endDate")}: {formatDate(expirationDate(post?.createdAt))}
                 </Typography>
               </Box>
             </Grid>

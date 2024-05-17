@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
 import request from "../../utils/request";
+import { useTranslation } from "react-i18next";
 
 const SavePost: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [postSave, setPostSave] = useState<IPost[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -49,7 +51,7 @@ const SavePost: React.FC = () => {
   return (
     <Container maxWidth="md">
       <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
-        Tin đã lưu
+        {t("savePost")}
       </Typography>
       <Grid container spacing={2}>
         {postSave?.map((save: any) => (

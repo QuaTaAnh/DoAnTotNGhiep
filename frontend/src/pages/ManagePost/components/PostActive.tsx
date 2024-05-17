@@ -9,8 +9,10 @@ import request from "../../../utils/request";
 import ConfirmDialog from "../../../components/ShowConfirm";
 import { showSnackbar } from "../../../redux/snackbarRedux";
 import { expirationDate, formatDate } from "../../../common/formatDate";
+import { useTranslation } from "react-i18next";
 
 const PostActive: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [postUser, setPostUser] = useState<IPost[]>([]);
   const { user } = useSelector((state: RootState) => state.user);
@@ -87,12 +89,12 @@ const PostActive: React.FC = () => {
                 <Typography
                   sx={{ fontSize: "14px", color: "#000", padding: "10px 0" }}
                 >
-                  Ngày bắt đầu: {formatDate(post?.createdAt)}
+                  {t("startDate")}: {formatDate(post?.createdAt)}
                 </Typography>
                 <Typography
                   sx={{ fontSize: "14px", color: "#000", padding: "10px 0" }}
                 >
-                  Ngày hết hạn: {formatDate(expirationDate(post?.createdAt))}
+                  {t("endDate")}: {formatDate(expirationDate(post?.createdAt))}
                 </Typography>
               </Box>
             </Grid>

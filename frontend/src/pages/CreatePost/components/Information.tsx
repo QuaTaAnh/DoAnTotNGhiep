@@ -16,6 +16,7 @@ import { getCategory } from "../../../redux/callApi";
 import { CreatePostForm, ICategory, TypeDefault } from "../../../type";
 import { STATUS, TARGETS } from "../../../constants";
 import { formatPrice } from "../../../common";
+import { useTranslation } from "react-i18next";
 
 interface AddressFieldsProps {
   payload: CreatePostForm;
@@ -26,6 +27,7 @@ const Information: React.FC<AddressFieldsProps> = ({
   payload,
   setPayload,
 }: AddressFieldsProps) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const [content, setContent] = useState<string>("");
   const [showTitle, setShowTitle] = useState<boolean>(false);
@@ -47,7 +49,7 @@ const Information: React.FC<AddressFieldsProps> = ({
   return (
     <Grid container spacing={2} marginBottom={2}>
       <Grid item md={12}>
-        <label htmlFor="">Loại chuyên mục</label>
+        <label htmlFor="">{t("categoryType")}</label>
         <Select
           fullWidth
           sx={{
@@ -70,7 +72,7 @@ const Information: React.FC<AddressFieldsProps> = ({
         </Select>
       </Grid>
       <Grid item md={12}>
-        <label htmlFor="">Tiêu đề</label>
+        <label htmlFor="">{t("title")}</label>
         <TextField
           name="title"
           size="small"
@@ -102,7 +104,7 @@ const Information: React.FC<AddressFieldsProps> = ({
         </Grid>
       )}
       <Grid item md={12}>
-        <label htmlFor="">Mô tả ngắn</label>
+        <label htmlFor="">{t("shortDescription")}</label>
         <TextField
           name="shortDescription"
           size="small"
@@ -118,7 +120,7 @@ const Information: React.FC<AddressFieldsProps> = ({
         />
       </Grid>
       <Grid item md={12}>
-        <label htmlFor="">Nội dung mô tả</label>
+        <label htmlFor="">{t("contentDescription")}</label>
         <ReactQuill
           theme="snow"
           style={{
@@ -129,7 +131,7 @@ const Information: React.FC<AddressFieldsProps> = ({
         />
       </Grid>
       <Grid item md={6}>
-        <label htmlFor="">Thông tin liên hệ</label>
+        <label htmlFor="">{t("contactInfo")}</label>
         <TextField
           name="name"
           size="small"
@@ -145,7 +147,7 @@ const Information: React.FC<AddressFieldsProps> = ({
         />
       </Grid>
       <Grid item md={6}>
-        <label htmlFor="">Điện thoại</label>
+        <label htmlFor="">{t("phoneNumber")}</label>
         <TextField
           name="phone"
           size="small"
@@ -161,7 +163,7 @@ const Information: React.FC<AddressFieldsProps> = ({
         />
       </Grid>
       <Grid item md={6}>
-        <label htmlFor="">Giá cho thuê</label>
+        <label htmlFor="">{t("price")}</label>
         <TextField
           name="priceNumber"
           size="small"
@@ -178,7 +180,7 @@ const Information: React.FC<AddressFieldsProps> = ({
           }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">triệu/tháng</InputAdornment>
+              <InputAdornment position="end">{t("unitPrice")}</InputAdornment>
             ),
           }}
           inputProps={{
@@ -187,7 +189,7 @@ const Information: React.FC<AddressFieldsProps> = ({
         />
       </Grid>
       <Grid item md={6}>
-        <label htmlFor="">Diện tích</label>
+        <label htmlFor="">{t("area")}</label>
         <TextField
           name="areaNumber"
           size="small"
@@ -213,7 +215,7 @@ const Information: React.FC<AddressFieldsProps> = ({
         />
       </Grid>
       <Grid item md={6}>
-        <label htmlFor="">Đối tượng cho thuê</label>
+        <label htmlFor="">{t("rentalObject")}</label>
         <Select
           fullWidth
           sx={{ height: "40px", marginTop: "10px" }}
@@ -233,7 +235,7 @@ const Information: React.FC<AddressFieldsProps> = ({
         </Select>
       </Grid>
       <Grid item md={6}>
-        <label htmlFor="">Trạng thái</label>
+        <label htmlFor="">{t("status")}</label>
         <Select
           fullWidth
           sx={{ height: "40px", marginTop: "10px" }}

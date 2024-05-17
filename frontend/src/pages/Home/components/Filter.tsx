@@ -23,11 +23,13 @@ import {
   getPostByPage,
   getPrice,
 } from "../../../redux/callApi";
+import { useTranslation } from "react-i18next";
 
 const Filter: React.FC<{
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ isOpen, setIsOpen }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const { categories, prices, acreages, page } = useSelector(
     (state: RootState) => state.api
@@ -136,8 +138,8 @@ const Filter: React.FC<{
           height: 600,
         }}
       >
-        <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
-          Lọc
+        <Typography variant="h5" align="center" marginBottom={4} fontSize={26}>
+          {t("filter")}
         </Typography>
         <Address
           setPayload={setPayload}
@@ -146,7 +148,7 @@ const Filter: React.FC<{
         />
         <Grid container>
           <Grid item md={12}>
-            <label htmlFor="">Loại chuyên mục</label>
+            <label htmlFor="">{t("categoryType")}</label>
             <Select
               fullWidth
               sx={{
@@ -170,7 +172,7 @@ const Filter: React.FC<{
             </Select>
           </Grid>
           <Grid item md={12}>
-            <label htmlFor="">Giá cho thuê</label>
+            <label htmlFor="">{t("price")}</label>
             <TextField
               name="priceNumber"
               size="small"
@@ -188,7 +190,9 @@ const Filter: React.FC<{
               }}
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">triệu/tháng</InputAdornment>
+                  <InputAdornment position="end">
+                    {t("unitPrice")}
+                  </InputAdornment>
                 ),
               }}
               inputProps={{
@@ -197,7 +201,7 @@ const Filter: React.FC<{
             />
           </Grid>
           <Grid item md={12}>
-            <label htmlFor="">Diện tích</label>
+            <label htmlFor="">{t("area")}</label>
             <TextField
               name="areaNumber"
               size="small"
@@ -252,7 +256,7 @@ const Filter: React.FC<{
               !categoryChanged
             }
           >
-            Áp dụng
+            {t("apply")}
           </Button>
         </Box>
         <Button

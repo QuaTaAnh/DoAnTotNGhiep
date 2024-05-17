@@ -2,6 +2,7 @@ import { Grid, MenuItem, Select, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CreatePostForm, District, Province, Ward } from "../../../type";
+import { useTranslation } from "react-i18next";
 
 interface AddressFieldsProps {
   setPayload: any;
@@ -14,6 +15,7 @@ const Address: React.FC<AddressFieldsProps> = ({
   hidden,
   setAddressChanged,
 }: AddressFieldsProps) => {
+  const { t } = useTranslation();
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [province, setProvince] = useState<string>("");
   const [districts, setDistricts] = useState<District[]>([]);
@@ -96,7 +98,7 @@ const Address: React.FC<AddressFieldsProps> = ({
     <>
       <Grid container spacing={2} marginBottom={2}>
         <Grid item md={4}>
-          <label htmlFor="">Tỉnh/Thành Phố</label>
+          <label htmlFor="">{t("province")}</label>
           <Select
             fullWidth
             sx={{ height: "40px", marginTop: "10px" }}
@@ -114,7 +116,7 @@ const Address: React.FC<AddressFieldsProps> = ({
           </Select>
         </Grid>
         <Grid item md={4}>
-          <label htmlFor="">Quận/Huyện</label>
+          <label htmlFor="">{t("district")}</label>
           <Select
             fullWidth
             sx={{ height: "40px", marginTop: "10px" }}
@@ -133,7 +135,7 @@ const Address: React.FC<AddressFieldsProps> = ({
           </Select>
         </Grid>
         <Grid item md={4}>
-          <label htmlFor="">Phường/Xã</label>
+          <label htmlFor="">{t("ward")}</label>
           <Select
             fullWidth
             sx={{ height: "40px", marginTop: "10px" }}
@@ -154,7 +156,7 @@ const Address: React.FC<AddressFieldsProps> = ({
       </Grid>
       {!hidden && (
         <>
-          <label htmlFor="">Số nhà</label>
+          <label htmlFor="">{t("homeNumber")}</label>
           <TextField
             size="small"
             fullWidth
@@ -169,7 +171,7 @@ const Address: React.FC<AddressFieldsProps> = ({
           />
         </>
       )}
-      <label htmlFor="">Địa chỉ chính xác</label>
+      <label htmlFor="">{t("addressExact")}</label>
       <TextField
         size="small"
         fullWidth

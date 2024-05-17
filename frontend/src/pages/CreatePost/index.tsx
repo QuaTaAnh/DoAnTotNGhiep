@@ -20,8 +20,10 @@ import request from "../../utils/request";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CreatePost: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { prices, acreages } = useSelector((state: RootState) => state.api);
@@ -106,18 +108,18 @@ const CreatePost: React.FC = () => {
   return (
     <Container maxWidth="md">
       <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
-        Đăng tin mới
+        {t("titleNewPost")}
       </Typography>
       <Typography variant="h5" marginY={2}>
-        Địa chỉ cho thuê
+        {t("rentalAddress")}
       </Typography>
       <Address setPayload={setPayload} />
       <Typography variant="h5" marginY={2}>
-        Thông tin mô tả
+        {t("description")}
       </Typography>
       <Information payload={payload} setPayload={setPayload} />
       <Grid md={12}>
-        <label htmlFor="">Hình ảnh</label>
+        <label htmlFor="">{t("image")}</label>
       </Grid>
       <input
         accept="image/*"
@@ -169,7 +171,7 @@ const CreatePost: React.FC = () => {
               onClick={() => handleDeleteImage(index)}
             >
               <DeleteOutlineIcon />
-              Xóa
+              {t("button.delete")}
             </Button>
           </Grid>
         ))}
@@ -193,7 +195,7 @@ const CreatePost: React.FC = () => {
           }}
           onClick={handleSubmit}
         >
-          Tiếp tục
+          {t("button.continue")}
         </Button>
       </Grid>
     </Container>

@@ -15,8 +15,10 @@ import { CustomTabPanel, a11yProps } from "../../components/CustomTabPanel";
 import PostActive from "./components/PostActive";
 import PostExpired from "./components/PostExpired";
 import PostHidden from "./components/PostHidden";
+import { useTranslation } from "react-i18next";
 
 const ManagePost: React.FC = () => {
+  const { t } = useTranslation();
   const { user } = useSelector((state: RootState) => state.user);
   const [value, setValue] = useState<number>(0);
 
@@ -27,7 +29,7 @@ const ManagePost: React.FC = () => {
   return (
     <Container maxWidth="md">
       <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
-        Quản lý tin đăng
+        {t("managePost")}
       </Typography>
       <Grid container spacing={2}>
         <Grid item md={12}>
@@ -53,21 +55,21 @@ const ManagePost: React.FC = () => {
           >
             <Tabs value={value} onChange={handleChange} textColor="inherit">
               <Tab
-                label="Đang hiển thị"
+                label={t("tab.active")}
                 {...a11yProps(0)}
                 sx={{
                   textTransform: "none",
                 }}
               />
               <Tab
-                label="Hết hạn"
+                label={t("tab.expired")}
                 {...a11yProps(1)}
                 sx={{
                   textTransform: "none",
                 }}
               />
               <Tab
-                label="Đã ẩn"
+                label={t("tab.hidden")}
                 {...a11yProps(2)}
                 sx={{
                   textTransform: "none",

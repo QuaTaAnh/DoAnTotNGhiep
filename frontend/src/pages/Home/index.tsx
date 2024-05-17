@@ -16,8 +16,10 @@ import PostFollow from "./components/PostFollow";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Filter from "./components/Filter";
 import Banner from "../../components/Banner";
+import { useTranslation } from "react-i18next";
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   const [value, setValue] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -33,7 +35,7 @@ const Home: React.FC = () => {
           fontWeight: 700,
         }}
       >
-        Danh sách tin đăng
+        {t("listPosts")}
       </Typography>
       <Grid container>
         <Grid item md={12} display={"flex"}>
@@ -46,21 +48,21 @@ const Home: React.FC = () => {
             >
               <Tabs value={value} onChange={handleChange} textColor="inherit">
                 <Tab
-                  label="Tất cả"
+                  label={t("tab.all")}
                   {...a11yProps(0)}
                   sx={{
                     textTransform: "none",
                   }}
                 />
                 <Tab
-                  label="Mới nhất"
+                  label={t("tab.new")}
                   {...a11yProps(1)}
                   sx={{
                     textTransform: "none",
                   }}
                 />
                 <Tab
-                  label="Đang theo dõi"
+                  label={t("tab.following")}
                   {...a11yProps(2)}
                   sx={{
                     textTransform: "none",

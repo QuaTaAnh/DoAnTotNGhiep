@@ -1,18 +1,18 @@
 import { Container, Grid, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const footerStyle = {
   padding: "30px 0",
 };
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer style={footerStyle}>
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item md={12}>
-            <Typography>
-              TÌM BẤT ĐỘNG SẢN TRÊN ỨNG DỤNG CONNECT HOUSING
-            </Typography>
+            <Typography>{t("footer")}</Typography>
             <Typography>
               © {new Date().getFullYear()} CONNECT HOUSING
             </Typography>
