@@ -12,7 +12,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import NoImage from "../../assets/images/noImage.jpg";
 import Logo from "../../assets/images/logo.png";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -31,9 +31,6 @@ import { showSnackbar } from "../../redux/snackbarRedux";
 import { routes } from "../../config/routes";
 import SearchInput from "../../components/SearchInput";
 import { Link, useNavigate } from "react-router-dom";
-import { getCategory } from "../../redux/callApi";
-import slugify from "slugify";
-import { ICategory } from "../../type";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import NotificationList from "../../components/NotificationList";
@@ -77,13 +74,7 @@ const Header: React.FC = () => {
   const [openNotification, setOpenNotification] = useState<null | HTMLElement>(
     null
   );
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const { user } = useSelector((state: RootState) => state.user);
-  const { categories } = useSelector((state: RootState) => state.api);
-
-  useEffect(() => {
-    dispatch(getCategory());
-  }, [dispatch]);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setOpenMenu(event.currentTarget);
@@ -115,14 +106,6 @@ const Header: React.FC = () => {
     }
   };
 
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <div>
       <AppBar
@@ -140,34 +123,6 @@ const Header: React.FC = () => {
                 />
               </div>
             </Link>
-            <IconButton onClick={handleOpenMenu} size="large" sx={{ m: 0.5 }}>
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleCloseMenu}
-            >
-              {categories.map((category: ICategory) => (
-                <MenuItem key={category.id}>
-                  <Link
-                    style={{ textDecoration: "none", color: "#000" }}
-                    to={`/${slugify(category.value, {
-                      lower: true,
-                      strict: true,
-                    })}`}
-                    state={category.id}
-                  >
-                    {category.value
-                      .split(" ")
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ")}
-                  </Link>
-                </MenuItem>
-              ))}
-            </Menu>
             <Box>
               <SearchInput />
             </Box>

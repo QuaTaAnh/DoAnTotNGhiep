@@ -3,7 +3,9 @@ import {
   Button,
   Grid,
   InputAdornment,
+  MenuItem,
   Modal,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -15,32 +17,42 @@ import { formatPrice } from "../../../common";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getIdFromArea, getIdFromPrice } from "../../../common/getCodes";
-import { getAcreage, getPostByPage, getPrice } from "../../../redux/callApi";
+import {
+  getAcreage,
+  getCategory,
+  getPostByPage,
+  getPrice,
+} from "../../../redux/callApi";
 
 const Filter: React.FC<{
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { prices, acreages, page } = useSelector(
+  const { categories, prices, acreages, page } = useSelector(
     (state: RootState) => state.api
   );
   const [addressChanged, setAddressChanged] = useState<boolean>(false);
   const [priceChanged, setPriceChanged] = useState<boolean>(false);
   const [areaChanged, setAreaChanged] = useState<boolean>(false);
+  const [categoryChanged, setCategoryChanged] = useState<boolean>(false);
 
   const initialPayload = {
     priceNumber: 0,
     areaNumber: 0,
     address: "",
+    categoryId: 0,
   };
 
   const [payload, setPayload] = useState<FilterForm>(initialPayload);
 
   useEffect(() => {
-    dispatch(getPrice());
-    dispatch(getAcreage());
-  }, [dispatch]);
+    if (isOpen) {
+      dispatch(getCategory());
+      dispatch(getPrice());
+      dispatch(getAcreage());
+    }
+  }, [dispatch, isOpen]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -48,21 +60,32 @@ const Filter: React.FC<{
     setAddressChanged(false);
   };
 
+  const updateURL = (filters: Record<string, any>) => {
+    const query = new URLSearchParams(filters).toString();
+    window.history.pushState({}, "", `?${query}`);
+  };
+
   const handleSubmit = () => {
-    const updatedPayload: any = {};
+    const updatedPayload: FilterForm = {};
 
     if (priceChanged) {
+      updatedPayload.priceNumber = payload.priceNumber;
       const newPriceId = getIdFromPrice(payload.priceNumber, prices);
       updatedPayload.priceId = newPriceId;
     }
 
     if (areaChanged) {
+      updatedPayload.areaNumber = payload.areaNumber;
       const areaId = getIdFromArea(payload.areaNumber, acreages);
       updatedPayload.areaId = areaId;
     }
 
     if (addressChanged) {
       updatedPayload.address = payload.address;
+    }
+
+    if (categoryChanged) {
+      updatedPayload.categoryId = payload.categoryId;
     }
 
     dispatch(
@@ -72,12 +95,29 @@ const Filter: React.FC<{
         priceId: updatedPayload.priceId,
         areaId: updatedPayload.areaId,
         address: updatedPayload.address,
+        categoryId: updatedPayload.categoryId,
       })
     );
+
+    const filtersForURL: FilterForm = {};
+    if (priceChanged) filtersForURL.priceNumber = payload.priceNumber;
+    if (areaChanged) filtersForURL.areaNumber = payload.areaNumber;
+    if (addressChanged) filtersForURL.address = payload.address;
+    if (categoryChanged) {
+      const selectedCategory = categories.find(
+        (category) => category.id === payload.categoryId
+      );
+      if (selectedCategory) {
+        filtersForURL.category = selectedCategory.value;
+      }
+    }
+    updateURL(filtersForURL);
+
     setIsOpen(false);
     setAddressChanged(false);
     setPriceChanged(false);
     setAreaChanged(false);
+    setCategoryChanged(false);
     setPayload(initialPayload);
   };
 
@@ -105,6 +145,30 @@ const Filter: React.FC<{
           setAddressChanged={setAddressChanged}
         />
         <Grid container>
+          <Grid item md={12}>
+            <label htmlFor="">Loại chuyên mục</label>
+            <Select
+              fullWidth
+              sx={{
+                height: "40px",
+                margin: "10px 0",
+              }}
+              value={payload.categoryId}
+              onChange={(e) => {
+                setPayload((prev: any) => ({
+                  ...prev,
+                  categoryId: e.target.value,
+                }));
+                setCategoryChanged(true);
+              }}
+            >
+              {categories.map((category: any) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.value}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
           <Grid item md={12}>
             <label htmlFor="">Giá cho thuê</label>
             <TextField
@@ -181,7 +245,12 @@ const Filter: React.FC<{
               },
             }}
             onClick={handleSubmit}
-            disabled={!addressChanged && !priceChanged && !areaChanged}
+            disabled={
+              !addressChanged &&
+              !priceChanged &&
+              !areaChanged &&
+              !categoryChanged
+            }
           >
             Áp dụng
           </Button>

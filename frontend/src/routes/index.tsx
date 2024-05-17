@@ -1,8 +1,6 @@
 import { routes } from "../config/routes";
-import HomeRentLayout from "../layouts/HomeRentLayout";
 import OnlyHeader from "../layouts/OnlyHeader";
 import Home from "../pages/Home";
-import Rent from "../pages/Rent";
 import SearchPage from "../pages/SearchPage";
 import Profile from "../pages/Profile";
 import EditProfile from "../pages/EditProfile";
@@ -23,30 +21,6 @@ export const publicRoutes = [
     path: routes.home,
     component: Home,
     navigate: routes.login,
-  },
-  {
-    path: routes.apartmentRent,
-    component: Rent,
-    navigate: routes.login,
-    layout: HomeRentLayout,
-  },
-  {
-    path: routes.groundRent,
-    component: Rent,
-    navigate: routes.login,
-    layout: HomeRentLayout,
-  },
-  {
-    path: routes.motelRoomRent,
-    component: Rent,
-    navigate: routes.login,
-    layout: HomeRentLayout,
-  },
-  {
-    path: routes.houseRent,
-    component: Rent,
-    navigate: routes.login,
-    layout: HomeRentLayout,
   },
   {
     path: routes.search,

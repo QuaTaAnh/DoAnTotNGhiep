@@ -137,5 +137,13 @@ export type AdminCreateUpdateCategory = Partial<
 >;
 
 export type FilterForm = Partial<
-  Pick<CreatePostForm, "address" | "priceNumber" | "areaNumber">
->;
+  Pick<
+    CreatePostForm,
+    | "address"
+    | "priceNumber"
+    | "areaNumber"
+    | "categoryId"
+    | "priceId"
+    | "areaId"
+  >
+> & { category?: string };

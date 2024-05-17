@@ -25,10 +25,12 @@ const Address: React.FC<AddressFieldsProps> = ({
   const [wardSelected, setWardSelected] = useState<boolean>(false);
 
   useEffect(() => {
-    if (provinceSelected && districtSelected && wardSelected) {
-      setAddressChanged(true);
+    if (setAddressChanged) {
+      if (provinceSelected && districtSelected && wardSelected) {
+        setAddressChanged(true);
+      }
     }
-  }, [provinceSelected, districtSelected, wardSelected]);
+  }, [setAddressChanged, provinceSelected, districtSelected, wardSelected]);
 
   const address: string = `${
     ward ? `${wards?.find((item) => item.ward_id === ward)?.ward_name},` : ""
@@ -121,6 +123,7 @@ const Address: React.FC<AddressFieldsProps> = ({
               setDistrict(e.target.value);
               setDistrictSelected(true);
             }}
+            disabled={!provinceSelected}
           >
             {districts.map((dis: District) => (
               <MenuItem key={dis.district_id} value={dis.district_id}>
@@ -139,6 +142,7 @@ const Address: React.FC<AddressFieldsProps> = ({
               setWard(e.target.value);
               setWardSelected(true);
             }}
+            disabled={!districtSelected}
           >
             {wards.map((war: Ward) => (
               <MenuItem key={war.ward_id} value={war.ward_id}>
