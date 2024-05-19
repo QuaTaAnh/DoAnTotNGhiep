@@ -3,6 +3,7 @@ import React from "react";
 import { routes } from "../../config/routes";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CategoryIcon from "@mui/icons-material/Category";
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 import { Link } from "react-router-dom";
 
 const SidebarCustom: React.FC = () => {
@@ -21,7 +22,7 @@ const SidebarCustom: React.FC = () => {
     },
     {
       id: 3,
-      icon: <CategoryIcon fontSize="small" />,
+      icon: <DynamicFeedIcon fontSize="small" />,
       title: "Quản lý tin đăng",
       navigate: routes.managePosts,
     },

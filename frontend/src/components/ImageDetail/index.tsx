@@ -45,12 +45,12 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
 
   return (
     <div style={{ position: "relative" }}>
-      <Slider ref={sliderRef} {...settings}>
+      <Slider ref={sliderRef} {...settings} arrows={false}>
         {images.map((image, index) => (
           <div key={index}>
             <img
               src={image.imageUrl}
-              style={{ width: "100%", height: "500px" }}
+              style={{ width: "100%", height: "500px", objectFit: "cover" }}
               alt={`Image ${index}`}
             />
           </div>
