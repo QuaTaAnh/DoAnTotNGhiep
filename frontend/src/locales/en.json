@@ -14,6 +14,8 @@
     "listPosts": "List Posts",
     "sort": "Sort",
     "default": "Default",
+    "follow": "Follow",
+    "followed": "Followed",
     "tab": {
         "new": "New",
         "all": "All",
@@ -59,6 +61,7 @@
     "rentalObject": "Rental object",
     "status": "Status",
     "image": "Image",
+    "countImage": "image",
     "startDate": "Start day",
     "endDate": "Expiration date",
     "name": "Name",
@@ -68,10 +71,12 @@
     "for": "Intended for",
     "detailDescription": "Detailed description",
     "viewPage": "View page",
+    "personalPage": "Personal page",
+    "viewsCount": "Access times",
     "chatUser": "Chat with the seller",
     "suggestedPost": "Suggested post",
     "noSuggestedPost": "There are no suggested posts",
     "comment": "Comment",
     "createNewComment": "Add new comment",
-    "postNew": "Posts New" 
+    "postNew": "Posts New"
 }

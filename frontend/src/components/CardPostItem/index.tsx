@@ -21,12 +21,14 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { formatDateComment } from "../../common/formatDate";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import { useTranslation } from "react-i18next";
 
 const CardPostItem: React.FC<{
   data: IPost;
   hiddenIcon?: boolean;
   onClickHide?: () => void;
 }> = ({ data, hiddenIcon, onClickHide }) => {
+  const {t}= useTranslation()
   const {
     id,
     images,
@@ -121,7 +123,7 @@ const CardPostItem: React.FC<{
             backgroundColor: "#ccc",
           }}
         >
-          {images.length} ảnh
+          {images.length} {t('countImage')}
         </Typography>
         <CardContent sx={{ flex: 1, padding: "10px" }}>
           <Box>
@@ -154,7 +156,7 @@ const CardPostItem: React.FC<{
                   margin: "10px 10px 0 0",
                 }}
               >
-                {priceNumber} triệu/tháng
+                {priceNumber} {t('unitPrice')}
               </Typography>
             </Box>
             <Box
@@ -165,7 +167,7 @@ const CardPostItem: React.FC<{
                 padding: "10px 0",
               }}
             >
-              <Tooltip title="Trang cá nhân">
+              <Tooltip title={t('personalPage')}>
                 <Link
                   to={`/user/${user.id}`}
                   style={{
@@ -194,7 +196,7 @@ const CardPostItem: React.FC<{
                   </Typography>
                 </Link>
               </Tooltip>
-              <Tooltip title="Lượt truy cập">
+              <Tooltip title={t('viewsCount')}>
                 <Box display={"flex"} alignItems={"center"}>
                   <TrendingUpIcon />
                   <Typography

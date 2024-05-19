@@ -59,7 +59,7 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}
       >
-        {images?.slice(0, 6).map((image, index) => (
+        {images?.map((image, index) => (
           <img
             key={index}
             src={image.imageUrl}
@@ -70,7 +70,7 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
               margin: "0 5px",
               cursor: "pointer",
               border:
-                index === currentImageIndex ? "4px solid #fa6819" : "none",
+                index === currentImageIndex ? "2px solid #fa6819" : "none",
             }}
             onClick={() => handleThumbnailClick(index)}
           />

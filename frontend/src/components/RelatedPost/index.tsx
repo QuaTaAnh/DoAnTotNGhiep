@@ -7,17 +7,21 @@ import request from "../../utils/request";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import { IPost } from "../../type";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 const RelatedPost: React.FC = () => {
-  const [t] =useTranslation()
+  const { id } = useParams();
+  const {t} =useTranslation()
   const dispatch = useDispatch();
   const [newPosts, setNewPosts] = useState<IPost[]>([]);
 
   const getNewPost = async () => {
     try {
       dispatch(startLoading());
-      const { data } = await request.get("/api/v1/post/get-new");
-      setNewPosts(data?.posts);
+      const { data } = await request.get("/api/v1/post/get-new");      
+      const currentPostId = Number(id);
+      const filteredPosts = data?.posts?.filter((post: IPost) => post.id !== currentPostId);
+      setNewPosts(filteredPosts);
       dispatch(stopLoading());
     } catch (error) {
       console.log(error);

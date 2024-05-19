@@ -11,8 +11,10 @@ import AddIcon from "@mui/icons-material/Add";
 import DoneIcon from "@mui/icons-material/Done";
 import { formatDate } from "../../common/formatDate";
 import CardPostItem from "../../components/CardPostItem";
+import { useTranslation } from "react-i18next";
 
 const PersonalUser: React.FC = () => {
+  const {t} = useTranslation()
   const { id } = useParams();
   const dispatch = useDispatch();
   const [userPersonal, setUserPersonal] = useState<IUser>();
@@ -134,10 +136,10 @@ const PersonalUser: React.FC = () => {
                 marginTop={"10px"}
               >
                 <Typography sx={{ fontSize: "14px", color: "#000" }}>
-                  Người theo dõi: {userPersonal?.follower?.length}
+                  {t('tab.follower')}: {userPersonal?.follower?.length}
                 </Typography>
                 <Typography sx={{ fontSize: "14px", color: "#000" }}>
-                  Đang theo dõi: {userPersonal?.following?.length}
+                  {t('tab.following')}: {userPersonal?.following?.length}
                 </Typography>
               </Box>
               <Box
@@ -147,7 +149,7 @@ const PersonalUser: React.FC = () => {
                 marginTop={"10px"}
               >
                 <Typography sx={{ fontSize: "14px", color: "#000" }}>
-                  Đã tham gia: {formatDate(userPersonal?.createdAt)}
+                  {t('createdAt')}: {formatDate(userPersonal?.createdAt)}
                 </Typography>
               </Box>
               <Button
@@ -174,7 +176,7 @@ const PersonalUser: React.FC = () => {
                   onClick={handleUnFollow}
                 >
                   <DoneIcon />
-                  Đã theo dõi
+                  {t('followed')}
                 </Button>
               ) : (
                 <Button
@@ -192,7 +194,7 @@ const PersonalUser: React.FC = () => {
                   onClick={handleFollow}
                 >
                   <AddIcon />
-                  Theo dõi
+                 {t('follow')}
                 </Button>
               )}
             </Card>
