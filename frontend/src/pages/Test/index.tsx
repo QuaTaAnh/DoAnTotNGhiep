@@ -1,5 +1,5 @@
 const Test: React.FC = () => {
-  return <>Test 1231313</>;
+  return <>Test</>;
 };
 
 export default Test;
