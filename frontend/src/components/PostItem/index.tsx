@@ -1,9 +1,11 @@
 import {
   Avatar,
+  Badge,
   Box,
   Card,
   CardContent,
   CardMedia,
+  IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -19,6 +21,7 @@ import { useDispatch } from "react-redux";
 import request from "../../utils/request";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import CameraAltIcon from '@mui/icons-material/CameraAlt'
 
 const PostItem: React.FC<{
   data: IPost;
@@ -106,16 +109,15 @@ const PostItem: React.FC<{
           }}
           src={images[0]?.imageUrl || Room}
         />
-        <Typography
+        <IconButton
           sx={{
             position: "absolute",
-            fontSize: "14px",
             color: "#fa6819",
-            backgroundColor: "#ccc",
-          }}
-        >
-          {images.length} ảnh
-        </Typography>
+          }} size="large">
+          <Badge badgeContent={images.length} color="warning">
+            <CameraAltIcon />
+          </Badge>
+        </IconButton>
         <CardContent sx={{ padding: "0 12px", flex: 1 }}>
           <Box>
             <Typography

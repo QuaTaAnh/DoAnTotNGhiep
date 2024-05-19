@@ -1,4 +1,4 @@
-import { Grid, Pagination } from "@mui/material";
+import { Grid, Pagination, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CardPostItem from "../../../components/CardPostItem";
 import { IPost } from "../../../type";
@@ -6,14 +6,16 @@ import { useDispatch } from "react-redux";
 import { startLoading, stopLoading } from "../../../redux/loadingRedux";
 import request from "../../../utils/request";
 import { showSnackbar } from "../../../redux/snackbarRedux";
+import { useTranslation } from "react-i18next";
 
 const PostFollow: React.FC = () => {
+  const {t} = useTranslation()
   const dispatch = useDispatch();
-  const [newPosts, setNewPosts] = useState<IPost[]>([]);
+  const [followPosts, setFollowPosts] = useState<IPost[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
 
-  const getNewPost = async () => {
+  const getFollowPost = async () => {
     try {
       dispatch(startLoading());
       const { data } = await request.get("/api/v1/post/get-follow", {
@@ -21,7 +23,7 @@ const PostFollow: React.FC = () => {
           page,
         },
       });
-      setNewPosts(data?.posts);
+      setFollowPosts(data?.posts);
       setTotalPages(data.totalPages);
       console.log(data);
       dispatch(stopLoading());
@@ -32,7 +34,7 @@ const PostFollow: React.FC = () => {
   };
 
   useEffect(() => {
-    getNewPost();
+    getFollowPost();
   }, [page]);
 
   const onChangePage = (
@@ -44,15 +46,17 @@ const PostFollow: React.FC = () => {
 
   return (
     <>
+    {followPosts.length > 0 ?
+    <>
       <Grid container spacing={2}>
-        {newPosts.map((post: IPost) => (
+        {followPosts.map((post: IPost) => (
           <Grid item key={post.id} md={3}>
             <CardPostItem data={post} />
           </Grid>
         ))}
       </Grid>
       <Grid container justifyContent="center" sx={{ margin: "20px 0" }}>
-        {totalPages > 1 && newPosts?.length > 0 && (
+        {totalPages > 1 && followPosts?.length > 0 && (
           <Pagination
             count={totalPages}
             onChange={onChangePage}
@@ -70,7 +74,15 @@ const PostFollow: React.FC = () => {
             }}
           />
         )}
-      </Grid>
+      </Grid> 
+    </>
+      : 
+       <Grid container justifyContent="center">
+       <Typography sx={{ fontSize: "40px", paddingTop: "20px" }}>
+         {t("messagePostFollow")}
+       </Typography>
+     </Grid>
+   }
     </>
   );
 };

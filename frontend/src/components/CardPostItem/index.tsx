@@ -3,10 +3,12 @@ import { IPost } from "../../type";
 import { Link } from "react-router-dom";
 import {
   Avatar,
+  Badge,
   Box,
   Card,
   CardContent,
   CardMedia,
+  IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -22,6 +24,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { formatDateComment } from "../../common/formatDate";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { useTranslation } from "react-i18next";
+import CameraAltIcon from '@mui/icons-material/CameraAlt'
 
 const CardPostItem: React.FC<{
   data: IPost;
@@ -115,16 +118,16 @@ const CardPostItem: React.FC<{
           }}
           src={images[0].imageUrl || Room}
         />
-        <Typography
+        <IconButton 
           sx={{
             position: "absolute",
-            fontSize: "14px",
             color: "#fa6819",
-            backgroundColor: "#ccc",
-          }}
-        >
-          {images.length} {t('countImage')}
-        </Typography>
+          }} 
+          size="large">
+          <Badge badgeContent={images.length} color="warning">
+            <CameraAltIcon />
+          </Badge>
+        </IconButton>
         <CardContent sx={{ flex: 1, padding: "10px" }}>
           <Box>
             <Typography

@@ -158,7 +158,7 @@ const PostDetail: React.FC = () => {
                 paddingTop={"10px"}
               >
                 <Grid container>
-                  <Grid md={6}>
+                  <Grid item md={6}>
                     <Box display={"flex"}>
                       <DescriptionIcon />
                       <Typography
@@ -172,7 +172,7 @@ const PostDetail: React.FC = () => {
                       </Typography>
                     </Box>
                   </Grid>
-                  <Grid md={6}>
+                  <Grid item md={6}>
                     <Box display={"flex"}>
                       <CropIcon />
                       <Typography
