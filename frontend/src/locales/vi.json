@@ -62,5 +62,16 @@
     "startDate": "Ngày bắt đầu",
     "endDate": "Ngày hết hạn",
     "name": "Họ tên",
-    "createdAt": "Ngày tạo"
+    "createdAt": "Ngày tạo",
+    "postCensorship": "Tin đã được kiểm duyệt",
+    "characteristic": "Đặc điểm bất động sản",
+    "for": "Dành cho",
+    "detailDescription": "Mô tả chi tiết",
+    "viewPage": "Xem trang",
+    "chatUser": "Chat với người bán",
+    "suggestedPost": "Bài đăng gợi ý",
+    "noSuggestedPost": "Không có bài đăng gợi ý",
+    "comment": "Bình luận",
+    "createNewComment": "Thêm mới bình luận",
+    "postNew": "Tin mới đăng" 
 }

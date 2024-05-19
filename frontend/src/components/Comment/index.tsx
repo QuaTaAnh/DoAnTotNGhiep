@@ -11,12 +11,14 @@ import { formatDateComment } from "../../common/formatDate";
 import { addComment, changePage } from "../../redux/commentRedux";
 import ReactQuill from "react-quill";
 import { getCommentByPage } from "../../redux/callApi";
+import { useTranslation } from "react-i18next";
 
 interface CommentProps {
   postId?: number;
 }
 
 const CommentCustom: React.FC<CommentProps> = ({ postId }: CommentProps) => {
+  const {t} = useTranslation()
   const dispatch = useDispatch<AppDispatch>();
   const [content, setContent] = useState<string>("");
   const { comments, totalPages, page } = useSelector(
@@ -62,7 +64,7 @@ const CommentCustom: React.FC<CommentProps> = ({ postId }: CommentProps) => {
   return (
     <Box>
       <Typography variant="h6" gutterBottom>
-        Thêm mới bình luận
+        {t('createNewComment')}
       </Typography>
       <ReactQuill
         theme="snow"
@@ -90,7 +92,7 @@ const CommentCustom: React.FC<CommentProps> = ({ postId }: CommentProps) => {
         }}
         onClick={handleSubmit}
       >
-        Bình luận
+        {t('comment')}
       </Button>
       {comments?.map((comment: Comment) => (
         <CommentItem

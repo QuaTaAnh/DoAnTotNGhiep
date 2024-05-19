@@ -6,8 +6,10 @@ import { startLoading, stopLoading } from "../../redux/loadingRedux";
 import request from "../../utils/request";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import { IPost } from "../../type";
+import { useTranslation } from "react-i18next";
 
 const RelatedPost: React.FC = () => {
+  const [t] =useTranslation()
   const dispatch = useDispatch();
   const [newPosts, setNewPosts] = useState<IPost[]>([]);
 
@@ -51,7 +53,7 @@ const RelatedPost: React.FC = () => {
           <Typography
             sx={{ fontSize: "18px", fontWeight: 600, marginBottom: "28px" }}
           >
-            Tin mới đăng
+            {t('postNew')}
           </Typography>
           {newPosts.map((post: IPost) => (
             <PostSidebar

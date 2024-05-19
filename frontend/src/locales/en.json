@@ -62,5 +62,16 @@
     "startDate": "Start day",
     "endDate": "Expiration date",
     "name": "Name",
-    "createdAt": "Created At"
+    "createdAt": "Created At",
+    "postCensorship": "The news has been censored",
+    "characteristic": "Real estate characteristics",
+    "for": "Intended for",
+    "detailDescription": "Detailed description",
+    "viewPage": "View page",
+    "chatUser": "Chat with the seller",
+    "suggestedPost": "Suggested post",
+    "noSuggestedPost": "There are no suggested posts",
+    "comment": "Comment",
+    "createNewComment": "Add new comment",
+    "postNew": "Posts New" 
 }

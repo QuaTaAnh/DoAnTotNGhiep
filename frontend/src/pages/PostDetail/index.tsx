@@ -30,8 +30,10 @@ import { RootState } from "../../redux/store";
 import WcIcon from "@mui/icons-material/Wc";
 import { CustomTabPanel, a11yProps } from "../../components/CustomTabPanel";
 import CommentCustom from "../../components/Comment";
+import { useTranslation } from "react-i18next";
 
 const PostDetail: React.FC = () => {
+  const {t} = useTranslation()
   const { id } = useParams();
   const dispatch = useDispatch();
   const [detail, setDetail] = useState<IPost>();
@@ -117,7 +119,7 @@ const PostDetail: React.FC = () => {
               >
                 <Box display={"flex"}>
                   <Typography sx={{ fontSize: "16px", color: "#fa6819" }}>
-                    {detail?.priceNumber} triệu/tháng -{" "}
+                    {detail?.priceNumber} {t('unitPrice')} -{" "}
                     <span style={{ fontSize: "14px", color: "#000" }}>
                       {detail?.areaNumber} m2
                     </span>
@@ -139,7 +141,7 @@ const PostDetail: React.FC = () => {
               <Box display={"flex"} alignItems={"center"} paddingTop={"10px"}>
                 <GppGoodIcon />
                 <Typography sx={{ fontSize: "14px", marginLeft: "6px" }}>
-                  Tin đã được kiểm duyệt
+                  {t('postCensorship')}
                 </Typography>
               </Box>
             </Card>
@@ -147,7 +149,7 @@ const PostDetail: React.FC = () => {
               sx={{ padding: "20px", borderRadius: "0", marginTop: "20px" }}
             >
               <Typography sx={{ fontSize: "16px", fontWeight: 700 }}>
-                Đặc điểm bất động sản
+                {t('characteristic')}
               </Typography>
               <Box
                 display={"flex"}
@@ -197,7 +199,7 @@ const PostDetail: React.FC = () => {
                   <Typography
                     sx={{ fontSize: "15px", color: "#000", marginLeft: "6px" }}
                   >
-                    Dành cho: {detail?.target}
+                    {t('for')}: {detail?.target}
                   </Typography>
                 </Box>
               </Box>
@@ -206,7 +208,7 @@ const PostDetail: React.FC = () => {
               sx={{ padding: "20px", borderRadius: "0", marginTop: "20px" }}
             >
               <Typography sx={{ fontSize: "16px", fontWeight: 700 }}>
-                Mô tả chi tiết
+               {t('detailDescription')}
               </Typography>
               <Box display={"flex"} paddingTop={"10px"}>
                 <div
@@ -266,7 +268,7 @@ const PostDetail: React.FC = () => {
                           border: "1px solid #fa6819",
                         }}
                       >
-                        Xem trang
+                        {t('viewPage')}
                       </Typography>
                     </Box>
                   </Box>
@@ -283,7 +285,7 @@ const PostDetail: React.FC = () => {
                   },
                 }}
               >
-                Số điện thoại: {detail?.user?.phone}
+                {t('phoneNumber')}: {detail?.user?.phone}
               </Button>
               <Button
                 fullWidth
@@ -307,7 +309,7 @@ const PostDetail: React.FC = () => {
                     border: "1px solid #ccc",
                   }}
                 >
-                  Chat với người bán
+                  {t('chatUser')}
                 </Button>
               )}
             </Card>
@@ -323,14 +325,14 @@ const PostDetail: React.FC = () => {
               >
                 <Tabs value={value} onChange={handleChange} textColor="inherit">
                   <Tab
-                    label="Bài đăng gợi ý"
+                    label={t('suggestedPost')}
                     {...a11yProps(0)}
                     sx={{
                       textTransform: "none",
                     }}
                   />
                   <Tab
-                    label="Bình luận"
+                    label={t('comment')}
                     {...a11yProps(1)}
                     sx={{
                       textTransform: "none",
@@ -371,7 +373,7 @@ const PostDetail: React.FC = () => {
                     />
                   ) : (
                     <Typography sx={{ fontSize: "18px" }}>
-                      Không có bài đăng gợi ý
+                      {t('noSuggestedPost')}
                     </Typography>
                   )}
                 </Grid>
