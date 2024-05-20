@@ -236,7 +236,7 @@ const CardPostItem: React.FC<{
           <Box
             sx={{
               position: "absolute",
-              top: 4,
+              bottom: 4,
               right: 10,
               padding: "2px",
               color: "#fa6819",

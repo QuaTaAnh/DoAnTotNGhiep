@@ -3,11 +3,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CreatePostForm, District, Province, Ward } from "../../../type";
 import { useTranslation } from "react-i18next";
+import MapCustom from "../../../components/Map";
 
 interface AddressFieldsProps {
   setPayload: any;
   hidden?: boolean;
   setAddressChanged?: any;
+}
+
+interface LocationAddress {
+  longitude: number
+  latitude: number
 }
 
 const Address: React.FC<AddressFieldsProps> = ({
@@ -25,6 +31,8 @@ const Address: React.FC<AddressFieldsProps> = ({
   const [provinceSelected, setProvinceSelected] = useState<boolean>(false);
   const [districtSelected, setDistrictSelected] = useState<boolean>(false);
   const [wardSelected, setWardSelected] = useState<boolean>(false);
+  const [apartmentNumber, setApartmentNumber] = useState<string>('');
+  const [locationAdd, setLocationAdd] = useState<LocationAddress>({longitude: 105.782422, latitude: 21.017688});
 
   useEffect(() => {
     if (setAddressChanged) {
@@ -34,7 +42,10 @@ const Address: React.FC<AddressFieldsProps> = ({
     }
   }, [setAddressChanged, provinceSelected, districtSelected, wardSelected]);
 
-  const address: string = `${
+  console.log(locationAdd, 'hahaa');
+  
+
+  const address: string = `${apartmentNumber ? `${apartmentNumber},` : ""} ${
     ward ? `${wards?.find((item) => item.ward_id === ward)?.ward_name},` : ""
   } ${
     district
@@ -94,8 +105,22 @@ const Address: React.FC<AddressFieldsProps> = ({
     }));
   }, [address, setPayload]);
 
+  useEffect(() =>{
+    const getLocationAddress = async () => {      
+      const {data} = await axios.get(`https://api.mapbox.com/search/geocode/v6/forward?q=${address}&access_token=pk.eyJ1IjoiYW5odHJhbngxMjMiLCJhIjoiY2x3ZXRveDlxMWt1azJxcDA5eWJ2MGY2dCJ9.VxaY6H_ilq6Jl8PZNsPbqw`)
+      if (data.features && data.features.length > 0) {
+        const { coordinates } = data.features[0].geometry;
+        setLocationAdd({ longitude: coordinates[0], latitude: coordinates[1] });
+      }
+    }
+    if (address.trim()) {
+      getLocationAddress();
+    }
+  }, [address])
+
   return (
-    <>
+    <Grid container spacing={2}>
+      <Grid item md={hidden ? 12 : 7}>
       <Grid container spacing={2} marginBottom={2}>
         <Grid item md={4}>
           <label htmlFor="">{t("province")}</label>
@@ -162,11 +187,7 @@ const Address: React.FC<AddressFieldsProps> = ({
             fullWidth
             margin="normal"
             onChange={(e) => {
-              const newApartmentNumber = e.target.value;
-              setPayload((prev: CreatePostForm) => ({
-                ...prev,
-                address: `${newApartmentNumber}, ${address}`,
-              }));
+              setApartmentNumber(e.target.value)
             }}
           />
         </>
@@ -184,7 +205,12 @@ const Address: React.FC<AddressFieldsProps> = ({
           },
         }}
       />
-    </>
+      </Grid>
+      {!hidden ? 
+      <Grid item md={5}>
+        <MapCustom longitude={locationAdd.longitude} latitude={locationAdd.latitude}/>
+      </Grid> : <></>}
+    </Grid>
   );
 };
 
