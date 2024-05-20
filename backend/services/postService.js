@@ -1,5 +1,5 @@
 import db from '../models/index.js'
-import { Op } from 'sequelize';
+import { Op, col, fn } from 'sequelize';
 import cloudinary from "../config/cloudinary.js";
 
 export const getPostService = async (page, pageSize, priceId, areaId, categoryId, status, address) => {
@@ -432,3 +432,49 @@ export const incrementPostViewService = async (postId, userId) =>{
     }
 }
 
+export const monthlyPostCountService = async () => {
+    try {
+      const result = await db.Post.findAll({
+        attributes: [
+            [fn('YEAR', fn('DATE', col('createdAt'))), 'year'],
+            [fn('MONTH', fn('DATE', col('createdAt'))), 'month'],
+            [fn('COUNT', '*'), 'count']
+        ],
+        group: ['year', 'month']
+      });
+      return {
+        status: true,
+        message: 'Lấy dữ liệu thành công!',
+        result
+      };
+    } catch (error) {
+        console.log(error);
+    }
+  };
+
+export const topViewPostService = async () => {
+    try {
+      const result = await db.Post.findAll({
+       where: {
+        status: 'active'
+       },
+       include: [
+        { model: db.User, as: 'user', attributes: ['id', 'name', 'zalo', 'phone', 'avatar'] },
+        { 
+            model: db.Image, 
+            as: 'images', 
+            attributes: ['imageUrl'] 
+        }
+       ],
+       order: [['viewsCount', 'desc']],
+       limit: 3
+      });
+      return {
+        status: true,
+        message: 'Lấy dữ liệu thành công!',
+        result
+      };
+    } catch (error) {
+        console.log(error);
+    }
+  };

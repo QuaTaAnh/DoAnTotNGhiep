@@ -1,4 +1,4 @@
-import { createPostService, expiredPostService, getNewPostService, getPostByIdService, getPostByUserIdService, getPostFollowService, getPostSearchService, getPostService, getPostSuggestService, hiddenPostService, incrementPostViewService } from '../services/postService.js'
+import { createPostService, expiredPostService, getNewPostService, getPostByIdService, getPostByUserIdService, getPostFollowService, getPostSearchService, getPostService, getPostSuggestService, hiddenPostService, incrementPostViewService, monthlyPostCountService, topViewPostService } from '../services/postService.js'
 
 export const getPostController = async (req, res) =>{
     try {
@@ -199,3 +199,30 @@ export const incrementPostViewController = async (req, res) =>{
     }
 }
 
+export const monthlyPostCountController = async (req, res) => {
+    try {
+        const result = await monthlyPostCountService()
+        return res.status(200).json(result)
+    } catch (error) {
+        console.log(error) 
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
+            error
+        })
+    }
+}
+
+export const topViewPostController = async (req, res) => {
+    try {
+        const result = await topViewPostService()
+        return res.status(200).json(result)
+    } catch (error) {
+        console.log(error) 
+        res.status(500).send({
+            status: false, 
+            message: 'Có lỗi xảy ra!', 
+            error
+        })
+    }
+}

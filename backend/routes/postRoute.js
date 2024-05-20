@@ -1,9 +1,12 @@
 import express  from "express";
 import authMiddleware from "../middlewares/authMiddleware.js";
-import { getPostController, getNewPostController, getPostSearchController, createPostController, getPostByIdController, getPostSuggestController, getPostByUserIdController, hiddenPostController, adminGetPostController, getPostFollowController, incrementPostViewController } from "../controllers/postController";
+import { getPostController, getNewPostController, getPostSearchController, createPostController, getPostByIdController, getPostSuggestController, getPostByUserIdController, hiddenPostController, adminGetPostController, getPostFollowController, incrementPostViewController, monthlyPostCountController, topViewPostController } from "../controllers/postController";
+import { adminMiddleware } from "../middlewares/adminMiddleware.js";
 
 const router = express.Router()
 
+router.get('/monthly-posts', authMiddleware, adminMiddleware, monthlyPostCountController)
+router.get('/top-view', authMiddleware, adminMiddleware, topViewPostController)
 router.get('/get-all', getPostController)
 router.get('/get-new', getNewPostController)
 router.get('/get-follow', authMiddleware, getPostFollowController)
