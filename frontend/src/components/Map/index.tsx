@@ -1,21 +1,42 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Map, { Marker } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
+import axios from 'axios';
 
-const MapCustom:React.FC<{longitude: number; latitude: number}> = ({longitude, latitude}) => {
+interface LocationAddress {
+  longitude: number
+  latitude: number
+}
+
+const MapCustom:React.FC<{address: string}> = ({address}) => {
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const [locationAdd, setLocationAdd] = useState<LocationAddress>({longitude: 105.782422, latitude: 21.017688});
+
+  useEffect(() =>{
+    const getLocationAddress = async () => {      
+      const {data} = await axios.get(`https://api.mapbox.com/search/geocode/v6/forward?q=${address}&access_token=pk.eyJ1IjoiYW5odHJhbngxMjMiLCJhIjoiY2x3ZXRveDlxMWt1azJxcDA5eWJ2MGY2dCJ9.VxaY6H_ilq6Jl8PZNsPbqw`)
+      if (data.features && data.features.length > 0) {
+        const { coordinates } = data.features[0].geometry;
+        setLocationAdd({ longitude: coordinates[0], latitude: coordinates[1] });
+      }
+    }
+    if (address.trim()) {
+      getLocationAddress();
+    }
+  }, [address, locationAdd])
+
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.flyTo({ center: [longitude, latitude], zoom: 16 });
+      mapRef.current.flyTo({ center: [locationAdd.longitude, locationAdd.latitude], zoom: 14 });
     }
-  }, [longitude, latitude]);
+  }, [locationAdd.longitude, locationAdd.latitude]);
 
   return (
     <Map
     mapLib={mapboxgl}
     initialViewState={{
-      longitude: longitude,
-      latitude: latitude,
+      longitude: locationAdd.longitude,
+      latitude: locationAdd.latitude,
       zoom: 16
     }}
     style={{width: '100%', height: '100%'}}
@@ -23,7 +44,7 @@ const MapCustom:React.FC<{longitude: number; latitude: number}> = ({longitude, l
     mapboxAccessToken='pk.eyJ1IjoiYW5odHJhbngxMjMiLCJhIjoiY2x3ZXRveDlxMWt1azJxcDA5eWJ2MGY2dCJ9.VxaY6H_ilq6Jl8PZNsPbqw'
     onLoad={(e) => (mapRef.current = e.target)}
   >
-    <Marker longitude={longitude} latitude={latitude} anchor="center" color="red" />
+    <Marker longitude={locationAdd.longitude} latitude={locationAdd.latitude} anchor="center" color="red" />
   </Map>)
 }
 
