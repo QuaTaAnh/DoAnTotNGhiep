@@ -8,7 +8,7 @@ interface LocationAddress {
   latitude: number
 }
 
-const MapCustom:React.FC<{address: string}> = ({address}) => {
+const MapCustom:React.FC<{address: string}> = ({address = ""}) => {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const [locationAdd, setLocationAdd] = useState<LocationAddress>({longitude: 105.782422, latitude: 21.017688});
 
@@ -43,9 +43,7 @@ const MapCustom:React.FC<{address: string}> = ({address}) => {
     mapStyle="mapbox://styles/mapbox/streets-v9"
     mapboxAccessToken='pk.eyJ1IjoiYW5odHJhbngxMjMiLCJhIjoiY2x3ZXRveDlxMWt1azJxcDA5eWJ2MGY2dCJ9.VxaY6H_ilq6Jl8PZNsPbqw'
     onLoad={(e) => (mapRef.current = e.target)}
-  >
-    <Marker longitude={locationAdd.longitude} latitude={locationAdd.latitude} anchor="center" color="red" />
-  </Map>)
+  />)
 }
 
 export default MapCustom
