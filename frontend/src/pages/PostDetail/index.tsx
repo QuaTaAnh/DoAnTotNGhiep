@@ -147,7 +147,7 @@ const PostDetail: React.FC = () => {
               </Box>
             </Card>
             <Box marginTop={'20px'} height={'300px'}>
-              <MapCustom disable address={detail?.address}/>
+              <MapCustom address={detail?.address}/>
             </Box>
             <Card
               sx={{ padding: "20px", borderRadius: "0", marginTop: "20px" }}

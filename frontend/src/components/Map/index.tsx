@@ -8,7 +8,7 @@ interface LocationAddress {
   latitude: number
 }
 
-const MapCustom:React.FC<{address: string; disable?: boolean}> = ({disable, address = ""}) => {
+const MapCustom:React.FC<{address: string}> = ({ address = ""}) => {
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
   const [locationAdd, setLocationAdd] = useState<LocationAddress>({longitude: 105.782422, latitude: 21.017688});
 
@@ -35,7 +35,7 @@ const MapCustom:React.FC<{address: string; disable?: boolean}> = ({disable, addr
 
   useEffect(() => {
     if (map) {
-      map.flyTo({ center: [locationAdd.longitude, locationAdd.latitude], zoom: 16 });
+      map.flyTo({ center: [locationAdd.longitude, locationAdd.latitude], zoom: 14 });
     }
   }, [locationAdd.longitude, locationAdd.latitude, map]);
 
@@ -45,7 +45,7 @@ const MapCustom:React.FC<{address: string; disable?: boolean}> = ({disable, addr
     initialViewState={{
       longitude: locationAdd.longitude,
       latitude: locationAdd.latitude,
-      zoom: 16
+      zoom: 14
     }}
     style={{width: '100%', height: '100%', overflow: 'hidden'}}
     mapStyle="mapbox://styles/mapbox/streets-v9"
@@ -53,12 +53,6 @@ const MapCustom:React.FC<{address: string; disable?: boolean}> = ({disable, addr
     onLoad={(e) => {
       setMap(e.target)
     }}
-    dragPan={disable ? false : true}
-    scrollZoom={disable ? false : true}
-    dragRotate={disable ? false : true}
-    keyboard={disable ? false : true}
-    doubleClickZoom={disable ? false : true}
-    touchZoomRotate={disable ? false : true}
   >
     <Marker longitude={locationAdd.longitude} latitude={locationAdd.latitude} anchor='center' color="red" />
   </Map>)
