@@ -187,7 +187,7 @@ const Address: React.FC<AddressFieldsProps> = ({
       </Grid>
       {!hidden ? 
       <Grid item md={5}>
-        <Box>
+        <Box sx={{height: '300px'}}>
           <MapCustom address={address}/>
         </Box>
       </Grid> : <></>}
