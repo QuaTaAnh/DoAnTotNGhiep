@@ -17,15 +17,18 @@ interface ImageDetailProps {
 }
 
 const ImageDetail: React.FC<ImageDetailProps> = ({ images = [], height, hidden }) => {
+  const sliderRef = React.useRef<Slider>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+
   const settings = {
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: hidden ? true : false,
+    autoplaySpeed: 3000, 
     afterChange: (index: number) => setCurrentImageIndex(index),
   };
-  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
-  const sliderRef = React.useRef<Slider>(null);
 
   const goToNextSlide = () => {
     if (sliderRef.current) {
