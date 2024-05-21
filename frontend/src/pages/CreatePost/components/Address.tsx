@@ -1,4 +1,4 @@
-import { Grid, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Grid, MenuItem, Select, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CreatePostForm, District, Province, Ward } from "../../../type";
@@ -187,7 +187,9 @@ const Address: React.FC<AddressFieldsProps> = ({
       </Grid>
       {!hidden ? 
       <Grid item md={5}>
-        <MapCustom address={address}/>
+        <Box>
+          <MapCustom address={address}/>
+        </Box>
       </Grid> : <></>}
     </Grid>
   );

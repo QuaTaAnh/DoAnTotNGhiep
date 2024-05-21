@@ -31,6 +31,7 @@ import WcIcon from "@mui/icons-material/Wc";
 import { CustomTabPanel, a11yProps } from "../../components/CustomTabPanel";
 import CommentCustom from "../../components/Comment";
 import { useTranslation } from "react-i18next";
+import MapCustom from "../../components/Map";
 
 const PostDetail: React.FC = () => {
   const {t} = useTranslation()
@@ -145,6 +146,9 @@ const PostDetail: React.FC = () => {
                 </Typography>
               </Box>
             </Card>
+            <Box marginTop={'20px'}>
+              <MapCustom disable address={detail?.address}/>
+            </Box>
             <Card
               sx={{ padding: "20px", borderRadius: "0", marginTop: "20px" }}
             >
