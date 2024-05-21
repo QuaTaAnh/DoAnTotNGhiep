@@ -78,6 +78,7 @@ export interface CreatePostForm {
 }
 
 export interface TypeDefault {
+  id: number;
   code: string;
   value: string;
 }
@@ -140,10 +141,12 @@ export type FilterForm = Partial<
   Pick<
     CreatePostForm,
     | "address"
-    | "priceNumber"
-    | "areaNumber"
     | "categoryId"
     | "priceId"
     | "areaId"
   >
-> & { category?: string };
+> & { 
+  category?: string
+  price?: string
+  area?: string
+ };

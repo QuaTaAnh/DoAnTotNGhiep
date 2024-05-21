@@ -2,21 +2,17 @@ import {
   Box,
   Button,
   Grid,
-  InputAdornment,
   MenuItem,
   Modal,
   Select,
-  TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Address from "../../CreatePost/components/Address";
-import { FilterForm } from "../../../type";
-import { formatPrice } from "../../../common";
+import { FilterForm, TypeDefault } from "../../../type";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { getIdFromArea, getIdFromPrice } from "../../../common/getCodes";
 import {
   getAcreage,
   getCategory,
@@ -40,12 +36,11 @@ const Filter: React.FC<{
   const [categoryChanged, setCategoryChanged] = useState<boolean>(false);
 
   const initialPayload = {
-    priceNumber: 0,
-    areaNumber: 0,
+    priceId: 0,
+    areaId: 0,
     address: "",
     categoryId: 0,
   };
-
   const [payload, setPayload] = useState<FilterForm>(initialPayload);
 
   useEffect(() => {
@@ -71,15 +66,11 @@ const Filter: React.FC<{
     const updatedPayload: FilterForm = {};
 
     if (priceChanged) {
-      updatedPayload.priceNumber = payload.priceNumber;
-      const newPriceId = getIdFromPrice(payload.priceNumber, prices);
-      updatedPayload.priceId = newPriceId;
+      updatedPayload.priceId = payload.priceId;
     }
 
     if (areaChanged) {
-      updatedPayload.areaNumber = payload.areaNumber;
-      const areaId = getIdFromArea(payload.areaNumber, acreages);
-      updatedPayload.areaId = areaId;
+      updatedPayload.areaId = payload.areaId;
     }
 
     if (addressChanged) {
@@ -102,8 +93,22 @@ const Filter: React.FC<{
     );
 
     const filtersForURL: FilterForm = {};
-    if (priceChanged) filtersForURL.priceNumber = payload.priceNumber;
-    if (areaChanged) filtersForURL.areaNumber = payload.areaNumber;
+    if (priceChanged) {
+      const selectedPrice = prices.find(
+        (price) => price.id === payload.priceId
+      );
+      if (selectedPrice) {
+        filtersForURL.price = selectedPrice.value;
+      }
+    }
+    if (areaChanged) {
+      const selectedArea = acreages.find(
+        (area) => area.id === payload.areaId
+      );
+      if (selectedArea) {
+        filtersForURL.area = selectedArea.value;
+      }
+    }
     if (addressChanged) filtersForURL.address = payload.address;
     if (categoryChanged) {
       const selectedCategory = categories.find(
@@ -164,7 +169,7 @@ const Filter: React.FC<{
                 setCategoryChanged(true);
               }}
             >
-              {categories.map((category: any) => (
+              {categories.map((category: TypeDefault) => (
                 <MenuItem key={category.id} value={category.id}>
                   {category.value}
                 </MenuItem>
@@ -173,59 +178,51 @@ const Filter: React.FC<{
           </Grid>
           <Grid item md={12}>
             <label htmlFor="">{t("price")}</label>
-            <TextField
-              name="priceNumber"
-              size="small"
+            <Select
               fullWidth
-              margin="normal"
-              value={formatPrice(payload.priceNumber)}
+              sx={{
+                height: "40px",
+                margin: "10px 0",
+              }}
+              value={payload.priceId}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/\D/g, "");
-                const parsedValue = newValue === "" ? 0 : parseFloat(newValue);
-                setPayload((prev: FilterForm) => ({
+                setPayload((prev: any) => ({
                   ...prev,
-                  priceNumber: parsedValue,
+                  priceId: e.target.value,
                 }));
                 setPriceChanged(true);
               }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {t("unitPrice")}
-                  </InputAdornment>
-                ),
-              }}
-              inputProps={{
-                maxLength: 15,
-              }}
-            />
+            >
+              {prices.map((price: TypeDefault) => (
+                <MenuItem key={price.id} value={price.id}>
+                  {price.value}
+                </MenuItem>
+              ))}
+            </Select>
           </Grid>
           <Grid item md={12}>
             <label htmlFor="">{t("area")}</label>
-            <TextField
-              name="areaNumber"
-              size="small"
+            <Select
               fullWidth
-              margin="normal"
-              value={payload.areaNumber || 0}
+              sx={{
+                height: "40px",
+                margin: "10px 0",
+              }}
+              value={payload.areaId}
               onChange={(e) => {
-                setPayload((prev: FilterForm) => ({
+                setPayload((prev: any) => ({
                   ...prev,
-                  areaNumber: parseFloat(e.target.value),
+                  areaId: e.target.value,
                 }));
                 setAreaChanged(true);
               }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    m<sub>2</sub>
-                  </InputAdornment>
-                ),
-              }}
-              inputProps={{
-                maxLength: 12,
-              }}
-            />
+            >
+              {acreages.map((area: TypeDefault) => (
+                <MenuItem key={area.id} value={area.id}>
+                  {area.value}
+                </MenuItem>
+              ))}
+            </Select>
           </Grid>
         </Grid>
         <Box
