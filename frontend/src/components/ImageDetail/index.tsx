@@ -12,9 +12,11 @@ interface Image {
 
 interface ImageDetailProps {
   images: Image[];
+  height?: string
+  hidden?: boolean
 }
 
-const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
+const ImageDetail: React.FC<ImageDetailProps> = ({ images = [], height, hidden }) => {
   const settings = {
     infinite: false,
     speed: 500,
@@ -50,12 +52,13 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
           <div key={index}>
             <img
               src={image.imageUrl}
-              style={{ width: "100%", height: "500px", objectFit: "cover" }}
+              style={{ width: "100%", height: height, objectFit: "cover" }}
               alt={`Image ${index}`}
             />
           </div>
         ))}
       </Slider>
+      {hidden ? <></> :
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}
       >
@@ -76,6 +79,7 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
           />
         ))}
       </div>
+      }
       {images.length > 1 && (
         <>
           <IconButton
@@ -83,11 +87,11 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
             onClick={goToPrevSlide}
             style={{
               position: "absolute",
-              top: "50%",
+              top: hidden ? "66%" : "50%",
               left: "10px",
               transform: "translateY(-200%)",
               color: "#fff",
-              backgroundColor: "#fa6819",
+              backgroundColor: hidden ? "#000" : "#fa6819",
             }}
           >
             <KeyboardArrowLeftIcon />
@@ -97,11 +101,11 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ images = [] }) => {
             onClick={goToNextSlide}
             style={{
               position: "absolute",
-              top: "50%",
+              top: hidden ? "66%" : "50%",
               right: "10px",
               transform: "translateY(-200%)",
               color: "#fff",
-              backgroundColor: "#fa6819",
+              backgroundColor:  hidden ? "#000" : "#fa6819",
             }}
           >
             <KeyboardArrowRightIcon />

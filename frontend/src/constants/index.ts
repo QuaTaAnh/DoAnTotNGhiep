@@ -2,6 +2,10 @@ import moment from "moment";
 import HCM from "../assets/images/hcm.jpg";
 import HN from "../assets/images/hn.jpg";
 import DN from "../assets/images/dn.jpg";
+import Slider1 from "../assets/images/slider1.jpg";
+import Slider2 from "../assets/images/slider2.jpg";
+import Slider3 from "../assets/images/slider3.jpg";
+
 
 const currentMonthYear = moment().format("MM/YYYY");
 
@@ -78,3 +82,5 @@ export const STATUS = [
   { code: "active", value: "Hoạt động" },
   { code: "hidden", value: "Không hoạt động" },
 ];
+
+export const SLIDERIMAGES = [{ imageUrl: Slider1 },{ imageUrl: Slider2 },{ imageUrl: Slider3 }];

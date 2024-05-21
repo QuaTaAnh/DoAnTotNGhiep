@@ -106,7 +106,7 @@ const PostDetail: React.FC = () => {
       {detail && (
         <Grid container spacing={2}>
           <Grid item md={8}>
-            <ImageDetail images={detail?.images} />
+            <ImageDetail images={detail?.images} height='500px' />
             <Card
               sx={{ padding: "20px", borderRadius: "0", marginTop: "20px" }}
             >

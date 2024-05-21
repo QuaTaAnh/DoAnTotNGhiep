@@ -17,6 +17,8 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Filter from "./components/Filter";
 import Banner from "../../components/Banner";
 import { useTranslation } from "react-i18next";
+import ImageDetail from "../../components/ImageDetail";
+import { SLIDERIMAGES } from "../../constants";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -29,10 +31,12 @@ const Home: React.FC = () => {
 
   return (
     <Container maxWidth="lg">
+      <ImageDetail images={SLIDERIMAGES} height='360px' hidden/>
       <Typography
         sx={{
           fontSize: "18px",
           fontWeight: 700,
+          marginTop: '40px'
         }}
       >
         {t("listPosts")}
