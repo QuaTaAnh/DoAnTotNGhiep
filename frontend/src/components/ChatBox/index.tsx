@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { IUser, MessageProps } from "../../type";
@@ -7,15 +7,20 @@ import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
 import { formatDateComment } from "../../common/formatDate";
 import InputEmoji from "react-input-emoji";
 
-const ChatBox: React.FC<{ data: any }> = ({ data }) => {
+const ChatBox: React.FC<{
+  data: any;
+  setSendMessage: any;
+  receivedMessage: any;
+}> = ({ data, setSendMessage, receivedMessage }) => {
   const { user } = useSelector((state: RootState) => state.user);
   const [userData, setUserData] = useState<IUser>();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<MessageProps[]>([]);
   const [message, setMessage] = useState("");
+  const parseDataMember = JSON.parse(data?.members);
+  const scroll = useRef<any>();
 
   useEffect(() => {
     if (data) {
-      const parseDataMember = JSON.parse(data?.members);
       const dataId = parseDataMember.find((id: number) => id !== user?.id);
       const getUserData = async () => {
         try {
@@ -35,6 +40,7 @@ const ChatBox: React.FC<{ data: any }> = ({ data }) => {
     const getMessages = async () => {
       try {
         const res = await request.get(`/api/v1/message/${data?.id}`);
+        console.log(res.data.data);
         if (res.data.status) {
           setMessages(res?.data?.data);
         } else {
@@ -56,8 +62,36 @@ const ChatBox: React.FC<{ data: any }> = ({ data }) => {
 
   const handleSend = async (e: any) => {
     e.preventDefault();
-    console.log(message);
+    const newMessage = {
+      senderId: user?.id,
+      roomId: data?.id,
+      content: message,
+    };
+
+    const receiverId = parseDataMember.find((id: number) => id !== user?.id);
+    setSendMessage({ ...newMessage, receiverId });
+
+    try {
+      const { data } = await request.post("/api/v1/message/", newMessage);
+      if (data.status) {
+        setMessages([...messages, data?.data]);
+        setMessage("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    console.log("Message Arrived: ", receivedMessage);
+    if (receivedMessage !== null && receivedMessage.roomId === data?.id) {
+      setMessages([...messages, receivedMessage]);
+    }
+  }, [receivedMessage]);
+
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <Box
@@ -96,6 +130,7 @@ const ChatBox: React.FC<{ data: any }> = ({ data }) => {
       <Box paddingTop={"20px"} sx={{ flexGrow: 1, overflowY: "auto" }}>
         {messages.map((message: MessageProps, index) => (
           <Box
+            ref={scroll}
             key={index}
             display="flex"
             justifyContent={

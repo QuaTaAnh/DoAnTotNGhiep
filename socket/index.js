@@ -24,12 +24,13 @@ io.on("connection", (socket) => {
 
   // send message to a specific user
   socket.on("send-message", (data) => {
-    const { receiverId } = data;
+    const receiverId = data.receiverId;
     const user = activeUsers.find((user) => user.userId === receiverId);
     console.log("Sending from socket to :", receiverId);
     console.log("Data: ", data);
     if (user) {
       io.to(user.socketId).emit("recieve-message", data);
+      console.log("Data: 123 ", data);
     }
   });
 });

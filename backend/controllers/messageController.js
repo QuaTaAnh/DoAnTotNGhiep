@@ -2,8 +2,8 @@ import { addMessageService, getMessageService } from "../services/messageService
 
 export const addMessageController = async (req, res) => {
     try {
-        const senderId = parseInt(req.user.id)
-        const result = await addMessageService(senderId, req.body)
+        const {senderId, content, roomId} = req.body
+        const result = await addMessageService(senderId, content, roomId)
         return res.status(200).json(result)
     } catch (error) {
         console.log(error) 

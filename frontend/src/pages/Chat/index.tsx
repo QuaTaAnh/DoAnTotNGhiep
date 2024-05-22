@@ -17,6 +17,9 @@ const Chat: React.FC = () => {
   const [defaultCurrentChat, setDefaultCurrentChat] =
     useState<ChatProps | null>(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [sendMessage, setSendMessage] = useState(null);
+  const [receivedMessage, setReceivedMessage] = useState(null);
+  
   const socket: MutableRefObject<any> = useRef();
 
   useEffect(() => {
@@ -50,6 +53,28 @@ const Chat: React.FC = () => {
     });
   }, [user]);
 
+  useEffect(() => {
+    if (sendMessage !== null) {
+      socket.current.emit("send-message", sendMessage);
+    }
+  }, [sendMessage]);
+
+  useEffect(() => {
+    socket.current.on("recieve-message", (data: any) => {
+      setReceivedMessage(data);
+    }
+    );
+  }, []);
+
+  const checkOnlineStatus = (chat: ChatProps) => {
+    const parseDataMember = JSON.parse(chat?.members);
+    const chatMember = parseDataMember.find(
+      (member: number) => member !== user?.id
+    );
+    const online = onlineUsers.find((user: any) => user?.userId === chatMember);
+    return online ? true : false;
+  };
+
   return (
     <Grid
       container
@@ -81,6 +106,7 @@ const Chat: React.FC = () => {
                     <Conversation
                       data={item}
                       currentChatId={currentChat?.id || null}
+                      online={checkOnlineStatus(item)}
                     />
                   </div>
                 ))}
@@ -89,7 +115,11 @@ const Chat: React.FC = () => {
           </Grid>
           <Grid item md={8} sx={{ height: "100%" }}>
             <Card sx={{ height: "100%" }}>
-              <ChatBox data={currentChat || defaultCurrentChat} />
+              <ChatBox
+                data={currentChat || defaultCurrentChat}
+                setSendMessage={setSendMessage}
+                receivedMessage={receivedMessage}
+              />
             </Card>
           </Grid>
         </>

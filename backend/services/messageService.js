@@ -1,18 +1,18 @@
-import { Op } from 'sequelize';
 import db from '../models/index.js'
 
-export const addMessageService = async (senderId, payload) => {
+export const addMessageService = async (senderId, content, roomId) => {
     try {
         const newMessage = await db.Message.create({
             senderId: senderId,
-            roomId: payload.roomId,
-            content: payload.content,
+            roomId: roomId,
+            content: content,
             read: false
         });
         if(newMessage){
             return {
                 status: true,
                 message: 'Nhắn tin thành công!',
+                data: newMessage
             };
         }
     } catch (error) {
