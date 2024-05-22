@@ -1,4 +1,4 @@
-import { Op, literal } from 'sequelize';
+import { Op } from 'sequelize';
 import db from '../models/index.js'
 
 export const createChatService = async (senderId, receiverId) => {
