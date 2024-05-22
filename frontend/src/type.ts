@@ -138,15 +138,26 @@ export type AdminCreateUpdateCategory = Partial<
 >;
 
 export type FilterForm = Partial<
-  Pick<
-    CreatePostForm,
-    | "address"
-    | "categoryId"
-    | "priceId"
-    | "areaId"
-  >
-> & { 
-  category?: string
-  price?: string
-  area?: string
- };
+  Pick<CreatePostForm, "address" | "categoryId" | "priceId" | "areaId">
+> & {
+  category?: string;
+  price?: string;
+  area?: string;
+};
+
+export interface ChatProps {
+  id: number;
+  members: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface MessageProps {
+  id: number;
+  roomId: number;
+  senderId: number;
+  content: string
+  read: boolean
+  createdAt: string;
+  updatedAt: string;
+}
