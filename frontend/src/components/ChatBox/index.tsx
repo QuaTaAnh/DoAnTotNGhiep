@@ -122,9 +122,6 @@ const ChatBox: React.FC<{
           <Typography sx={{ fontSize: "16px", color: "#000" }}>
             {userData?.name}
           </Typography>
-          <Typography sx={{ fontSize: "12px", color: "#000" }}>
-            Online
-          </Typography>
         </Box>
       </Box>
       <Box paddingTop={"20px"} sx={{ flexGrow: 1, overflowY: "auto" }}>

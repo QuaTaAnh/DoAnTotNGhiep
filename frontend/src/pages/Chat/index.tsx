@@ -83,7 +83,7 @@ const Chat: React.FC = () => {
     >
       {chats.length > 0 ? (
         <>
-          <Grid item md={4} sx={{ height: "100%" }}>
+          <Grid item md={4} xs={2} sx={{ height: "100%" }}>
             <Card sx={{ height: "100%", overflowY: "auto" }}>
               <Box
                 sx={{
@@ -113,7 +113,7 @@ const Chat: React.FC = () => {
               </Box>
             </Card>
           </Grid>
-          <Grid item md={8} sx={{ height: "100%" }}>
+          <Grid item md={8} xs={10} sx={{ height: "100%" }}>
             <Card sx={{ height: "100%" }}>
               <ChatBox
                 data={currentChat || defaultCurrentChat}
