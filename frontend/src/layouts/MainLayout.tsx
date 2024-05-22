@@ -67,10 +67,12 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
           {user?.isAdmin ? (
             <Grid item md={3}>
               <Container
+                disableGutters
                 sx={{
                   width: "100%",
-                  overflowY: "auto",
-                  maxHeight: "calc(100vh - 64px)",
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
               >
                 <SidebarCustom />

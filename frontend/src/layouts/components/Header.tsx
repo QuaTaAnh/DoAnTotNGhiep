@@ -1,7 +1,6 @@
 import {
   AppBar,
   Avatar,
-  Badge,
   Box,
   Button,
   Container,
@@ -164,10 +163,8 @@ const Header: React.FC = () => {
               >
                 <NotificationList />
               </Menu>
-              <IconButton size="large" sx={{ m: 0.5 }}>
-                <Badge badgeContent={9} color="error">
+              <IconButton size="large" sx={{ m: 0.5 }} onClick={() => navigate('/chat')}>
                   <ChatBubbleOutlineIcon />
-                </Badge>
               </IconButton>
               <Tooltip title="Cài đặt">
                 <IconButton onClick={handleOpenUserMenu} sx={{ m: 0.5 }}>

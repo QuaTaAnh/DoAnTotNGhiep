@@ -14,6 +14,7 @@ import ManageUsers from "../pages/Admin/ManageUsers";
 import ManageCategories from "../pages/Admin/ManageCategories";
 import ManagePosts from "../pages/Admin/ManagePosts";
 import ManageFollow from "../pages/ManageFollow";
+import Chat from "../pages/Chat";
 
 export const publicRoutes = [
   { path: routes.dashboard, component: Dashboard },
@@ -81,6 +82,12 @@ export const publicRoutes = [
   {
     path: routes.follow,
     component: ManageFollow,
+    navigate: routes.login,
+    layout: OnlyHeader,
+  },
+  {
+    path: routes.chat,
+    component: Chat,
     navigate: routes.login,
     layout: OnlyHeader,
   },

@@ -34,6 +34,7 @@ const SidebarCustom: React.FC = () => {
         borderRadius: "5px",
         border: "1px solid #ccc",
         backgroundColor: "#ccc",
+        overflowY: "auto",
       }}
     >
       {SETTINGS.map((setting) => (

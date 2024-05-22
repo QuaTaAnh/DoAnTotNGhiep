@@ -16,4 +16,5 @@ export const routes = {
   manageCategory: "/dashboard/manage-category",
   manageUser: "/dashboard/manage-user",
   managePosts: "/dashboard/manage-post",
+  chat: "/chat",
 };
