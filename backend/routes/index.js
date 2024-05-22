@@ -8,6 +8,7 @@ import acreageRoute from './acreageRoute.js'
 import followRoute from './followRoute.js'
 import commentRoute from './commentRoute.js'
 import saveRoute from './saveRoute.js'
+import chatRoute from './chatRoute.js'
 
 const initRoute = (app) =>{
     app.use('/api/v1/auth', authRoutes)
@@ -20,6 +21,7 @@ const initRoute = (app) =>{
     app.use('/api/v1/follow', followRoute)
     app.use('/api/v1/comment', commentRoute)
     app.use('/api/v1/save', saveRoute)
+    app.use('/api/v1/chat', chatRoute)
 
     return app.use('/', (req, res) =>{
         res.send('API tìm phòng trọ')
