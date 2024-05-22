@@ -1,18 +1,18 @@
 import { Avatar, Box, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { IUser } from '../../type';
+import {  IUser } from '../../type';
 import request from '../../utils/request';
 import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 
-const Conversation:React.FC<{data: any}> = ({data}) => {
+const Conversation:React.FC<{data: any; currentChatId: number | null}> = ({data, currentChatId}) => {
   const {user} = useSelector((state: RootState) => state.user)
   const [userData, setUserData] = useState<IUser>()
 
   useEffect(() =>{
     const parseDataMember = JSON.parse(data?.members)
     const dataId = parseDataMember.find((id: number) => id !== user?.id)
-
+    
     const getUserData = async () =>{
       try {
         const { data } = await request.get(`/api/v1/user/${dataId}`);
@@ -30,12 +30,12 @@ const Conversation:React.FC<{data: any}> = ({data}) => {
     <Box display={"flex"} alignItems={"center"} 
       sx={{
         cursor:'pointer', 
-        borderRadius: '14px',
-        backgroundColor: "#ccc",
+        borderRadius: '5px',
+        backgroundColor: currentChatId === data.id ? "#f4f4f4" : "#fff",
         padding: '10px 20px',
         margin: '2px 0',
         "&:hover": {
-          backgroundColor: "#fa6819",
+          backgroundColor: "#f4f4f4",
         },
       }} paddingY={1} paddingX={1}>
         <Avatar

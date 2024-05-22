@@ -108,9 +108,9 @@ const ChatBox: React.FC<{ data: any }> = ({ data }) => {
                 margin: "0 6px",
                 padding: "6px 14px",
                 backgroundColor:
-                  message.senderId === user?.id ? "#1976d2" : "#f0f0f0",
+                  message.senderId === user?.id ? "#fff4d6" : "#f0f0f0",
                 color: "#fff",
-                borderRadius: "20px",
+                borderRadius: "10px",
                 wordWrap: "break-word",
                 whiteSpace: "pre-wrap",
                 maxWidth: "60%",
@@ -119,7 +119,7 @@ const ChatBox: React.FC<{ data: any }> = ({ data }) => {
               <Typography
                 sx={{
                   fontSize: "14px",
-                  color: message.senderId === user?.id ? "#fff" : "#000",
+                  color: "#000",
                 }}
               >
                 {message.content}
@@ -127,7 +127,7 @@ const ChatBox: React.FC<{ data: any }> = ({ data }) => {
               <Typography
                 sx={{
                   fontSize: "12px",
-                  color: message.senderId === user?.id ? "#fff" : "#000",
+                  color: "#000",
                 }}
               >
                 {formatDateComment(message.createdAt)}

@@ -9,7 +9,7 @@ import { ChatProps } from "../../type";
 import { useLocation } from "react-router-dom";
 
 const Chat: React.FC = () => {
-  const {state} = useLocation()
+  const { state } = useLocation();
   const { user } = useSelector((state: RootState) => state.user);
   const [chats, setChats] = useState<ChatProps[]>([]);
   const [currentChat, setCurrentChat] = useState<ChatProps | null>(null);
@@ -24,7 +24,9 @@ const Chat: React.FC = () => {
           setChats(data?.data);
 
           if (state && state.id) {
-            const defaultChat = data.data.find((chat: ChatProps) => chat.id === state.id);
+            const defaultChat = data.data.find(
+              (chat: ChatProps) => chat.id === state.id
+            );
             setDefaultCurrentChat(defaultChat || data.data[0]);
           } else {
             setDefaultCurrentChat(data?.data[0]);
@@ -43,32 +45,41 @@ const Chat: React.FC = () => {
       spacing={2}
       sx={{ display: "flex", flex: 1, height: "100%" }}
     >
-      <Grid item md={4}>
-        <Card sx={{ height: "100%" }}>
-          <Box
-            sx={{
-              padding: "20px",
-              display: "flex",
-
-              flexDirection: "column",
-            }}
-          >
-            <Typography sx={{ fontSize: "28px", fontWeight: 700 }}>
-              Chats
-            </Typography>
-            {chats.map((item) => (
-              <div onClick={() => setCurrentChat(item)}>
-                <Conversation data={item} />
-              </div>
-            ))}
-          </Box>
-        </Card>
-      </Grid>
-      <Grid item md={8} sx={{ height: "100%" }}>
-        <Card sx={{ height: "100%" }}>
-          <ChatBox data={currentChat || defaultCurrentChat} />
-        </Card>
-      </Grid>
+      {chats.length > 0 ? (
+        <>
+          <Grid item md={4} sx={{ height: "100%" }}>
+            <Card sx={{ height: "100%", overflowY: "auto" }}>
+              <Box
+                sx={{
+                  padding: "20px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography sx={{ textAlign: 'center', fontSize: "28px", fontWeight: 700 }}>
+                  Chats
+                </Typography>
+                {chats.map((item) => (
+                  <div onClick={() => setCurrentChat(item)}>
+                    <Conversation data={item} currentChatId={currentChat?.id || null}/>
+                  </div>
+                ))}
+              </Box>
+            </Card>
+          </Grid>
+          <Grid item md={8} sx={{ height: "100%" }}>
+            <Card sx={{ height: "100%" }}>
+              <ChatBox data={currentChat || defaultCurrentChat} />
+            </Card>
+          </Grid>
+        </>
+      ) : (
+        <Grid container justifyContent="center">
+          <Typography sx={{ fontSize: "40px", paddingTop: "20px" }}>
+            Bạn chưa có cuộc trò chuyện nào!
+          </Typography>
+        </Grid>
+      )}
     </Grid>
   );
 };
