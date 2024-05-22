@@ -1,5 +1,5 @@
 import { Box, Card, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import Conversation from "../../components/Conversation";
 import request from "../../utils/request";
 import { useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import { RootState } from "../../redux/store";
 import ChatBox from "../../components/ChatBox";
 import { ChatProps } from "../../type";
 import { useLocation } from "react-router-dom";
+import { io } from "socket.io-client";
 
 const Chat: React.FC = () => {
   const { state } = useLocation();
@@ -15,6 +16,8 @@ const Chat: React.FC = () => {
   const [currentChat, setCurrentChat] = useState<ChatProps | null>(null);
   const [defaultCurrentChat, setDefaultCurrentChat] =
     useState<ChatProps | null>(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const socket: MutableRefObject<any> = useRef();
 
   useEffect(() => {
     const getChat = async () => {
@@ -39,6 +42,14 @@ const Chat: React.FC = () => {
     getChat();
   }, [user?.id]);
 
+  useEffect(() => {
+    socket.current = io("http://localhost:8800");
+    socket.current.emit("new-user-add", user?.id);
+    socket.current.on("get-users", (users: any) => {
+      setOnlineUsers(users);
+    });
+  }, [user]);
+
   return (
     <Grid
       container
@@ -56,12 +67,21 @@ const Chat: React.FC = () => {
                   flexDirection: "column",
                 }}
               >
-                <Typography sx={{ textAlign: 'center', fontSize: "28px", fontWeight: 700 }}>
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    fontSize: "28px",
+                    fontWeight: 700,
+                  }}
+                >
                   Chats
                 </Typography>
                 {chats.map((item) => (
                   <div onClick={() => setCurrentChat(item)}>
-                    <Conversation data={item} currentChatId={currentChat?.id || null}/>
+                    <Conversation
+                      data={item}
+                      currentChatId={currentChat?.id || null}
+                    />
                   </div>
                 ))}
               </Box>
