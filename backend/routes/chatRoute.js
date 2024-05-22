@@ -4,7 +4,7 @@ import { createChatController, findChatController, userChatsController } from ".
 
 const router = express.Router()
 
-router.post('/', authMiddleware, createChatController)
+router.post('/:receiverId', authMiddleware, createChatController)
 router.get('/:userId', userChatsController)
 router.get('/find/:firstId/:secondId', findChatController)
 
