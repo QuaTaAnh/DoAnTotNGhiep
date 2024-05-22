@@ -6,8 +6,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import ChatBox from "../../components/ChatBox";
 import { ChatProps } from "../../type";
+import { useLocation } from "react-router-dom";
 
 const Chat: React.FC = () => {
+  const {state} = useLocation()
   const { user } = useSelector((state: RootState) => state.user);
   const [chats, setChats] = useState<ChatProps[]>([]);
   const [currentChat, setCurrentChat] = useState<ChatProps | null>(null);
@@ -20,7 +22,13 @@ const Chat: React.FC = () => {
         const { data } = await request.get(`/api/v1/chat/${user?.id}`);
         if (data?.status) {
           setChats(data?.data);
-          setDefaultCurrentChat(data?.data[0]);
+
+          if (state && state.id) {
+            const defaultChat = data.data.find((chat: ChatProps) => chat.id === state.id);
+            setDefaultCurrentChat(defaultChat || data.data[0]);
+          } else {
+            setDefaultCurrentChat(data?.data[0]);
+          }
         }
       } catch (error) {
         console.log(error);

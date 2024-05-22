@@ -13,8 +13,6 @@ const ChatBox: React.FC<{ data: any }> = ({ data }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
-  console.log(messages, "123");
-
   useEffect(() => {
     if (data) {
       const parseDataMember = JSON.parse(data?.members);
