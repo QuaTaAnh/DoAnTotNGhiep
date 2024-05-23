@@ -5,18 +5,18 @@ import request from "../../utils/request";
 import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
 
-const Conversation: React.FC<{ data: any; currentChatId: number | null; online: boolean }> = ({
-  data,
-  currentChatId,
-  online
-}) => {
+const Conversation: React.FC<{
+  data: any;
+  currentChatId: number | null;
+  online: number;
+}> = ({ data, currentChatId, online }) => {
   const { user } = useSelector((state: RootState) => state.user);
   const [userData, setUserData] = useState<IUser>();
 
   useEffect(() => {
     const parseDataMember = JSON.parse(data?.members);
     const dataId = parseDataMember.find((id: number) => id !== user?.id);
-    
+
     const getUserData = async () => {
       try {
         const { data } = await request.get(`/api/v1/user/${dataId}`);
@@ -47,14 +47,25 @@ const Conversation: React.FC<{ data: any; currentChatId: number | null; online: 
       paddingY={1}
       paddingX={1}
     >
-      <Badge color={online ? "success" : "warning"} overlap="circular" variant="dot">
+      <Badge
+        color="default"
+        sx={{
+          "& .MuiBadge-dot": {
+            backgroundColor: online === 1 ? "green" : "gray",
+          },
+        }}
+        overlap="circular"
+        variant="dot"
+      >
         <Avatar alt="Avatar" src={userData?.avatar} />
       </Badge>
       <Box sx={{ marginLeft: "10px" }}>
         <Typography sx={{ fontSize: "16px", color: "#000" }}>
           {userData?.name}
         </Typography>
-        <Typography sx={{ fontSize: "12px", color: "#000" }}>{online ? "Online": "Offline"}</Typography>
+        <Typography sx={{ fontSize: "12px", color: "#000" }}>
+          {online === 1 ? "Online" : "Offline"}
+        </Typography>
       </Box>
     </Box>
   );

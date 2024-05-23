@@ -30,7 +30,6 @@ io.on("connection", (socket) => {
     console.log("Data: ", data);
     if (user) {
       io.to(user.socketId).emit("recieve-message", data);
-      console.log("Data: 123 ", data);
     }
   });
 });

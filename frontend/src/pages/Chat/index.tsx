@@ -19,7 +19,7 @@ const Chat: React.FC = () => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [receivedMessage, setReceivedMessage] = useState(null);
-  
+
   const socket: MutableRefObject<any> = useRef();
 
   useEffect(() => {
@@ -60,10 +60,9 @@ const Chat: React.FC = () => {
   }, [sendMessage]);
 
   useEffect(() => {
-    socket.current.on("recieve-message", (data: any) => {
+    socket.current.on("recieve-message", (data: React.SetStateAction<null>) => {
       setReceivedMessage(data);
-    }
-    );
+    });
   }, []);
 
   const checkOnlineStatus = (chat: ChatProps) => {
@@ -72,8 +71,14 @@ const Chat: React.FC = () => {
       (member: number) => member !== user?.id
     );
     const online = onlineUsers.find((user: any) => user?.userId === chatMember);
-    return online ? true : false;
+    return online ? 1 : 0; 
   };
+
+  const sortedChats = [...chats].sort((a, b) => {
+    const aOnline = checkOnlineStatus(a);
+    const bOnline = checkOnlineStatus(b);
+    return bOnline - aOnline;
+  });
 
   return (
     <Grid
@@ -101,8 +106,8 @@ const Chat: React.FC = () => {
                 >
                   Chats
                 </Typography>
-                {chats.map((item) => (
-                  <div onClick={() => setCurrentChat(item)}>
+                {sortedChats.map((item) => (
+                  <div key={item.id} onClick={() => setCurrentChat(item)}>
                     <Conversation
                       data={item}
                       currentChatId={currentChat?.id || null}

@@ -57,11 +57,15 @@ const ChatBox: React.FC<{
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      handleSend(e);
     }
   };
 
   const handleSend = async (e: any) => {
     e.preventDefault();
+    if (!message.trim()) {
+      return;
+    }
     const newMessage = {
       senderId: user?.id,
       roomId: data?.id,
@@ -83,7 +87,6 @@ const ChatBox: React.FC<{
   };
 
   useEffect(() => {
-    console.log("Message Arrived: ", receivedMessage);
     if (receivedMessage !== null && receivedMessage.roomId === data?.id) {
       setMessages([...messages, receivedMessage]);
     }
