@@ -5,11 +5,12 @@ import { ILayout } from "./type";
 import { Container, Grid } from "@mui/material";
 import styled from "@emotion/styled";
 import Loading from "../components/Loading";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import SidebarCustom from "./components/SidebarCustom";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumbs";
+import { locationUserSuccess } from "../redux/userRedux";
 
 // eslint-disable-next-line no-empty-pattern
 const MainStyle = styled("div")(({}) => ({
@@ -30,6 +31,7 @@ const FooterStyle = styled("div")(({}) => ({
 }));
 
 const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
+  const dispatch = useDispatch()
   const loading = useSelector((state: RootState) => state.loading);
   const { user } = useSelector((state: RootState) => state.user);
   const location = useLocation();
@@ -57,7 +59,13 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
     if (user?.isAdmin) {
       navigate("/dashboard");
     }
-  }, [user]);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const {longitude, latitude} = position.coords
+        dispatch(locationUserSuccess({longitude, latitude}))
+      });
+    }
+  }, [dispatch, navigate, user]);
 
   return (
     <MainStyle>
@@ -70,9 +78,9 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
                 disableGutters
                 sx={{
                   width: "100%",
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <SidebarCustom />

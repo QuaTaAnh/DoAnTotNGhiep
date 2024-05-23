@@ -8,12 +8,14 @@ const initialAuthState: IAuthState = localStorage.getItem("access_token")
       access_token: localStorage.getItem("access_token") || "",
       allUsers: [],
       totalPages: 0,
+      locationUser: null
     }
   : {
       user: null,
       access_token: "",
       allUsers: [],
       totalPages: 0,
+      locationUser: null
     };
 
 const userSlice = createSlice({
@@ -29,13 +31,16 @@ const userSlice = createSlice({
     },
     loginEnd: (state) => {
       state.access_token = "";
-      localStorage.clear()
+      localStorage.clear();
     },
     allUserSuccess: (state, action: PayloadAction<IUser[]>) => {
       state.allUsers = action.payload;
     },
     totalPageSuccess: (state, action: PayloadAction<number>) => {
       state.totalPages = action.payload;
+    },
+    locationUserSuccess: (state, action: PayloadAction<any>) => {
+      state.locationUser = action.payload
     },
   },
 });
@@ -46,5 +51,6 @@ export const {
   profileSuccess,
   allUserSuccess,
   totalPageSuccess,
+  locationUserSuccess,
 } = userSlice.actions;
 export default userSlice.reducer;

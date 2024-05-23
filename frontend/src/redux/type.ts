@@ -1,10 +1,11 @@
-import { ICategory, IPost, IUser, TypeDefault } from "../type";
+import { ICategory, IPost, IUser, LocationAddress, TypeDefault } from "../type";
 
 export interface IAuthState {
   user: IUser | null;
   access_token: string;
   allUsers: IUser[];
   totalPages: number;
+  locationUser: LocationAddress | null
 }
 
 export interface IParamPost {

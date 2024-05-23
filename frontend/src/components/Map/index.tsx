@@ -2,11 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Map, { Marker } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import axios from 'axios';
-
-interface LocationAddress {
-  longitude: number
-  latitude: number
-}
+import { LocationAddress } from '../../type';
 
 const MapCustom:React.FC<{address: string}> = ({ address = ""}) => {
   const [map, setMap] = useState<mapboxgl.Map | null>(null);

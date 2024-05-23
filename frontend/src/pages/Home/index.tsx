@@ -19,11 +19,15 @@ import Banner from "../../components/Banner";
 import { useTranslation } from "react-i18next";
 import ImageDetail from "../../components/ImageDetail";
 import { SLIDERIMAGES } from "../../constants";
+import PostRecent from "./components/PostRecent";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const [value, setValue] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { locationUser } = useSelector((state: RootState) => state.user);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -31,12 +35,12 @@ const Home: React.FC = () => {
 
   return (
     <Container maxWidth="lg">
-      <ImageDetail images={SLIDERIMAGES} height='360px' hidden/>
+      <ImageDetail images={SLIDERIMAGES} height="360px" hidden />
       <Typography
         sx={{
           fontSize: "18px",
           fontWeight: 700,
-          marginTop: '40px'
+          marginTop: "40px",
         }}
       >
         {t("listPosts")}
@@ -94,6 +98,20 @@ const Home: React.FC = () => {
         </CustomTabPanel>
         <Filter isOpen={isOpen} setIsOpen={setIsOpen} />
       </Grid>
+      {locationUser !== null && (
+        <>
+          <Typography
+            sx={{
+              fontSize: "18px",
+              fontWeight: 700,
+              margin: "30px 0",
+            }}
+          >
+            {t('recentPost')}
+          </Typography>
+          <PostRecent />
+        </>
+      )}
       <Banner />
     </Container>
   );

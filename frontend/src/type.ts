@@ -167,3 +167,8 @@ export interface OnlineSocketProps {
   socketId: string
 }
 
+export interface LocationAddress {
+  longitude: number
+  latitude: number
+}
+
