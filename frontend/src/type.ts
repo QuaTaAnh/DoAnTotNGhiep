@@ -161,3 +161,9 @@ export interface MessageProps {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface OnlineSocketProps {
+  userId: number
+  socketId: string
+}
+

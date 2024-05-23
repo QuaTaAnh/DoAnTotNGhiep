@@ -40,7 +40,6 @@ const ChatBox: React.FC<{
     const getMessages = async () => {
       try {
         const res = await request.get(`/api/v1/message/${data?.id}`);
-        console.log(res.data.data);
         if (res.data.status) {
           setMessages(res?.data?.data);
         } else {

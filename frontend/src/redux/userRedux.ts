@@ -29,6 +29,7 @@ const userSlice = createSlice({
     },
     loginEnd: (state) => {
       state.access_token = "";
+      localStorage.clear()
     },
     allUserSuccess: (state, action: PayloadAction<IUser[]>) => {
       state.allUsers = action.payload;

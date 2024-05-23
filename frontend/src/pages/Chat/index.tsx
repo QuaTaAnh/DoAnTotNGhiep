@@ -5,7 +5,7 @@ import request from "../../utils/request";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import ChatBox from "../../components/ChatBox";
-import { ChatProps } from "../../type";
+import { ChatProps, MessageProps, OnlineSocketProps } from "../../type";
 import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 
@@ -16,8 +16,8 @@ const Chat: React.FC = () => {
   const [currentChat, setCurrentChat] = useState<ChatProps | null>(null);
   const [defaultCurrentChat, setDefaultCurrentChat] =
     useState<ChatProps | null>(null);
-  const [onlineUsers, setOnlineUsers] = useState([]);
-  const [sendMessage, setSendMessage] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState<OnlineSocketProps[]>([]);
+  const [sendMessage, setSendMessage] = useState<MessageProps | null>(null);
   const [receivedMessage, setReceivedMessage] = useState(null);
 
   const socket: MutableRefObject<any> = useRef();
