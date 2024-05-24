@@ -65,7 +65,7 @@ const MainLayout: React.FC<ILayout> = ({ children }: ILayout) => {
         dispatch(locationUserSuccess({longitude, latitude}))
       });
     }
-  }, [dispatch, navigate, user]);
+  }, [user]);
 
   return (
     <MainStyle>
