@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./redux/store";
 import { getProfile } from "./redux/callApi";
 import SnackbarCustom from "./components/Snackbar";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,46 +28,73 @@ const App: React.FC = () => {
 
   return (
     <>
-      <SnackbarCustom />
-      <Router>
-        <Routes>
-          <Route
-            path={routes.login}
-            element={access_token ? <Navigate to={routes.home} /> : <Login />}
-          />
-          <Route
-            path={routes.register}
-            element={
-              access_token ? <Navigate to={routes.home} /> : <Register />
-            }
-          />
-          {publicRoutes.map((route, index) => {
-            let Layout: any = MainLayout;
-            if (route.layout) {
-              Layout = route.layout;
-            } else if (route.layout === null) {
-              Layout = Fragment;
-            }
+      <HelmetProvider>
+        <SnackbarCustom />
+        <Router>
+          <Routes>
+            <Route
+              path={routes.login}
+              element={
+                access_token ? (
+                  <Navigate to={routes.home} />
+                ) : (
+                  <>
+                    <Helmet>
+                      <title>Đăng nhập - Connect Housing</title>
+                    </Helmet>
+                    <Login />
+                  </>
+                )
+              }
+            />
+            <Route
+              path={routes.register}
+              element={
+                access_token ? (
+                  <Navigate to={routes.home} />
+                ) : (
+                  <>
+                    <Helmet>
+                      <title>Đăng kí - Connect Housing</title>
+                    </Helmet>
+                    <Register />
+                  </>
+                )
+              }
+            />
+            {publicRoutes.map((route, index) => {
+              let Layout: any = MainLayout;
+              if (route.layout) {
+                Layout = route.layout;
+              } else if (route.layout === null) {
+                Layout = Fragment;
+              }
 
-            const Page = route.component;
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  access_token ? (
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  ) : (
-                    <Navigate to={route.navigate || ""} />
-                  )
-                }
-              />
-            );
-          })}
-        </Routes>
-      </Router>
+              const Page = route.component;
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    access_token ? (
+                      <>
+                        <Helmet>
+                          <title>{route.title}</title>
+                        </Helmet>
+                        <Layout>
+                          <Page />
+                        </Layout>
+                      </>
+                    ) : (
+                      <Navigate to={route.navigate || ""} />
+                    )
+                  }
+                />
+              );
+            })}
+          </Routes>
+        </Router>
+      </HelmetProvider>
     </>
   );
 };
