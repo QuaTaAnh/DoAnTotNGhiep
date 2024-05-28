@@ -30,6 +30,5 @@ export const formatDateComment = (date: string) => {
 export const expirationDate = (date: string) => {
   const start = new Date(date);
   start.setDate(start.getDate() + 5);
-  start.setHours(0, 0, 0, 0);
   return start;
 };

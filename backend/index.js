@@ -28,7 +28,9 @@ connectDB()
 initRoute(app)
 
 //job
-cron.schedule('0 0 * * *', expiredPostController); 
+cron.schedule('*/10 * * * *', async () => { 
+  await expiredPostController();
+});
 
 const io = require("socket.io")(8800, {
     cors: {
