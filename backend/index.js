@@ -6,7 +6,7 @@ import connectDB from "./config/db.js"
 import initRoute from './routes/index.js'
 import bodyParser from 'body-parser'
 import cron from 'node-cron'
-import { expiredPostController } from "./controllers/postController.js"
+import { expiredPostService } from "./services/postService.js"
 
 dotenv.config()
 
@@ -28,8 +28,8 @@ connectDB()
 initRoute(app)
 
 //job
-cron.schedule('*/10 * * * *', async () => { 
-  await expiredPostController();
+cron.schedule('*/5 * * * *', async () => { 
+  await expiredPostService();
 });
 
 const io = require("socket.io")(8800, {
