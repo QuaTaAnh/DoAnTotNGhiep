@@ -18,13 +18,14 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import request from "../../utils/request";
 import { showSnackbar } from "../../redux/snackbarRedux";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { formatDateComment } from "../../common/formatDate";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { useTranslation } from "react-i18next";
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
+import { RootState } from "../../redux/store";
 
 const CardPostItem: React.FC<{
   data: IPost;
@@ -36,7 +37,6 @@ const CardPostItem: React.FC<{
     id,
     images,
     title,
-    user,
     address,
     priceNumber,
     areaNumber,
@@ -46,6 +46,7 @@ const CardPostItem: React.FC<{
   const parts = address?.split(",");
   const province = parts?.[parts.length - 1]?.trim();
   const [favorite, setFavorite] = useState<boolean>(false);
+  const {user} = useSelector((state: RootState) => state.user)
 
   const getCheckFavorite = async () => {
     try {
@@ -172,7 +173,11 @@ const CardPostItem: React.FC<{
             >
               <Tooltip title={t('personalPage')}>
                 <Link
-                  to={`/user/${user.id}`}
+                  to={
+                    user?.id !== data.user.id
+                      ? `/user/${data.user.id}`
+                      : "/profile"
+                  }
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -184,7 +189,7 @@ const CardPostItem: React.FC<{
                 >
                   <Avatar
                     alt="Logo"
-                    src={user.avatar || NoImage}
+                    src={data.user.avatar || NoImage}
                     sx={{ width: "100%", height: "100%" }}
                   />
                   <Typography
@@ -195,7 +200,7 @@ const CardPostItem: React.FC<{
                       marginLeft: "8px",
                     }}
                   >
-                    {user.name}
+                    {user?.id === data.user.id ? t('you') : data.user.name}
                   </Typography>
                 </Link>
               </Tooltip>

@@ -19,6 +19,7 @@ import { deleteComment, updateComment } from "../../redux/commentRedux";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
 import ReactQuill from "react-quill";
 import ConfirmDialog from "../ShowConfirm";
+import { useTranslation } from "react-i18next";
 
 interface CommentItemProps {
   id: number;
@@ -37,6 +38,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
   content,
   timestamp,
 }) => {
+  const {t} = useTranslation()
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -106,7 +108,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
           primary={
             <React.Fragment>
               <Typography variant="subtitle1" component="span">
-                {user?.id === userId ? "Bạn" : name}
+                {user?.id === userId ? t('you') : name}
               </Typography>
               <Typography
                 variant="caption"

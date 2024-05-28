@@ -63,7 +63,7 @@ const SearchPage: React.FC = () => {
             ))
           ) : (
             <Grid container justifyContent="center">
-              <Typography sx={{ fontSize: "40px", paddingTop: "20px" }}>
+              <Typography sx={{ fontSize: "30px", paddingTop: "20px" }}>
                 {t("noResults")}
               </Typography>
             </Grid>

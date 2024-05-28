@@ -11,6 +11,9 @@ export const getFavoriteByPageService = async(page, pageSize, userId) =>{
               {
                 model: db.Post,
                 as: 'post',
+                where: {
+                    status: 'active'
+                },
                 include: [
                   {
                     model: db.User,

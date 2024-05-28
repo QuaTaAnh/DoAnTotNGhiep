@@ -1,4 +1,5 @@
 {
+    "you": "Bạn",
     "newPost": "Đăng tin",
     "managePost": "Quản lý tin đăng",
     "savePost": "Tin đã lưu",
@@ -80,5 +81,6 @@
     "createNewComment": "Thêm mới bình luận",
     "postNew": "Tin mới đăng",
     "messagePostFollow": "Hãy theo dõi để xem tin đăng mới nhất!",
+    "messagePostRecent": "Hiện chưa có bài đăng nào gần bạn!",
     "recentPost": "Bài viết gần bạn"
 }
