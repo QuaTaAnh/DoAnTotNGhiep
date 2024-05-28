@@ -97,8 +97,8 @@ export const getPostSearchController = async (req, res) => {
 export const createPostController = async (req, res) => {
   try {
     const { id } = req.user;
-    const { areaId, categoryId, priceId, title, ...payload } = req.body;
-    if (!areaId || !categoryId || !priceId || !title) {
+    const { areaId, categoryId, priceId, title, images, ...payload } = req.body;
+    if (!areaId || !categoryId || !priceId || !title || images.length ===0) {
       return res.status(200).send({
         status: false,
         message: "Bạn phải nhập đầy đủ thông tin",

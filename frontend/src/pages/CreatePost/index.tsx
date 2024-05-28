@@ -27,6 +27,7 @@ const CreatePost: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { prices, acreages } = useSelector((state: RootState) => state.api);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     dispatch(getPrice());
@@ -78,6 +79,11 @@ const CreatePost: React.FC = () => {
     const selectedImages = event.target.files;
     if (selectedImages) {
       const filesArray = Array.from(selectedImages);
+      if (filesArray.length < 3 || filesArray.length > 8) {
+        setError('Bạn phải đăng từ 3 đến 9 hình ảnh.');
+        return;
+      }
+      setError('');
       Promise.all(filesArray.map(fileToBase64)).then((base64Array) => {
         setPayload((prevPayload) => ({
           ...prevPayload,
@@ -107,45 +113,50 @@ const CreatePost: React.FC = () => {
 
   return (
     <Container maxWidth="lg">
-        <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
-          {t("titleNewPost")}
-        </Typography>
-        <Typography variant="h5" marginY={2}>
-          {t("rentalAddress")}
-        </Typography>
-        <Address setPayload={setPayload} />
-        <Typography variant="h5" marginY={2}>
+      <Typography variant="h5" align="center" marginBottom={4} fontSize={30}>
+        {t("titleNewPost")}
+      </Typography>
+      <Typography variant="h5" marginY={2}>
+        {t("rentalAddress")}
+      </Typography>
+      <Address setPayload={setPayload} />
+      <Typography variant="h5" marginY={2}>
         {t("description")}
-        </Typography>
-        <Information payload={payload} setPayload={setPayload} />
-        <Grid md={12}>
+      </Typography>
+      <Information payload={payload} setPayload={setPayload} />
+      <Grid md={12}>
         <label htmlFor="">{t("image")}</label>
-        </Grid>
-        <input
-          accept="image/*"
+      </Grid>
+      <input
+        accept="image/*"
         style={{ display: "none" }}
         id="button-file"
         type="file"
         multiple
-          onChange={handleImageChange}
-        />
-        <label htmlFor="button-file">
-          <Box
-            sx={{
-              color: "#000",
-              borderRadius: "6px",
-              padding: "30px 24px",
-              margin: "16px 0",
-              textTransform: "none",
-              border: "1px dashed #ccc",
-              textAlign: "center",
-              cursor: "pointer",
-            }}
-          >
-            <UploadIcon />
-          </Box>
-        </label>
-        <Grid container md={12} spacing={2}>
+        onChange={handleImageChange}
+      />
+      <label htmlFor="button-file">
+        <Box
+          sx={{
+            color: "#000",
+            borderRadius: "6px",
+            padding: "30px 24px",
+            margin: "16px 0",
+            textTransform: "none",
+            border: "1px dashed #ccc",
+            cursor: "pointer",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <UploadIcon />
+          <Typography sx={{ fontSize: "12px" }}>Đăng từ 3-8 hình</Typography>
+        </Box>
+      </label>
+      {error && <Typography color="error" fontSize={14}>{error}</Typography>}
+      <Grid container md={12} spacing={2}>
         {payload.images.map((image, index) => (
           <Grid item md={3}>
             <CardMedia
@@ -175,8 +186,8 @@ const CreatePost: React.FC = () => {
             </Button>
           </Grid>
         ))}
-        </Grid>
-        <Grid md={12}>
+      </Grid>
+      <Grid md={12}>
         <Button
           variant="contained"
           size="medium"
@@ -186,7 +197,7 @@ const CreatePost: React.FC = () => {
             borderRadius: "5px",
             width: "100%",
             padding: "10px 20px",
-            marginTop: "20px",
+            margin: "20px 0",
             textTransform: "none",
             "&:hover": {
               backgroundColor: "#ed570e",
@@ -196,7 +207,7 @@ const CreatePost: React.FC = () => {
         >
           {t("button.continue")}
         </Button>
-        </Grid>
+      </Grid>
     </Container>
   );
 };

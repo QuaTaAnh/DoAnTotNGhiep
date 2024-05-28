@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getCategory } from "../../../redux/callApi";
 import { CreatePostForm, ICategory, TypeDefault } from "../../../type";
-import { STATUS, TARGETS } from "../../../constants";
+import { TARGETS } from "../../../constants";
 import { formatPrice } from "../../../common";
 import { useTranslation } from "react-i18next";
 
@@ -228,26 +228,6 @@ const Information: React.FC<AddressFieldsProps> = ({
           }}
         >
           {TARGETS.map((tar: TypeDefault) => (
-            <MenuItem key={tar.code} value={tar.code}>
-              {tar.value}
-            </MenuItem>
-          ))}
-        </Select>
-      </Grid>
-      <Grid item md={6}>
-        <label htmlFor="">{t("status")}</label>
-        <Select
-          fullWidth
-          sx={{ height: "40px", marginTop: "10px" }}
-          value={payload.status}
-          onChange={(e) => {
-            setPayload((prev: CreatePostForm) => ({
-              ...prev,
-              status: e.target.value,
-            }));
-          }}
-        >
-          {STATUS.map((tar: TypeDefault) => (
             <MenuItem key={tar.code} value={tar.code}>
               {tar.value}
             </MenuItem>

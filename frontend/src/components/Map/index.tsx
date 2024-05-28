@@ -13,8 +13,6 @@ const MapCustom: React.FC<{ address: string }> = ({ address = "" }) => {
 
   useEffect(() => {
     const getLocationAddress = async () => {
-      console.log(address);
-
       try {
         const { data } = await axios.get(
           `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(
