@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./redux/store";
 import { getProfile } from "./redux/callApi";
 import SnackbarCustom from "./components/Snackbar";
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { HelmetProvider, Helmet } from "react-helmet-async";
 
 const App: React.FC = () => {
