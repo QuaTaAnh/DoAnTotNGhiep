@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Card, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import NoImage from "../../assets/images/noImage.jpg";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import request from "../../utils/request";
 import { useDispatch } from "react-redux";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
@@ -14,6 +14,7 @@ import CardPostItem from "../../components/CardPostItem";
 import { useTranslation } from "react-i18next";
 
 const PersonalUser: React.FC = () => {
+  const navigate = useNavigate()
   const {t} = useTranslation()
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -109,6 +110,17 @@ const PersonalUser: React.FC = () => {
     }
   };
 
+  const handleClickChat = async () => {
+    try {
+      const {data} = await request.post(`/api/v1/chat/${userPersonal?.id}`)
+      if(data?.status){
+        navigate('/chat', {state: data?.data})
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       {userPersonal && (
@@ -165,6 +177,17 @@ const PersonalUser: React.FC = () => {
               >
                 {userPersonal?.phone}
               </Button>
+              <Button
+                  fullWidth
+                  sx={{
+                    color: "#fa6819",
+                    marginTop: "20px",
+                    border: "1px solid #ccc",
+                  }}
+                  onClick={handleClickChat}
+                >
+                  {t('chatUser')}
+                </Button>
               {checkFollow ? (
                 <Button
                   fullWidth

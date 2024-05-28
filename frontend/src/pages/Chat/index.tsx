@@ -46,7 +46,7 @@ const Chat: React.FC = () => {
   }, [user?.id]);
 
   useEffect(() => {
-    socket.current = io("http://localhost:8800");
+    socket.current = io("http://localhost:8800", { transports: ["websocket"] });
     socket.current.emit("new-user-add", user?.id);
     socket.current.on("get-users", (users: any) => {
       setOnlineUsers(users);
@@ -71,7 +71,7 @@ const Chat: React.FC = () => {
       (member: number) => member !== user?.id
     );
     const online = onlineUsers.find((user: any) => user?.userId === chatMember);
-    return online ? 1 : 0; 
+    return online ? 1 : 0;
   };
 
   const sortedChats = [...chats].sort((a, b) => {
