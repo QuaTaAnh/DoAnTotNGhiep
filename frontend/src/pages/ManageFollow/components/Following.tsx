@@ -3,18 +3,14 @@ import { IUser } from "../../../type";
 import UserCard from "../../../components/UserCard";
 import { Grid } from "@mui/material";
 import request from "../../../utils/request";
-import { startLoading, stopLoading } from "../../../redux/loadingRedux";
-import { useDispatch } from "react-redux";
 
 const Following: React.FC<{ data: IUser }> = ({ data }) => {
-  const dispatch = useDispatch();
   const [followings, setFollowings] = useState<IUser[]>([]);
   const { following } = data;
 
   useEffect(() => {
     const getUserFollowing = async () => {
       try {
-        dispatch(startLoading());
         const followingData = following ?? [];
         const fetchedFollowings = await Promise.all(
           followingData.map(async (item) => {
@@ -27,12 +23,10 @@ const Following: React.FC<{ data: IUser }> = ({ data }) => {
         setFollowings(fetchedFollowings);
       } catch (err) {
         console.log(err);
-      } finally {
-        dispatch(stopLoading());
-      }
+      } 
     };
     getUserFollowing();
-  }, [dispatch, following]);
+  }, [following]);
 
   return (
     <Grid container spacing={2}>
