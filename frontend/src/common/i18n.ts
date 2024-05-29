@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next";
 import enTranslations from "../locales/en.json";
 import viTranslations from "../locales/vi.json";
 
-const currentLanguage = localStorage.getItem("i18n") || "en";
+const currentLanguage = localStorage.getItem("i18n") || "vi";
 
 i18n.use(initReactI18next).init({
   lng: currentLanguage,
@@ -15,7 +15,7 @@ i18n.use(initReactI18next).init({
       translation: viTranslations,
     },
   },
-  fallbackLng: "en",
+  fallbackLng: "vi",
   interpolation: {
     escapeValue: false,
   },

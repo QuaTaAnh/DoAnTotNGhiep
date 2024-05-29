@@ -94,7 +94,6 @@ const Header: React.FC = () => {
   const handleLogout = () => {
     try {
       logoutFunction(dispatch);
-      localStorage.removeItem("access_token");
       dispatch(
         showSnackbar({ message: "Đăng xuất thành công", type: "success" })
       );

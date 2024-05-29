@@ -9,7 +9,7 @@ interface LanguageSwitcherProps {
 }
 
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
-  defaultLanguage = "en",
+  defaultLanguage = "vi",
 }) => {
   const { i18n } = useTranslation();
   const [language, setLanguage] = useState<string>(
