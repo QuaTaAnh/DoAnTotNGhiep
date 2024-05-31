@@ -3,28 +3,34 @@ import React from "react";
 import { routes } from "../../config/routes";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CategoryIcon from "@mui/icons-material/Category";
-import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import { Link, useLocation } from "react-router-dom";
 
 const SidebarCustom: React.FC = () => {
   const location = useLocation();
-  console.log(location);
-  
+
   const SETTINGS = [
     {
       id: 1,
+      icon: <ShowChartIcon fontSize="small" />,
+      title: "Thống kê",
+      navigate: routes.dashboard,
+    },
+    {
+      id: 2,
       icon: <PeopleAltIcon fontSize="small" />,
       title: "Quản lý người dùng",
       navigate: routes.manageUser,
     },
     {
-      id: 2,
+      id: 3,
       icon: <CategoryIcon fontSize="small" />,
       title: "Quản lý danh mục",
       navigate: routes.manageCategory,
     },
     {
-      id: 3,
+      id: 4,
       icon: <DynamicFeedIcon fontSize="small" />,
       title: "Quản lý tin đăng",
       navigate: routes.managePosts,
@@ -35,10 +41,10 @@ const SidebarCustom: React.FC = () => {
       sx={{
         padding: "20px",
         backgroundColor: "#111827",
-        position: 'fixed',
+        position: "fixed",
         overflowY: "auto",
-        height: '100%',
-        width: '280px'
+        height: "100%",
+        width: "280px",
       }}
     >
       {SETTINGS.map((setting) => (
@@ -53,7 +59,8 @@ const SidebarCustom: React.FC = () => {
             sx={{
               padding: "10px 16px",
               margin: "6px 0",
-              backgroundColor: location.pathname === setting.navigate ? "#19202f" : "#111827",
+              backgroundColor:
+                location.pathname === setting.navigate ? "#19202f" : "#111827",
               color: "#fff",
               borderRadius: "5px",
               textTransform: "none",

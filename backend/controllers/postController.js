@@ -12,6 +12,7 @@ import {
   hiddenPostService,
   incrementPostViewService,
   monthlyPostCountService,
+  postCategoryCountService,
   topViewPostService,
 } from "../services/postService.js";
 
@@ -239,6 +240,20 @@ export const monthlyPostCountController = async (req, res) => {
 export const topViewPostController = async (req, res) => {
   try {
     const result = await topViewPostService();
+    return res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      status: false,
+      message: "Có lỗi xảy ra!",
+      error,
+    });
+  }
+};
+
+export const postCategoryCountController = async (req, res) => {
+  try {
+    const result = await postCategoryCountService();
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);

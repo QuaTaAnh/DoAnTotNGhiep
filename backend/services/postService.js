@@ -421,7 +421,7 @@ export const hiddenPostService = async (postId, userId) => {
         message: "Tin này đã bị ẩn!",
       };
     }
-    if(post && post.userId === userId){
+    if (post && post.userId === userId) {
       await db.Post.update({ status: "hidden" }, { where: { id: postId } });
       return {
         status: true,
@@ -557,76 +557,110 @@ export const topViewPostService = async () => {
   }
 };
 
+export const postCategoryCountService = async () => {
+  try {
+    const postCounts = await db.Post.findAll({
+      attributes: ["categoryId", [fn("COUNT", col("categoryId")), "postCount"]],
+      group: ["categoryId"],
+      include: [{ model: db.Category, as: "category", attributes: ["value"] }],
+    });
+    const data = postCounts.map((entry) => ({
+      category: entry.category.value,
+      count: entry.dataValues.postCount,
+    }));
+    return {
+      status: true,
+      message: "Lấy dữ liệu thành công!",
+      result: data,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getRecentPostService = async (userId, { longitude, latitude }) => {
   try {
     const posts = await db.Post.findAll({
-        where: {
-            userId: {
-              [Op.not]: userId 
-            },
-            status: 'active'
+      where: {
+        userId: {
+          [Op.not]: userId,
         },
-        include: [
-          {
-            model: db.User,
-            as: "user",
-            attributes: ["id", "name", "zalo", "phone", "avatar"],
-          },
-          {
-            model: db.Image,
-            as: "images",
-            attributes: ["imageUrl"],
-          },
-        ],
+        status: "active",
+      },
+      include: [
+        {
+          model: db.User,
+          as: "user",
+          attributes: ["id", "name", "zalo", "phone", "avatar"],
+        },
+        {
+          model: db.Image,
+          as: "images",
+          attributes: ["imageUrl"],
+        },
+      ],
     });
     const postsWithDistance = [];
     for (const post of posts) {
-        const { data } = await axios.get(
-            `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(post.address)}&access_token=pk.eyJ1IjoiYW5odHJhbngxMjMiLCJhIjoiY2x3ZXRveDlxMWt1azJxcDA5eWJ2MGY2dCJ9.VxaY6H_ilq6Jl8PZNsPbqw`
-        );
-        const postLongitude = data.features[0].geometry.coordinates[0];
-        const postLatitude = data.features[0].geometry.coordinates[1];
-  
-        const distance = calculateDistance(longitude, latitude, postLongitude, postLatitude);
-  
-        if (distance <= 10) { // lấy bài viết trong phạm vi 10km
-            postsWithDistance.push({
-                post,
-                distance
-            });
-        }
-      }
-      postsWithDistance.sort((a, b) => a.distance - b.distance);
+      const { data } = await axios.get(
+        `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(
+          post.address
+        )}&access_token=pk.eyJ1IjoiYW5odHJhbngxMjMiLCJhIjoiY2x3ZXRveDlxMWt1azJxcDA5eWJ2MGY2dCJ9.VxaY6H_ilq6Jl8PZNsPbqw`
+      );
+      const postLongitude = data.features[0].geometry.coordinates[0];
+      const postLatitude = data.features[0].geometry.coordinates[1];
 
-      const nearestPosts = postsWithDistance.slice(0, 4).map(item => item.post);
-  
-      return {
-        status: true,
-        message: 'Lấy dữ liệu thành công!',
-        posts: nearestPosts
-      };
+      const distance = calculateDistance(
+        longitude,
+        latitude,
+        postLongitude,
+        postLatitude
+      );
+
+      if (distance <= 10) {
+        // lấy bài viết trong phạm vi 10km
+        postsWithDistance.push({
+          post,
+          distance,
+        });
+      }
+    }
+    postsWithDistance.sort((a, b) => a.distance - b.distance);
+
+    const nearestPosts = postsWithDistance.slice(0, 4).map((item) => item.post);
+
+    return {
+      status: true,
+      message: "Lấy dữ liệu thành công!",
+      posts: nearestPosts,
+    };
   } catch (error) {
     console.log(error);
   }
 };
 
 //hàm tính khoảng cách
-const calculateDistance = (userLongitude, userLatitude, postLongitude, postLatitude) => {
-    const R = 6371; 
-  
-    const lat1 = userLatitude * Math.PI / 180;
-    const lon1 = userLongitude * Math.PI / 180;
-    const lat2 = postLatitude * Math.PI / 180;
-    const lon2 = postLongitude * Math.PI / 180;
-  
-    const dLat = lat2 - lat1;
-    const dLon = lon2 - lon1;
-  
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(lat1) * Math.cos(lat2) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-  
-    return distance; 
-  };
+const calculateDistance = (
+  userLongitude,
+  userLatitude,
+  postLongitude,
+  postLatitude
+) => {
+  const R = 6371;
+
+  const lat1 = (userLatitude * Math.PI) / 180;
+  const lon1 = (userLongitude * Math.PI) / 180;
+  const lat2 = (postLatitude * Math.PI) / 180;
+  const lon2 = (postLongitude * Math.PI) / 180;
+
+  const dLat = lat2 - lat1;
+  const dLon = lon2 - lon1;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+
+  return distance;
+};

@@ -6,7 +6,7 @@ import { adminMiddleware } from "../middlewares/adminMiddleware.js";
 const router = express.Router()
 
 router.get('/all', authMiddleware, adminMiddleware, getAllUserController)
-router.get('/static-user-register', authMiddleware, adminMiddleware, statistUserRegisterController)
+router.get('/statitic/user-register', authMiddleware, adminMiddleware, statistUserRegisterController)
 router.get('/:id', authMiddleware, getUserPersonalController)
 router.get('/follow/:id', authMiddleware, getUserByIdController)
 router.patch('/update', authMiddleware, updateProfileController)
