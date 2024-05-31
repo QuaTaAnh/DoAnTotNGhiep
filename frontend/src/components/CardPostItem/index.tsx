@@ -63,10 +63,11 @@ const CardPostItem: React.FC<{
     if (id) {
       getCheckFavorite();
     }
-  }, [id, hiddenIcon, onClickHide]);
+  }, [id]);
 
   const handleFavorite = async (event: React.MouseEvent) => {
     event.preventDefault();
+    event.stopPropagation(); 
     dispatch(startLoading());
     try {
       let newData;
@@ -265,6 +266,7 @@ const CardPostItem: React.FC<{
             }}
             onClick={(e) => {
               e.preventDefault();
+              e.stopPropagation(); 
               if (onClickHide) {
                 onClickHide();
               }

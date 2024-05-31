@@ -17,19 +17,23 @@ import { IPost } from "../../type";
 import Room from "../../assets/images/anhtro.jpg";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { showSnackbar } from "../../redux/snackbarRedux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import request from "../../utils/request";
 import { startLoading, stopLoading } from "../../redux/loadingRedux";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
+import { useTranslation } from "react-i18next";
+import { RootState } from "../../redux/store";
 
 const PostItem: React.FC<{
   data: IPost;
   hiddenIcon?: boolean;
   onClickHide?: () => void;
 }> = ({ data, hiddenIcon, onClickHide }) => {
+  const {t}= useTranslation()
   const dispatch = useDispatch();
-  const { id, images, title, user, address, priceNumber, areaNumber } = data;
+  const { id, images, title, address, priceNumber, areaNumber } = data;
+  const {user} = useSelector((state: RootState) => state.user)
   const parts = address?.split(",");
   const province = parts?.[parts.length - 1]?.trim();
   const [favorite, setFavorite] = useState<boolean>(false);
@@ -49,10 +53,11 @@ const PostItem: React.FC<{
     if (id) {
       getCheckFavorite();
     }
-  }, [id, hiddenIcon, onClickHide]);
+  }, [id]);
 
   const handleFavorite = async (event: React.MouseEvent) => {
     event.preventDefault();
+    event.stopPropagation(); 
     dispatch(startLoading());
     try {
       let newData;
@@ -151,7 +156,7 @@ const PostItem: React.FC<{
               <Box sx={{ width: "26px", height: "26px", marginRight: "6px" }}>
                 <Avatar
                   alt="Logo"
-                  src={user.avatar}
+                  src={data.user.avatar}
                   sx={{ width: "100%", height: "100%" }}
                 />
               </Box>
@@ -163,7 +168,7 @@ const PostItem: React.FC<{
                   marginRight: "24px",
                 }}
               >
-                {user.name}
+                {user?.id === data.user.id ? t('you') : data.user.name}
               </Typography>
               <Typography
                 sx={{
@@ -217,6 +222,7 @@ const PostItem: React.FC<{
             }}
             onClick={(e) => {
               e.preventDefault();
+              e.stopPropagation(); 
               if (onClickHide) {
                 onClickHide();
               }
