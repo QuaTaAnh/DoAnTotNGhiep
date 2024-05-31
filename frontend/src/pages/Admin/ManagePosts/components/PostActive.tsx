@@ -31,7 +31,7 @@ const PostActive: React.FC = () => {
   const handleHiddenPost = async () => {
     dispatch(startLoading());
     try {
-      const { data } = await request.post(`/api/v1/post/hidden/${idHidden}`);
+      const { data } = await request.post(`/api/v1/post/admin/hidden/${idHidden}`);
       if (data.status) {
         dispatch(showSnackbar({ message: data.message, type: "success" }));
         dispatch(getPostByPage({ page, status: "active" }));

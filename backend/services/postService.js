@@ -408,7 +408,32 @@ export const getPostByUserIdService = async (
   }
 };
 
-export const hiddenPostService = async (postId) => {
+export const hiddenPostService = async (postId, userId) => {
+  try {
+    const post = await db.Post.findOne({
+      where: {
+        id: postId,
+      },
+    });
+    if (post?.status === "hidden") {
+      return {
+        status: false,
+        message: "Tin này đã bị ẩn!",
+      };
+    }
+    if(post && post.userId === userId){
+      await db.Post.update({ status: "hidden" }, { where: { id: postId } });
+      return {
+        status: true,
+        message: "Ẩn tin thành công!",
+      };
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const adminHiddenPostService = async (postId) => {
   try {
     const post = await db.Post.findOne({
       where: {

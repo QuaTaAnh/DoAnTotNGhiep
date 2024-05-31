@@ -66,7 +66,11 @@ export const getAllUserService = async (page, pageSize) => {
         limit: pageSize,
         offset: offset,
       })
-      const totalUsers = await db.User.count();
+      const totalUsers = await db.User.count({
+        where: {
+          isAdmin: 0
+        }
+      });
       const totalPages = Math.ceil(totalUsers / pageSize)
 
       return {

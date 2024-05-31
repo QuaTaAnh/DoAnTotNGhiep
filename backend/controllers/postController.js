@@ -1,4 +1,5 @@
 import {
+  adminHiddenPostService,
   createPostService,
   getNewPostService,
   getPostByIdService,
@@ -97,7 +98,7 @@ export const createPostController = async (req, res) => {
   try {
     const { id } = req.user;
     const { areaId, categoryId, priceId, title, images, ...payload } = req.body;
-    if (!areaId || !categoryId || !priceId || !title || images.length ===0) {
+    if (!areaId || !categoryId || !priceId || !title || images.length === 0) {
       return res.status(200).send({
         status: false,
         message: "Bạn phải nhập đầy đủ thông tin",
@@ -176,16 +177,24 @@ export const getPostByUserIdController = async (req, res) => {
 
 export const hiddenPostController = async (req, res) => {
   try {
-    const id = req.user.id;
+    const userId = req.user.id;
     const postId = parseInt(req.params.postId);
-    console.log(id, postId, "123");
-    if (!id) {
-      return res.status(200).send({
-        status: false,
-        message: "Bạn không có quyền để ẩn bài viết này!",
-      });
-    }
-    const hiddenPost = await hiddenPostService(postId);
+    const hiddenPost = await hiddenPostService(postId, userId);
+    return res.status(200).json(hiddenPost);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      status: false,
+      message: "Có lỗi xảy ra!",
+      error,
+    });
+  }
+};
+
+export const adminHiddenPostController = async (req, res) => {
+  try {
+    const postId = parseInt(req.params.postId);
+    const hiddenPost = await adminHiddenPostService(postId);
     return res.status(200).json(hiddenPost);
   } catch (error) {
     console.log(error);
@@ -243,7 +252,7 @@ export const topViewPostController = async (req, res) => {
 
 export const getRecentPostController = async (req, res) => {
   try {
-    const userId = req.user.id
+    const userId = req.user.id;
     const result = await getRecentPostService(userId, req.query);
     return res.status(200).json(result);
   } catch (error) {
