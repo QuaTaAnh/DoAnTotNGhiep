@@ -42,6 +42,11 @@ const Dashboard: React.FC = () => {
   const [monthlyPosts, setMonthlyPosts] = useState<TypeStatitic[]>([]);
   const [postCategory, setPostCategory] = useState<PostCategory[]>([]);
   const [topView, setTopView] = useState<IPost[]>([]);
+  const colors: string[] = [];
+
+  postCategory.forEach(() => {
+    colors.push(getRandomColor());
+  });
 
   const getStaticRegister = async () => {
     try {
@@ -94,11 +99,6 @@ const Dashboard: React.FC = () => {
     getCategoryPostCount();
   }, []);
 
-  const colors: string[] = [];
-  postCategory.forEach(() => {
-    colors.push(getRandomColor());
-  });
-
   return (
     <Container maxWidth="md">
       <Typography variant="h5" align="center" marginBottom={4}>
@@ -115,7 +115,7 @@ const Dashboard: React.FC = () => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="registrations" fill="#8884d8" />
+        <Bar dataKey="registrations" fill="#fa6819" />
       </BarChart>
 
       <Typography variant="h5" align="center" marginY={4}>
@@ -132,7 +132,7 @@ const Dashboard: React.FC = () => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="registrations" fill="#8884d8" />
+        <Bar dataKey="registrations" fill="#fa6819" />
       </BarChart>
 
       <Typography variant="h5" align="center" marginY={4}>
