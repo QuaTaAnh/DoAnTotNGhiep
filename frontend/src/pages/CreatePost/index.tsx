@@ -80,7 +80,7 @@ const CreatePost: React.FC = () => {
     if (selectedImages) {
       const filesArray = Array.from(selectedImages);
       if (filesArray.length < 3 || filesArray.length > 8) {
-        setError('Bạn phải đăng từ 3 đến 9 hình ảnh.');
+        setError('Bạn phải đăng từ 3 đến 8 hình ảnh.');
         return;
       }
       setError('');

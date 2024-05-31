@@ -3,12 +3,15 @@ import Map, { Marker } from "react-map-gl";
 import mapboxgl from "mapbox-gl";
 import axios from "axios";
 import { LocationAddress } from "../../type";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const MapCustom: React.FC<{ address: string }> = ({ address = "" }) => {
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
+  const { locationUser } = useSelector((state: RootState) => state.user);
   const [locationAdd, setLocationAdd] = useState<LocationAddress>({
-    longitude: 105.782422,
-    latitude: 21.017688,
+    longitude: locationUser?.longitude,
+    latitude: locationUser?.latitude,
   });
 
   useEffect(() => {
@@ -53,7 +56,7 @@ const MapCustom: React.FC<{ address: string }> = ({ address = "" }) => {
         zoom: 14,
       }}
       style={{ width: "100%", height: "100%", overflow: "hidden" }}
-      mapStyle="mapbox://styles/mapbox/streets-v9"
+      mapStyle="mapbox://styles/mapbox/streets-v12"
       mapboxAccessToken="pk.eyJ1IjoiYW5odHJhbngxMjMiLCJhIjoiY2x3ZXRveDlxMWt1azJxcDA5eWJ2MGY2dCJ9.VxaY6H_ilq6Jl8PZNsPbqw"
       onLoad={(e) => {
         setMap(e.target);

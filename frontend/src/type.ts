@@ -169,6 +169,6 @@ export interface OnlineSocketProps {
 
 export interface LocationAddress {
   longitude: number
-  latitude: number
+  latitude: number 
 }
 

@@ -4,9 +4,12 @@ import { routes } from "../../config/routes";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CategoryIcon from "@mui/icons-material/Category";
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const SidebarCustom: React.FC = () => {
+  const location = useLocation();
+  console.log(location);
+  
   const SETTINGS = [
     {
       id: 1,
@@ -31,10 +34,11 @@ const SidebarCustom: React.FC = () => {
     <Box
       sx={{
         padding: "20px",
-        borderRadius: "5px",
-        border: "1px solid #ccc",
-        backgroundColor: "#ccc",
+        backgroundColor: "#111827",
+        position: 'fixed',
         overflowY: "auto",
+        height: '100%',
+        width: '280px'
       }}
     >
       {SETTINGS.map((setting) => (
@@ -47,14 +51,14 @@ const SidebarCustom: React.FC = () => {
         >
           <MenuItem
             sx={{
-              padding: "14px 10px",
+              padding: "10px 16px",
               margin: "6px 0",
-              backgroundColor: "#fa6819",
+              backgroundColor: location.pathname === setting.navigate ? "#19202f" : "#111827",
               color: "#fff",
               borderRadius: "5px",
               textTransform: "none",
               "&:hover": {
-                backgroundColor: "#ed570e",
+                backgroundColor: "#19202f",
               },
             }}
           >
