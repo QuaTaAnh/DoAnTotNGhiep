@@ -15,15 +15,7 @@ import {
 import request from "../../../utils/request";
 import { IPost } from "../../../type";
 import CardPostItem from "../../../components/CardPostItem";
-
-const getRandomColor = (): string => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
+import { getRandomColor } from "../../../common";
 
 interface PostCategory {
   count: number;
@@ -101,7 +93,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container maxWidth="md">
-      <Typography variant="h5" align="center" marginBottom={4}>
+      <Typography variant="h5" align="center">
         Số người đăng kí trong tháng
       </Typography>
       <BarChart
@@ -118,7 +110,7 @@ const Dashboard: React.FC = () => {
         <Bar dataKey="registrations" fill="#fa6819" />
       </BarChart>
 
-      <Typography variant="h5" align="center" marginY={4}>
+      <Typography variant="h5" align="center" marginTop={4}>
         Số bài đăng trong tháng
       </Typography>
       <BarChart
@@ -135,7 +127,7 @@ const Dashboard: React.FC = () => {
         <Bar dataKey="registrations" fill="#fa6819" />
       </BarChart>
 
-      <Typography variant="h5" align="center" marginY={4}>
+      <Typography variant="h5" align="center" marginTop={4}>
         Top 3 bài đăng có lượt truy cập nhiều nhất
       </Typography>
       <Grid container spacing={2}>
@@ -146,10 +138,10 @@ const Dashboard: React.FC = () => {
         ))}
       </Grid>
 
-      <Typography variant="h5" align="center" marginY={4}>
+      <Typography variant="h5" align="center" marginTop={4}>
         Số bài đăng theo danh mục
       </Typography>
-      <PieChart width={800} height={400}>
+      <PieChart width={800} height={260}>
         <Pie
           data={postCategory}
           dataKey="count"
@@ -169,7 +161,13 @@ const Dashboard: React.FC = () => {
             postCategory[name as number].category,
           ]}
         />
-        <Legend />
+        <Legend
+          payload={postCategory.map((entry, index) => ({
+            value: entry.category,
+            type: "square",
+            color: colors[index],
+          }))}
+        />
       </PieChart>
     </Container>
   );

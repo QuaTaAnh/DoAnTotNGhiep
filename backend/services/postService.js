@@ -515,6 +515,10 @@ export const monthlyPostCountService = async () => {
         [fn("COUNT", "*"), "count"],
       ],
       group: ["year", "month"],
+      order: [
+        ["year", "ASC"],
+        ["month", "ASC"],
+      ],
     });
     return {
       status: true,
@@ -529,9 +533,6 @@ export const monthlyPostCountService = async () => {
 export const topViewPostService = async () => {
   try {
     const result = await db.Post.findAll({
-      where: {
-        status: "active",
-      },
       include: [
         {
           model: db.User,

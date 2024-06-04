@@ -94,7 +94,11 @@ export const statistUserRegisterService = async () => {
           [fn('MONTH', fn('DATE', col('createdAt'))), 'month'],
           [fn('COUNT', '*'), 'count']
         ],
-        group: ['year', 'month']
+        group: ['year', 'month'],
+        order: [
+          ['year', 'ASC'], 
+          ['month', 'ASC'], 
+        ],
       });
       return {
         status: true,
