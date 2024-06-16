@@ -16,12 +16,19 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { getAllUsers } from "../../../redux/callApi";
 import NoImage from "../../../assets/images/noImage.jpg";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ConfirmDialog from "../../../components/ShowConfirm";
+import request from "../../../utils/request";
+import { startLoading, stopLoading } from "../../../redux/loadingRedux";
+import { showSnackbar } from "../../../redux/snackbarRedux";
 
 const ManageUsers: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [page, setPage] = useState<number>(1);
   const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
   const [initValue, setInitValue] = useState<IUser>();
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [userId, setUserId] = useState<number>(0);
   const { allUsers, totalPages } = useSelector(
     (state: RootState) => state.user
   );
@@ -47,6 +54,11 @@ const ManageUsers: React.FC = () => {
     }
   };
 
+  const handleOpenDiaLog = (userId: number) => {
+    setOpenDelete(true);
+    setUserId(userId);
+  };
+
   const columns: GridColDef<IUser>[] = [
     {
       field: "avatar",
@@ -69,10 +81,12 @@ const ManageUsers: React.FC = () => {
     },
     {
       field: "id",
-      headerName: "ID",
+      headerName: "STT",
       width: 50,
-      valueGetter: (value, row) => `
-      ${row.id || ""}`,
+      sortable: false,
+      renderCell: (params) => {
+        return allUsers.indexOf(params.row) + 1;
+      },
     },
     {
       field: "name",
@@ -126,11 +140,40 @@ const ManageUsers: React.FC = () => {
             >
               <EditIcon />
             </IconButton>
+            <IconButton
+              sx={{
+                color: "#fa6819",
+                margin: "0 4px",
+                textTransform: "none",
+              }}
+              onClick={() => handleOpenDiaLog(params.row.id)}
+            >
+              <DeleteIcon />
+            </IconButton>
           </div>
         );
       },
     },
   ];
+
+  const handleDelete = async () => {
+    dispatch(startLoading());
+    try {
+      const { data } = await request.delete(`/api/v1/user/${userId}`);
+      if (data.status) {
+        dispatch(showSnackbar({ message: data.message, type: "success" }));
+        dispatch(getAllUsers({ page }));
+      } else {
+        dispatch(showSnackbar({ message: data.message, type: "error" }));
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(showSnackbar({ message: "Đã có lỗi xảy ra!", type: "error" }));
+    } finally {
+      setOpenDelete(false);
+      dispatch(stopLoading());
+    }
+  };
 
   return (
     <Container maxWidth="lg">
@@ -190,6 +233,13 @@ const ManageUsers: React.FC = () => {
         setIsOpen={setIsOpenEdit}
         data={initValue}
         page={page}
+      />
+      <ConfirmDialog
+        open={openDelete}
+        onClose={() => setOpenDelete(false)}
+        onConfirm={handleDelete}
+        title="Xác nhận"
+        message="Bạn có chắc là bạn muốn xóa người dùng này không?"
       />
     </Container>
   );

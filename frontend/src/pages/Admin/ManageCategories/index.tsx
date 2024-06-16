@@ -36,9 +36,12 @@ const ManageCategories: React.FC = () => {
   const columns: GridColDef<ICategory>[] = [
     {
       field: "id",
-      headerName: "ID",
-      width: 90,
-      valueGetter: (value, row) => row.id,
+      headerName: "STT",
+      width: 50,
+      sortable: false,
+      renderCell: (params) => {
+        return categories.indexOf(params.row) + 1;
+      },
     },
     {
       field: "code",

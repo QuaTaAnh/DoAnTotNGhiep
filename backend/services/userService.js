@@ -137,4 +137,20 @@ export const getUserByIdService = async (id) => {
   }
 }
 
+export const deleteUserService = async(id) =>{
+  try {
+      await db.User.destroy({
+          where: {
+              id: id,
+          }
+      })
+      return {
+          status: true,
+          message: 'Xóa người dùng thành công!'
+        };
+  } catch (error) {
+      console.log(error);
+  }
+}
+
   
