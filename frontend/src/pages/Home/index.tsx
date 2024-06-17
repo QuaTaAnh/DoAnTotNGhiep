@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Container,
   Grid,
@@ -27,6 +28,7 @@ const Home: React.FC = () => {
   const { t } = useTranslation();
   const [value, setValue] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
   const { locationUser } = useSelector((state: RootState) => state.user);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -81,7 +83,9 @@ const Home: React.FC = () => {
             <Tooltip title="Lọc">
               <Box>
                 <IconButton size="large" onClick={() => setIsOpen(true)}>
-                  <FilterAltIcon />
+                  <Badge color="error" variant="dot" invisible={!isFiltered}>
+                    <FilterAltIcon />
+                  </Badge>
                 </IconButton>
               </Box>
             </Tooltip>
@@ -96,7 +100,11 @@ const Home: React.FC = () => {
         <CustomTabPanel value={value} index={2}>
           <PostFollow />
         </CustomTabPanel>
-        <Filter isOpen={isOpen} setIsOpen={setIsOpen} />
+        <Filter
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          setIsFiltered={setIsFiltered}
+        />
       </Grid>
       {locationUser !== null && (
         <>
@@ -107,7 +115,7 @@ const Home: React.FC = () => {
               margin: "30px 0",
             }}
           >
-            {t('recentPost')}
+            {t("recentPost")}
           </Typography>
           <PostRecent />
         </>

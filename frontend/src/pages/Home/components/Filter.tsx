@@ -24,7 +24,8 @@ import { useTranslation } from "react-i18next";
 const Filter: React.FC<{
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ isOpen, setIsOpen }) => {
+  setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ isOpen, setIsOpen, setIsFiltered }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const { categories, prices, acreages, page } = useSelector(
@@ -119,6 +120,7 @@ const Filter: React.FC<{
       }
     }
     updateURL(filtersForURL);
+    setIsFiltered(true)
 
     setIsOpen(false);
     setAddressChanged(false);
