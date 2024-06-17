@@ -78,7 +78,7 @@ export interface CreatePostForm {
 }
 
 export interface TypeDefault {
-  id: number;
+  id?: number;
   code: string;
   value: string;
 }

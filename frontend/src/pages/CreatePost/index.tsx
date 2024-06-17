@@ -27,7 +27,6 @@ const CreatePost: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { prices, acreages } = useSelector((state: RootState) => state.api);
-  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     dispatch(getPrice());
@@ -79,11 +78,6 @@ const CreatePost: React.FC = () => {
     const selectedImages = event.target.files;
     if (selectedImages) {
       const filesArray = Array.from(selectedImages);
-      if (filesArray.length < 3 || filesArray.length > 8) {
-        setError('Bạn phải đăng từ 3 đến 8 hình ảnh.');
-        return;
-      }
-      setError('');
       Promise.all(filesArray.map(fileToBase64)).then((base64Array) => {
         setPayload((prevPayload) => ({
           ...prevPayload,
@@ -152,10 +146,8 @@ const CreatePost: React.FC = () => {
           }}
         >
           <UploadIcon />
-          <Typography sx={{ fontSize: "12px" }}>Đăng từ 3-8 hình</Typography>
         </Box>
       </label>
-      {error && <Typography color="error" fontSize={14}>{error}</Typography>}
       <Grid container md={12} spacing={2}>
         {payload.images.map((image, index) => (
           <Grid item md={3}>
