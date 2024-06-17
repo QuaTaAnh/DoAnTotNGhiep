@@ -50,35 +50,26 @@ export const createCategoryService = async (payload) => {
 
 export const updateCategoryService = async (id, payload) => {
   try {
-    const category = await db.Category.findOne({
-      where: {
-        id: id,
-      },
-    });
-    if (!category) {
-      return {
-        status: false,
-        message: "Danh mục không tồn tại!",
-      };
-    }
-    const existingCategory = await db.Category.findAll({
+    const existingCategory = await db.Category.findOne({
       where: {
         code: payload.code,
       },
     });
-    if (existingCategory.length > 0) {
+    if (existingCategory) {
       return {
         status: false,
         message: "Mã danh mục đã tồn tại!.",
       };
+    } else {
+
+      await db.Category.update(payload, {
+        where: { id },
+      });
+      return {
+        status: true,
+        message: "Cập nhật danh mục thành công!",
+      };
     }
-    await db.Category.update(payload, {
-      where: { id },
-    });
-    return {
-      status: true,
-      message: "Cập nhật danh mục thành công!",
-    };
   } catch (error) {
     console.log(error);
   }
